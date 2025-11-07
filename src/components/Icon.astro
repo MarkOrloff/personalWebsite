@@ -1,0 +1,33 @@
+---
+import type { AstroGlobal } from 'astro';
+import { siGithub, siOrcid, siGooglescholar, siX } from 'simple-icons/icons';
+
+type IconName = 'github' | 'orcid' | 'google-scholar' | 'x';
+const { name, size = 18, title } = Astro.props as { name: IconName; size?: number; title?: string };
+
+const MAP: Record<IconName, { path: string; title: string }> = {
+	github: { path: siGithub.path, title: siGithub.title },
+	orcid: { path: siOrcid.path, title: siOrcid.title },
+	'google-scholar': { path: siGooglescholar.path, title: siGooglescholar.title },
+	x: { path: siX.path, title: siX.title },
+};
+
+const icon = MAP[name];
+if (!icon) {
+	throw new Error(`Icon not found: ${name}`);
+}
+---
+<svg
+	width={size}
+	height={size}
+	viewBox="0 0 24 24"
+	role="img"
+	aria-label={title ?? icon.title}
+	style="display:inline-block;vertical-align:middle"
+>
+	<title>{title ?? icon.title}</title>
+	<path d={icon.path} fill="currentColor" />
+	<slot />
+</svg>
+
+

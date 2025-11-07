@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+import { renderName } from '../utils/names';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const pubs = await getCollection('publications');
+const latest = pubs
+	.sort((a, b) => (Number(b.data.year ?? 0) - Number(a.data.year ?? 0)) || a.data.title.localeCompare(b.data.title))
+	.at(0);
+---
+<BaseLayout>
+	<section style="display:grid;gap:16px;margin:24px 0">
+		<h1 class="preserve-case" style="margin:0">{renderName('solo')}</h1>
+		<p class="muted" style="margin:0">{SITE.description}</p>
+	</section>
+
+	<section style="display:grid;gap:12px;margin-top:32px">
+		<h2 style="margin:0">highlights</h2>
+		<div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+			{latest ? (
+				<div class="preserve-case">
+					<Card
+						title={latest.data.title}
+						description={`${latest.data.venue ?? ''}${latest.data.year ? `, ${latest.data.year}` : ''}`}
+						href={latest.data.doi ? `https://doi.org/${latest.data.doi}` : (latest.data.url ?? '/publications')}
+					/>
+				</div>
+			) : (
+				<Card title="latest publication" description="add a key paper here soon" href="/publications" />
+			)}
+		</div>
+	</section>
+</BaseLayout>
+
+

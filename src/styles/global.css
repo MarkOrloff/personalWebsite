@@ -1,0 +1,29 @@
+@import './tokens.css';
+
+*{ box-sizing: border-box }
+html,body{
+	padding:0;
+	margin:0;
+	background:var(--color-bg);
+	color:var(--color-fg);
+	font-family:var(--font-sans);
+	line-height:var(--lh);
+}
+a{ color:var(--color-fg); text-decoration:none }
+a:hover{ color:var(--color-accent) }
+img{ max-width:100%; height:auto }
+
+main{ max-width:var(--container); margin:0 auto; padding:48px var(--gutter) }
+
+.lowercase-all h1,
+.lowercase-all h2,
+.lowercase-all h3{ color: var(--color-accent-2) }
+
+.lowercase-all{ text-transform: lowercase }
+.preserve-case{ text-transform: none }
+.muted{ color: var(--color-muted) }
+.hairline{ border-top:1px solid color-mix(in oklab, var(--color-fg) 12%, transparent) }
+.accent{ color: var(--color-accent) }
+.accent-2{ color: var(--color-accent-2) }
+.prose p{ margin:0 0 12px 0 }
+

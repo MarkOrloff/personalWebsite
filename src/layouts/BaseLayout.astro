@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+const { title, description } = Astro.props as { title?: string; description?: string };
+const pageTitle = title ? `${title} — ${SITE.title}` : SITE.title;
+const pageDesc = description ?? SITE.description;
+---
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDesc} />
+	<link rel="icon" href="/headshot.jpg" type="image/jpeg" />
+	<link rel="canonical" href={`https://${SITE.domain}${Astro.url.pathname}`} />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDesc} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content={`https://${SITE.domain}${Astro.url.pathname}`} />
+	<meta property="og:image" content="/og-image.png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDesc} />
+</head>
+<body>
+	<Nav />
+	<main class="lowercase-all">
+		<slot />
+	</main>
+	<Footer />
+</body>
+</html>
+
+

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../data/site';
+import Icon from '../components/Icon.astro';
+
+const pubs = await getCollection('publications');
+const pubsByYear = pubs.reduce<Record<string, typeof pubs>>((acc, entry) => {
+	const y = String(entry.data.year ?? 'unknown');
+	(acc[y] ||= []).push(entry);
+	return acc;
+}, {});
+const years = Object.keys(pubsByYear).sort((a,b)=> Number(b)-Number(a));
+---
+<BaseLayout title="publications" description="selected publications">
+	<PageHeader title="publications" />
+	<!-- social icon links -->
+	<div style="display:flex;gap:12px;align-items:center;margin:8px 0 20px 0">
+		{SITE.social.googleScholar && (
+			<a href={SITE.social.googleScholar} aria-label="google scholar" title="google scholar" style="display:inline-flex;align-items:center">
+				<Icon name="google-scholar" size={20} />
+			</a>
+		)}
+	</div>
+	{years.length === 0 && (
+		<p class="muted">no publications added yet. add markdown files to <span class="preserve-case">src/content/publications</span>.</p>
+	)}
+	{years.map((year) => (
+		<section style="margin:16px 0 24px 0">
+			<h2 style="margin:0 0 12px 0">{year}</h2>
+			<ul style="display:grid;gap:8px;margin:0;padding:0 0 0 16px">
+				{pubsByYear[year].map(({ id, data }) => (
+					<li>
+						<div class="preserve-case">
+							<span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
+							{data.doi ? (
+								<>
+									{' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
+								</>
+							) : (data.url ? (
+								<>
+									{' '}<a class="accent" href={data.url}>click here</a>
+								</>
+							) : null)}
+						</div>
+						{data.summary && <div style="margin:2px 0 0 0"><span class="muted">{data.summary}</span></div>}
+					</li>
+				))}
+			</ul>
+		</section>
+	))}
+</BaseLayout>
+
+

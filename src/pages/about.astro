@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { SITE } from '../data/site';
+import SquircleImage from '../components/SquircleImage.astro';
+---
+<BaseLayout title="about">
+	<PageHeader title="about" />
+	<div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+		<SquircleImage src="/headshot.jpg" alt="headshot" size={200} />
+		<div class="prose" style="flex:1;min-width:280px">
+			<p>i'm a postdoctoral researcher interested in value-based decision-making and cognitive maps.</p>
+			<p>i currently work in <span class="preserve-case">Erie Boorman</span>'s <span class="preserve-case">Learning and Decision Making Lab</span> at the <span class="preserve-case">University of California, Davis</span>.</p>
+			<p>reach me at <a class="preserve-case" href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>.</p>
+		</div>
+	</div>
+</BaseLayout>
+
+

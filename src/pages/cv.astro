@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="cv">
+	<section style="display:flex;align-items:center;justify-content:space-between;margin:0 0 12px 0">
+		<h1 style="margin:0">cv</h1>
+		<a class="accent preserve-case" href="/cv.pdf" download>download pdf</a>
+	</section>
+	<object data="/cv.pdf#view=FitH" type="application/pdf" width="100%" height="900">
+		<p>your browser can't display embedded pdfs. <a class="accent preserve-case" href="/cv.pdf">click here to open the cv</a>.</p>
+	</object>
+	<p class="muted" style="margin-top:8px">replace <span class="preserve-case">public/cv.pdf</span> with your latest file.</p>
+</BaseLayout>
+
+

@@ -1,0 +1,18 @@
+---
+const { href, title, description } = Astro.props as { href?: string; title: string; description?: string };
+---
+<article style="border:1px solid color-mix(in oklab, var(--color-fg) 12%, transparent);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)">
+	{href ? (
+		<a href={href} style="display:block">
+			<h3 style="margin:0 0 8px 0">{title}</h3>
+			{description && <p class="muted" style="margin:0">{description}</p>}
+		</a>
+	) : (
+		<>
+			<h3 style="margin:0 0 8px 0">{title}</h3>
+			{description && <p class="muted" style="margin:0">{description}</p>}
+		</>
+	)}
+</article>
+
+

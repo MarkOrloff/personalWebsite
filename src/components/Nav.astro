@@ -1,0 +1,27 @@
+---
+import { NAV_ITEMS } from '../data/navigation';
+const currentPath = Astro.url.pathname;
+import SquircleImage from './SquircleImage.astro';
+---
+<nav style="position:sticky;top:0;backdrop-filter:blur(6px);z-index:10">
+	<div style="max-width:var(--container);margin:0 auto;padding:16px var(--gutter);display:flex;gap:20px;align-items:center;justify-content:space-between">
+		<div style="display:flex;align-items:center;gap:10px">
+			<a href="/" aria-label="home" style="display:flex;align-items:center">
+				<SquircleImage src="/headshot.jpg" alt="mark orloff headshot" size={108} />
+			</a>
+			<a href="/" class="preserve-case" style="font-weight:600">mark orloff</a>
+		</div>
+		<ul style="list-style:none;display:flex;gap:16px;margin:0;padding:0">
+			{NAV_ITEMS.map((item) => {
+				const active = currentPath === item.href;
+				return (
+					<li>
+						<a href={item.href} aria-current={active ? 'page' : undefined} style={`opacity:${active ? '1' : '.7'};padding:4px 8px;border-radius:8px`}>{item.label}</a>
+					</li>
+				);
+			})}
+		</ul>
+	</div>
+</nav>
+
+

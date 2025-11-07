@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://markorloff.com/sitemap.xml
+
+

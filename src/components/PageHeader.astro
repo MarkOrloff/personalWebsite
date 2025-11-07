@@ -1,0 +1,9 @@
+---
+const { title, subtitle } = Astro.props as { title: string; subtitle?: string };
+---
+<header style="margin:12px 0 24px">
+	<h1 style="margin:0 0 6px 0; font-weight:700; font-size: calc(2em + 3px)">{title}</h1>
+	{subtitle && <p class="muted" style="margin:0">{subtitle}</p>}
+</header>
+
+
