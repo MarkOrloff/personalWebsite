@@ -8,9 +8,12 @@ const publications = defineCollection({
 		year: z.number().int().optional(),
 		doi: z.string().optional(),
 		url: z.string().url().optional(),
+		type: z.enum(['article','commentary']).optional(),
 		tags: z.array(z.string()).default([]),
 		status: z.enum(['published','in-review','preprint']).optional(),
 		summary: z.string().optional(),
+		figure: z.string().optional(), // e.g., "/pubs/2024-orloff-et-al.jpg"
+		figureAlt: z.string().optional(),
 	}),
 });
 

@@ -4,52 +4,180 @@ import PageHeader from '../components/PageHeader.astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../data/site';
 import Icon from '../components/Icon.astro';
+import SquircleImage from '../components/SquircleImage.astro';
 
 const pubs = await getCollection('publications');
-const pubsByYear = pubs.reduce<Record<string, typeof pubs>>((acc, entry) => {
-	const y = String(entry.data.year ?? 'unknown');
-	(acc[y] ||= []).push(entry);
-	return acc;
-}, {});
-const years = Object.keys(pubsByYear).sort((a,b)=> Number(b)-Number(a));
+const byType = (type: 'article'|'commentary') =>
+    pubs
+        .filter(p => (p.data.type ?? 'article') === type)
+        .sort((a,b) => Number(b.data.year ?? 0) - Number(a.data.year ?? 0));
+const articles = byType('article');
+const commentaries = byType('commentary');
 ---
 <BaseLayout title="publications" description="selected publications">
-	<PageHeader title="publications" />
-	<!-- social icon links -->
-	<div style="display:flex;gap:12px;align-items:center;margin:8px 0 20px 0">
+	<header style="margin:12px 0 24px;display:flex;align-items:center;gap:10px">
+		<h1 style="margin:0;font-weight:700">publications</h1>
 		{SITE.social.googleScholar && (
 			<a href={SITE.social.googleScholar} aria-label="google scholar" title="google scholar" style="display:inline-flex;align-items:center">
 				<Icon name="google-scholar" size={20} />
 			</a>
 		)}
-	</div>
-	{years.length === 0 && (
+	</header>
+    {pubs.length === 0 && (
 		<p class="muted">no publications added yet. add markdown files to <span class="preserve-case">src/content/publications</span>.</p>
 	)}
-	{years.map((year) => (
-		<section style="margin:16px 0 24px 0">
-			<h2 style="margin:0 0 12px 0">{year}</h2>
-			<ul style="display:grid;gap:8px;margin:0;padding:0 0 0 16px">
-				{pubsByYear[year].map(({ id, data }) => (
+    {commentaries.length > 0 && (
+        <section style="margin:16px 0 24px 0">
+            <h2 style="margin:0 0 12px 0">commentaries</h2>
+            <ul style="display:grid;gap:28px;margin:0;padding:0;list-style:none">
+                {commentaries.map(({ id, data }, idx) => (
 					<li>
-						<div class="preserve-case">
-							<span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
-							{data.doi ? (
-								<>
-									{' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
-								</>
-							) : (data.url ? (
-								<>
-									{' '}<a class="accent" href={data.url}>click here</a>
-								</>
-							) : null)}
+                        <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;justify-items:center">
+                            {(idx % 2 === 1 && data.figure) ? (
+                                <>
+                                    <div class="preserve-case" style="text-align:justify">
+                                        <span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
+                                        {data.doi ? (
+                                            <>
+                                                {' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
+                                            </>
+                                        ) : (data.url ? (
+                                            <>
+                                                {' '}<a class="accent" href={data.url}>click here</a>
+                                            </>
+                                        ) : null)}
+                                        {data.summary && <div style="margin:6px 0 0 0"><span class="muted">{data.summary}</span></div>}
+                                    </div>
+                                    {data.figure && (
+                                        <div>
+                                            <SquircleImage
+                                                src={data.figure.startsWith('/') ? data.figure : `/${data.figure}`}
+                                                alt={data.figureAlt ?? ''}
+                                                size={undefined}
+                                                maxWidth="520px"
+                                                maxHeight="clamp(220px, 32vw, 320px)"
+                                                pad={8}
+                                                cornerRadius={16}
+                                                borderColor="var(--color-accent-2)"
+                                                borderWidth={3}
+                                            />
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {data.figure && (
+                                        <div>
+                                            <SquircleImage
+                                                src={data.figure.startsWith('/') ? data.figure : `/${data.figure}`}
+                                                alt={data.figureAlt ?? ''}
+                                                size={undefined}
+                                                maxWidth="520px"
+                                                maxHeight="clamp(220px, 32vw, 320px)"
+                                                pad={8}
+                                                cornerRadius={16}
+                                                borderColor="var(--color-accent-2)"
+                                                borderWidth={3}
+                                            />
+                                        </div>
+                                    )}
+                                    <div class="preserve-case" style="text-align:justify">
+                                        <span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
+                                        {data.doi ? (
+                                            <>
+                                                {' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
+                                            </>
+                                        ) : (data.url ? (
+                                            <>
+                                                {' '}<a class="accent" href={data.url}>click here</a>
+                                            </>
+                                        ) : null)}
+                                        {data.summary && <div style="margin:6px 0 0 0"><span class="muted">{data.summary}</span></div>}
+                                    </div>
+                                </>
+                            )}
 						</div>
-						{data.summary && <div style="margin:2px 0 0 0"><span class="muted">{data.summary}</span></div>}
 					</li>
 				))}
 			</ul>
 		</section>
-	))}
+    )}
+    {articles.length > 0 && (
+        <section style="margin:16px 0 24px 0">
+            <h2 style="margin:0 0 12px 0">articles</h2>
+            <ul style="display:grid;gap:28px;margin:0;padding:0;list-style:none">
+                {articles.map(({ id, data }, idx) => (
+                    <li>
+                        <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;justify-items:center">
+                            {(idx % 2 === 1 && data.figure) ? (
+                                <>
+                                    <div class="preserve-case" style="text-align:justify">
+                                        <span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
+                                        {data.doi ? (
+                                            <>
+                                                {' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
+                                            </>
+                                        ) : (data.url ? (
+                                            <>
+                                                {' '}<a class="accent" href={data.url}>click here</a>
+                                            </>
+                                        ) : null)}
+                                        {data.summary && <div style="margin:6px 0 0 0"><span class="muted">{data.summary}</span></div>}
+                                    </div>
+                                    {data.figure && (
+                                        <div>
+                                            <SquircleImage
+                                                src={data.figure.startsWith('/') ? data.figure : `/${data.figure}`}
+                                                alt={data.figureAlt ?? ''}
+                                                size={undefined}
+                                                maxWidth="520px"
+                                                maxHeight="clamp(220px, 32vw, 320px)"
+                                                pad={8}
+                                                cornerRadius={16}
+                                                borderColor="var(--color-accent-2)"
+                                                borderWidth={3}
+                                            />
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {data.figure && (
+                                        <div>
+                                            <SquircleImage
+                                                src={data.figure.startsWith('/') ? data.figure : `/${data.figure}`}
+                                                alt={data.figureAlt ?? ''}
+                                                size={undefined}
+                                                maxWidth="520px"
+                                                maxHeight="clamp(220px, 32vw, 320px)"
+                                                pad={8}
+                                                cornerRadius={16}
+                                                borderColor="var(--color-accent-2)"
+                                                borderWidth={3}
+                                            />
+                                        </div>
+                                    )}
+                                    <div class="preserve-case" style="text-align:justify">
+                                        <span>{data.authors?.join(', ')}</span>. <span>{data.title}</span>. <span>{data.venue}</span>{data.year ? `, ${data.year}` : ''}.
+                                        {data.doi ? (
+                                            <>
+                                                {' '}<a class="accent" href={`https://doi.org/${data.doi}`}>click here</a>
+                                            </>
+                                        ) : (data.url ? (
+                                            <>
+                                                {' '}<a class="accent" href={data.url}>click here</a>
+                                            </>
+                                        ) : null)}
+                                        {data.summary && <div style="margin:6px 0 0 0"><span class="muted">{data.summary}</span></div>}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    )}
 </BaseLayout>
 
 
