@@ -260,20 +260,42 @@ The odor game asks visitors to infer four imaginary places from bread, coffee,
 cedar and floral cues. Mouse, touch and keyboard controls share the same state.
 It is an analogy for the Raithel study, not its original experimental task.
 
-The replay demo uses six potential connections among the four example places.
-Each replay selects one edge, then applies s_new = s + 0.24*(1-s) to that edge.
-Node clarity is the mean strength of its incident connections. Fixed coordinates,
-fading halos, brighter dots and stronger lines illustrate increasing certainty;
-they are not estimated neural quantities. Four selection policies are offered:
-uniform; 5:1 weighting of edges involving c; weighting by (1-s)^3+0.01; and 5:1
-weighting of pairs with opposing rankings across dimensions. All policies start
-from the same strengths. The first, second and fourth policies are inspired by
-the original commentary figure's random, high-value and cross-dimension proposals;
-the uncertainty policy is explicitly an additional what-if. Neither these rules
-nor their effects were compared experimentally in the cited Xiao study.
-Runs are user-initiated, bounded to twelve events, pausable and resettable.
-Reduced motion applies the batch immediately. Switching views or hiding the page
-stops the timer. The original commentary figure is available in Go Deeper.
+The replay demo uses six potential connections among four fixed example places.
+It now revisits three-place sequences: two remembered links can also strengthen
+the direct relationship between their endpoints. The first sequence is always
+a–b–c and pauses after the a–c connection appears. The visitor controls when to
+continue; the rest of the batch contains eleven further sequences.
+
+Each completed sequence applies s_new = s + 0.24*(1-s) to its two traversed edges
+and to the endpoint edge. Unrelated edges are unchanged. Line thickness depicts
+how readily a relationship can be brought to mind. Dots keep their positions,
+size, and opacity. Secondary halos shrink and fade with the mean strength of a
+place’s surrounding connections. These strengths and the
+one-versus-two-link comparison are illustrative, not fitted neural measurements
+or measured decision times.
+
+After the common introductory sequence, twelve possible three-place sequences
+are selected with one of four policies: uniform; 5:1 weighting of endpoint
+comparisons involving c; (1-s)^3+0.01 weighting for weaker endpoint connections;
+and 5:1 weighting of endpoint comparisons with opposing food/service rankings.
+Changing policy resets to the same starting strengths. The first, second, and
+fourth policies are inspired by the commentary's proposals; the weak-connection
+policy is an additional what-if. These are not strategies experimentally compared
+by Xiao and colleagues.
+
+The inference view is now “what did replay make easier?” and preserves the
+current replay session. Direct comparison lines scale with the corresponding
+connection strength; unpracticed links are dashed. A pair-specific readout counts
+how often that connection was reinforced. Switching to a different pair reveals
+which relationships received preparation, including untouched pairs. The original
+food-ranking route remains available for the comparison with more mental steps.
+
+The pure ReplayActivity state machine is shared by animated and reduced-motion
+presentations. A batch contains twelve completed sequences, with three visual
+phases each. Reduced motion preserves the explanatory pause after the first
+sequence, then completes the remaining batch without animation. Pause/resume,
+view changes, tab visibility, and reset stop scheduled work without adding replay
+events. The original study and commentary remain linked and credited.
 
 ### Clinical wording and source limits
 

@@ -17,9 +17,15 @@ import '../styles/paper-plots.css';
       <div class="replay-actions"><button class="quiet-button" type="button" data-replay-run>{copy("ui.rest-map.simulate-12-replays")}</button><button class="quiet-button" type="button" data-replay-one>{copy("ui.rest-map.one-replay")}</button><button class="quiet-button" type="button" data-replay-reset>{copy("ui.rest-map.reset-map")}</button></div>
       <p class="eyebrow" data-replay-count role="status">{copy("ui.rest-map.0-simulated-replays")}</p>
     </div>
+    <div class="replay-key" data-replay-key hidden>
+      <span><i class="replay-key-thin" aria-hidden="true"></i>{copy('replay.key.thin')}</span>
+      <span><i class="replay-key-thick" aria-hidden="true"></i>{copy('replay.key.thick')}</span>
+    </div>
+    <p class="replay-moment" data-replay-moment hidden aria-live="polite"></p>
     <div class="chart-canvas" set:html={restSVG(restLayout())} />
     <div class="map-settings" hidden data-plot-enhanced><label class="chart-select">{copy("ui.rest-map.compare-two-places")}<select data-rest-pair><option value="0">{copy("ui.rest-map.a-and-c")}</option><option value="1">{copy("ui.rest-map.b-and-d")}</option><option value="2">{copy("ui.rest-map.a-and-d")}</option></select></label></div>
     <div class="chart-controls inference-controls" role="group" aria-label={copy("ui.rest-map.how-to-connect-the-options")} hidden data-inference-controls><button type="button" data-inference-mode="map" aria-pressed="true">{copy("ui.rest-map.use-the-map")}</button><button type="button" data-inference-mode="memory" aria-pressed="false">{copy("ui.rest-map.recall-the-learned-links")}</button></div>
+    <p class="replay-preparation" data-rest-preparation hidden aria-live="polite"></p>
     <p class="chart-readout" data-rest-readout aria-live="polite">{copy("ui.rest-map.each-row-ranks-the-same-four")}</p>
     <figcaption>{copy("ui.rest-map.conceptual-animation-of-combining-relationships-and")}<br />{copy("ui.rest-map.inspired-by-the-question-discussed-in")} <a class="text-link preserve-case" href="https://doi.org/10.1016/j.neuron.2025.10.016">{copy("ui.rest-map.orloff-boorman-2025")}</a>.</figcaption>
   </figure>

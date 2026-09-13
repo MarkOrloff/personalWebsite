@@ -877,7 +877,7 @@ how do we learn when we rest?
 ### deck
 
 <!-- copy: maps-at-rest.deck -->
-a pause may give the brain time to connect separate experiences—and prepare for a choice that comes next.
+while you feel like you’re resting, your brain can still be connecting experiences—doing work now that could make a later decision easier.
 <!-- /copy -->
 
 ### the gist: heading
@@ -889,13 +889,13 @@ taking a break doesn’t mean the brain stops working.
 ### the gist: paragraph 1
 
 <!-- copy: maps-at-rest.gist.0 -->
-you might learn which places have better food on one occasion, and which have better service on another. later, you can use both kinds of knowledge to compare places you were never directly asked to compare. how do those separate experiences become a shared map?
+you learn that b has better food than a, and c has better food than b. you can figure out how a compares with c by following that chain. but could your brain prepare the a–c connection ahead of time, so you don’t have to work through b again?
 <!-- /copy -->
 
 ### the gist: paragraph 2
 
 <!-- copy: maps-at-rest.gist.1 -->
-Xiao and colleagues recorded brain activity while people learned relationships, rested, and then made new inferences. activity during the break was linked to how the experiences were organized and used later. our commentary asks what the brain might choose to revisit during rest—and how that preparation could make future decisions easier.
+you may feel like you’re doing nothing during a break. your brain can still be hard at work connecting what you learned. Xiao and colleagues linked brain activity during rest to later inference and map-like representations. our commentary asks how revisiting experiences during a pause could make the next decision easier.
 <!-- /copy -->
 
 ### caveat
@@ -919,13 +919,13 @@ two things learned separately.
 ### step 1: explanation
 
 <!-- copy: maps-at-rest.steps.0.text -->
-imagine hearing about four places in two separate conversations. one friend ranks their food; another ranks their service. each row shows one of those conversations, with the better-ranked places farther right.
+imagine learning about four places, one comparison at a time. you hear that b has better food than a, and c has better food than b. to work out how a compares with c, you can connect those two things you remember: a → b → c.
 <!-- /copy -->
 
 ### continue the explanation
 
 <!-- copy: maps-at-rest.steps.0.more -->
-the letters identify the same places in both rows. you have learned two useful pieces of information, but no one has shown you how they fit together. in the study, participants similarly learned separate rankings of unfamiliar items along two dimensions. could the brain combine those experiences into something more useful?
+on another occasion, you learn about their service. the two rows show the separate rankings those conversations give you. in the study, people similarly learned relationships between unfamiliar items along different dimensions. the question is how separate experiences become knowledge that is easier to use.
 <!-- /copy -->
 
 ### step 1: interaction hint
@@ -949,19 +949,19 @@ what might happen during a pause?
 ### step 2: explanation
 
 <!-- copy: maps-at-rest.steps.1.text -->
-now take a break. participants rested for five minutes, without being taught any new comparisons. the brain may use a pause like this to revisit earlier experiences and connect them.
+now take a break. participants rested for five minutes without learning any new comparisons. from the outside, it looks like nothing is happening. but the brain can still be busy revisiting experiences and making connections between them.
 <!-- /copy -->
 
 ### continue the explanation
 
 <!-- copy: maps-at-rest.steps.1.more -->
-try simulating some replay. a line briefly lights up when that pair is revisited; its connection strengthens, and the places become clearer. the faint circles represent uncertainty about the map. this illustrates one possible way rest could help organize knowledge. it is not a reconstruction of what a participant replayed.
+watch the replay follow a → b → c. revisiting that sequence can also strengthen a → c: a direct relationship that may save you from working through b next time. thicker lines mean a relationship is easier to bring to mind in this illustration. the quieter halos also shrink as the surrounding relationships become more established.
 <!-- /copy -->
 
 ### step 2: interaction hint
 
 <!-- copy: maps-at-rest.steps.1.hint -->
-simulate a batch of replays to see connections strengthen. “go deeper” lets you compare different possible priorities for replay.
+the animation pauses when the a–c connection appears. take a moment to notice it, then keep replaying. “go deeper” lets you explore which sequences get revisited.
 <!-- /copy -->
 
 ### step 3: navigation label
@@ -979,19 +979,19 @@ a little work now could save work later.
 ### step 3: explanation
 
 <!-- copy: maps-at-rest.steps.2.text -->
-after the break, a new choice arrives. you could work your way through remembered comparisons, one link at a time. or, if you have combined the two rankings into a map, you can compare the places directly.
+later, someone asks you to compare a and c. one approach is to recall a → b, then b → c, and put the pieces together. if that work has already happened during rest, the a–c relationship can be ready to use: fewer steps when the decision arrives.
 <!-- /copy -->
 
 ### continue the explanation
 
 <!-- copy: maps-at-rest.steps.2.more -->
-here, farther right means better food and farther up means better service. each place now has one location containing both kinds of information. participants used what they had learned to make new inferences after resting. the question is whether work during the pause helped prepare them for those decisions.
+the map brings food and service together, with better food farther right and better service farther up. Xiao and colleagues found improved inference after the break, and linked rest activity to later map-like brain signals. the direct line illustrates the idea that organizing knowledge beforehand could make a comparison easier.
 <!-- /copy -->
 
 ### step 3: interaction hint
 
 <!-- copy: maps-at-rest.steps.2.hint -->
-switch between “recall the learned links” and “use the map.” both reach the same comparison by different routes.
+“recall the learned links” shows the two-link a → b → c route. “use the map” shows the direct a → c comparison. these are illustrative mental steps, not measured decision times.
 <!-- /copy -->
 
 ### step 4: navigation label
@@ -1039,13 +1039,13 @@ our commentary’s final figure asks whether off-task map construction might dep
 ### go deeper: paragraph 2
 
 <!-- copy: maps-at-rest.deep.1 -->
-the demo lets you explore those priorities, plus an uncertainty-focused “what if”: revisit the weakest connections. each rule starts from the same faint map and uses the same strengthening rule; only the choice of what to replay changes. favoring a rewarding destination sharpens its connections, while favoring uncertain links spreads practice toward gaps. the question is which kind of preparation would best serve the decisions an environment is likely to demand.
+the demo lets you explore those priorities, plus an uncertainty-focused “what if”: revisit relationships that are harder to bring to mind. each version starts with the same a → b → c example. after that, only the selection of replayed sequences changes. replay strengthens the two links it visits and the direct connection between their endpoints. then try “what did replay make easier?”: choose a pair and see how its direct connection changed during your replay. some comparisons may be better prepared than others.
 <!-- /copy -->
 
 ### go deeper: paragraph 3
 
 <!-- copy: maps-at-rest.deep.2 -->
-the original study’s brain result adds an important connection: activity during rest was related to later representations of the learned space and to inference. the idea in our commentary goes further by asking what selects the content of replay and whether that selection makes future computation more efficient. the simulation’s fading halos and numerical learning rule are illustrative assumptions, not fitted biology.
+the original study linked activity during rest to later inference and representations of the learned space. our commentary asks what selects the content of replay, and whether that preparation makes future thinking more efficient. the line thicknesses and strengthening rule illustrate that proposal; they are not measured connection strengths or decision times.
 <!-- /copy -->
 
 ### findings / 0 / label
@@ -1069,7 +1069,7 @@ an idea to take away
 ### takeaway
 
 <!-- copy: maps-at-rest.takeaway -->
-organizing experiences ahead of time may save work when a new choice arrives. instead of piecing together a chain of remembered relationships, a map can make a direct comparison available. the interesting question is what the brain chooses to organize during rest—and which future decisions benefit.
+while you feel like you’re resting, your brain can still be working on what you learned. replay may help turn a chain of experiences into a connection that is ready when you need it: less work to do when the next choice arrives. what gets replayed could determine which future decisions become easier.
 <!-- /copy -->
 
 ### sources / 0 / label
@@ -1648,31 +1648,31 @@ the offers haven’t changed. these example preferences change how they relate t
 ### replay · intro
 
 <!-- copy: replay.intro -->
-no new experiences during this break. replay revisits choices already available in the map.
+no new experiences during this break. the brain can still be connecting the ones it already has.
 <!-- /copy -->
 
 ### replay · broad · description
 
 <!-- copy: replay.broad.description -->
-each connection has the same chance of being replayed. over time, practice spreads around the map.
+after the opening example, each three-place sequence has the same chance of being replayed. practice spreads across the connections.
 <!-- /copy -->
 
 ### replay · reward · description
 
 <!-- copy: replay.reward.description -->
-connections involving c—the high-value destination in this example—are replayed more often. some parts of the map become clearer sooner.
+favor sequences that prepare comparisons involving c, the rewarding destination in this example. its relationships become easier to bring to mind.
 <!-- /copy -->
 
 ### replay · uncertain · description
 
 <!-- copy: replay.uncertain.description -->
-weaker connections are more likely to be replayed. this is a what-if rule: use replay to fill gaps in the map.
+favor sequences whose direct endpoint connection is weakest. this what-if rule gives more practice to relationships that are harder to bring to mind.
 <!-- /copy -->
 
 ### replay · bridge · description
 
 <!-- copy: replay.bridge.description -->
-favor pairs whose food and service rankings disagree. replay could help bring those two pieces of knowledge together.
+favor sequences connecting places whose food and service rankings disagree. replay could help bring those two kinds of knowledge together.
 <!-- /copy -->
 
 
@@ -2413,7 +2413,7 @@ stage of the illustration
 ### ui.rest-map.make-an-inference
 
 <!-- copy: ui.rest-map.make-an-inference -->
-make an inference
+what did replay make easier?
 <!-- /copy -->
 
 ### ui.rest-map.replay-selection-rule
@@ -2425,13 +2425,13 @@ replay selection rule
 ### ui.rest-map.simulate-12-replays
 
 <!-- copy: ui.rest-map.simulate-12-replays -->
-simulate 12 replays
+watch the first replay
 <!-- /copy -->
 
 ### ui.rest-map.one-replay
 
 <!-- copy: ui.rest-map.one-replay -->
-one replay
+one sequence
 <!-- /copy -->
 
 ### ui.rest-map.reset-map
@@ -2497,7 +2497,7 @@ each row ranks the same four places by a different quality.
 ### ui.rest-map.conceptual-animation-of-combining-relationships-and
 
 <!-- copy: ui.rest-map.conceptual-animation-of-combining-relationships-and -->
-conceptual animation of combining relationships and comparing routes through them. the locations, fading uncertainty halos, and strengthening connections are a simulation—not recorded neural replay or measured learning. each rule illustrates a possible priority for replay.
+conceptual illustration of replay and easier comparisons. thicker lines show relationships that are easier to bring to mind; fading halos show how a place’s surrounding relationships become more established. the sequences, strengths, and mental steps are illustrative—not recorded replay or measured decision times.
 <!-- /copy -->
 
 ### ui.rest-map.inspired-by-the-question-discussed-in
@@ -3903,13 +3903,13 @@ pause replay
 ### ui.paper-plots.replayed-value-comparisons-brighter-lines-show
 
 <!-- copy: ui.paper-plots.replayed-value-comparisons-brighter-lines-show -->
-replayed {{value1}} comparisons. brighter lines show the connections practiced more often; smaller halos mean clearer locations in this simulation.
+replayed {{value1}} sequences. thicker lines show relationships that are easier to bring to mind in this illustration.
 <!-- /copy -->
 
 ### ui.paper-plots.during-the-break-no-new-information
 
 <!-- copy: ui.paper-plots.during-the-break-no-new-information -->
-during the break, no new information arrives. simulate replay to see how revisiting earlier choices could strengthen a map.
+watch two remembered links become a direct connection. the brain could be doing this work while the person feels like they’re resting.
 <!-- /copy -->
 
 ### ui.paper-plots.value-and-value-offer-a-tradeoff
@@ -3927,13 +3927,13 @@ during the break, no new information arrives. simulate replay to see how revisit
 ### ui.paper-plots.the-illustrated-food-ranking-route-takes
 
 <!-- copy: ui.paper-plots.the-illustrated-food-ranking-route-takes -->
-the illustrated food-ranking route takes {{value1}} learned links.
+this route uses {{value1}} remembered links, which must be put together for the comparison.
 <!-- /copy -->
 
 ### ui.paper-plots.the-map-makes-a-direct-comparison
 
 <!-- copy: ui.paper-plots.the-map-makes-a-direct-comparison -->
-the map makes a direct comparison available.
+the direct relationship is ready to use: one connection, with fewer pieces to put together at decision time.
 <!-- /copy -->
 
 ### ui.paper-plots.conceptual-illustration-valuevalue
@@ -4662,4 +4662,103 @@ dacc lesion participant {{number}}
 
 <!-- copy: replay.count.one -->
 1 simulated replay
+<!-- /copy -->
+
+
+## Replay sequences · connections that become easier to use
+
+### replay.run.start
+
+<!-- copy: replay.run.start -->
+watch {{a}} → {{b}} → {{c}}
+<!-- /copy -->
+
+### replay.run.continue
+
+<!-- copy: replay.run.continue -->
+keep replaying
+<!-- /copy -->
+
+### replay.run.resume
+
+<!-- copy: replay.run.resume -->
+resume replay
+<!-- /copy -->
+
+### replay.run.more
+
+<!-- copy: replay.run.more -->
+simulate 12 more sequences
+<!-- /copy -->
+
+### replay.key.thin
+
+<!-- copy: replay.key.thin -->
+harder to bring to mind
+<!-- /copy -->
+
+### replay.key.thick
+
+<!-- copy: replay.key.thick -->
+easier to bring to mind
+<!-- /copy -->
+
+### replay.stage.1
+
+<!-- copy: replay.stage.1 -->
+replay: {{a}} → {{b}}
+<!-- /copy -->
+
+### replay.stage.2
+
+<!-- copy: replay.stage.2 -->
+replay: {{a}} → {{b}} → {{c}}
+<!-- /copy -->
+
+### replay.stage.3
+
+<!-- copy: replay.stage.3 -->
+{{a}} → {{c}} is now easier to use
+<!-- /copy -->
+
+### replay.explanation.1
+
+<!-- copy: replay.explanation.1 -->
+first, revisit the relationship between {{a}} and {{b}}.
+<!-- /copy -->
+
+### replay.explanation.2
+
+<!-- copy: replay.explanation.2 -->
+then, connect that memory with {{b}} → {{c}}. the two experiences can be linked together.
+<!-- /copy -->
+
+### replay.explanation.3
+
+<!-- copy: replay.explanation.3 -->
+revisiting {{a}} → {{b}} → {{c}} also strengthened {{a}} → {{c}}. next time, you can compare them directly: one connection to use, instead of rebuilding a two-link chain. that work happened during the break.
+<!-- /copy -->
+
+### replay.comparison.unprepared
+
+<!-- copy: replay.comparison.unprepared -->
+{{a}}–{{c}} has not been strengthened during your replay yet. the faint, dashed line shows a comparison that could still use some preparation.
+<!-- /copy -->
+
+### replay.comparison.once
+
+<!-- copy: replay.comparison.once -->
+your replay strengthened {{a}}–{{c}} once. the direct connection is thicker now: this relationship has had some preparation before the choice arrives.
+<!-- /copy -->
+
+### replay.comparison.practiced
+
+<!-- copy: replay.comparison.practiced -->
+your replay strengthened {{a}}–{{c}} {{count}} times. its thicker direct connection reflects the preparation this particular comparison received.
+<!-- /copy -->
+
+### replay.comparison.not-ready
+
+<!-- copy: replay.comparison.not-ready -->
+you can still work this out using the learned links. the direct relationship has not yet been rehearsed in this replay session.
 <!-- /copy -->

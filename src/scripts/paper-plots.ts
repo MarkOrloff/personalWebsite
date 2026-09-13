@@ -1,5 +1,5 @@
 import { copy } from "../lib/site-copy.mjs";
-import { replayEdges, initialStrengths, replayPolicies, chooseReplay, reinforce, nodeClarity } from '../lib/replay-demo.mjs';
+import { replayEdges, replayPolicies, sequenceEdges, nodeClarity, ReplayActivity } from '../lib/replay-demo.mjs';
 import peerData from '../data/peer-influence.json';
 import peerBrain from '../data/peer-brain.json';
 import { peerLayout, peerAxes, peerMeans, odorLayout, landmarks, restLayout, restAxes, restRoute } from '../lib/paper-plots.mjs';
@@ -178,60 +178,131 @@ class OdorMap extends PaperPlot {
     svg.setAttribute('aria-label',this.game?copy("ui.paper-plots.find-four-imaginary-places-from-the"):copy("ui.paper-plots.illustrative-map-route-from-the-start", { value1: l.points[this.target].label }));
   }
 }
+type ReplayPolicy = 'broad'|'reward'|'uncertain'|'bridge';
 class RestMap extends PaperPlot {
-  pair=0;mode='map';policy:keyof typeof replayPolicies='broad';strengths=initialStrengths();replays=0;activeEdge=-1;timer?:ReturnType<typeof setTimeout>;
+  pair=0;mode='map';policy:ReplayPolicy='broad';
+  activity=new ReplayActivity();timer?:ReturnType<typeof setTimeout>;traceKey='';
   readingState() { return { pair:String(this.pair), route:this.mode, replay:this.policy }; }
-  restoreReadingState(params:URLSearchParams) { this.pair=parameter(params,'pair',0,0,2,true);this.stopReplay();this.policy=(Object.hasOwn(replayPolicies,params.get('replay')||'')?params.get('replay'):'broad') as keyof typeof replayPolicies;this.strengths=initialStrengths();this.replays=0;this.activeEdge=-1;this.mode=params.get('route')==='memory'?'memory':'map';this.querySelector<HTMLSelectElement>('[data-rest-pair]')!.value=String(this.pair);this.draw(); }
+  restoreReadingState(params:URLSearchParams) {
+    this.pair=parameter(params,'pair',0,0,2,true);this.stopReplay();
+    this.policy=(Object.hasOwn(replayPolicies,params.get('replay')||'')?params.get('replay'):'broad') as ReplayPolicy;
+    this.activity.reset();this.mode=params.get('route')==='memory'?'memory':'map';
+    this.querySelector<HTMLSelectElement>('[data-rest-pair]')!.value=String(this.pair);this.draw();
+  }
   disconnectedCallback(){this.stopReplay();super.disconnectedCallback();}
   setReadingContext(depth:string) { if(depth==='gist')this.stopReplay(); }
   setView(view:string,notify=false){if(view!=='map')this.stopReplay();super.setView(view,notify);}
   stopReplay(){if(this.timer)clearTimeout(this.timer);this.timer=undefined;}
-  replayOnce(){this.activeEdge=chooseReplay(this.strengths,this.policy);this.strengths=reinforce(this.strengths,this.activeEdge);this.replays++;this.draw(true);}
   runReplay(){
     if(this.timer){this.stopReplay();this.draw();return;}
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches){for(let i=0;i<12;i++)this.replayOnce();return;}
-    let left=12;
-    const tick=()=>{this.replayOnce();left--;if(left)this.timer=setTimeout(tick,650);else{this.timer=undefined;this.draw();}};
-    this.timer=setTimeout(tick,0);this.draw();
+    if(this.getBoundingClientRect().top>128&&this.querySelector('.chart-canvas')!.getBoundingClientRect().bottom>innerHeight-100){
+      this.scrollIntoView({block:'start',behavior:'instant'});
+    }
+    this.activity.start();
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+      while(this.activity.advance(this.policy)) { /* same phases, without motion */ }
+      this.draw();return;
+    }
+    const tick=()=>{
+      const more=this.activity.advance(this.policy);
+      this.timer=more?setTimeout(tick,this.activity.phase===3?600:1050):undefined;
+      this.draw(true);
+    };
+    tick();
   }
+  resetReplay(){this.stopReplay();this.activity.reset();this.traceKey='';this.draw();}
   setup() {
     this.querySelectorAll<HTMLButtonElement>('[data-replay-policy]').forEach(button=>button.addEventListener('click',()=>{
-      this.stopReplay();this.policy=button.dataset.replayPolicy as keyof typeof replayPolicies;this.strengths=initialStrengths();this.replays=0;this.activeEdge=-1;this.draw();this.dispatchEvent(new CustomEvent('plot-state-change',{bubbles:true}));
+      this.policy=button.dataset.replayPolicy as ReplayPolicy;this.resetReplay();
+      this.dispatchEvent(new CustomEvent('plot-state-change',{bubbles:true}));
     },{signal:this.abort!.signal}));
     this.querySelector('[data-replay-run]')!.addEventListener('click',()=>this.runReplay(),{signal:this.abort!.signal});
-    this.querySelector('[data-replay-one]')!.addEventListener('click',()=>{this.stopReplay();this.replayOnce();},{signal:this.abort!.signal});
-    this.querySelector('[data-replay-reset]')!.addEventListener('click',()=>{this.stopReplay();this.strengths=initialStrengths();this.replays=0;this.activeEdge=-1;this.draw();},{signal:this.abort!.signal});
+    this.querySelector('[data-replay-one]')!.addEventListener('click',()=>{
+      this.stopReplay();this.activity.remaining=1;this.runReplay();
+    },{signal:this.abort!.signal});
+    this.querySelector('[data-replay-reset]')!.addEventListener('click',()=>this.resetReplay(),{signal:this.abort!.signal});
     document.addEventListener('visibilitychange',()=>{if(document.hidden){this.stopReplay();this.draw();}},{signal:this.abort!.signal});
-
-    this.querySelectorAll<HTMLButtonElement>('[data-inference-mode]').forEach(button=>button.addEventListener('click',()=>{this.mode=button.dataset.inferenceMode!;this.draw(true);this.dispatchEvent(new CustomEvent('plot-state-change',{bubbles:true}));},{signal:this.abort!.signal}));
-    this.querySelector<HTMLSelectElement>('[data-rest-pair]')!.addEventListener('change',event=>{this.pair=Number((event.target as HTMLSelectElement).value);this.setView('inference',true);},{signal:this.abort!.signal});
+    this.querySelectorAll<HTMLButtonElement>('[data-inference-mode]').forEach(button=>button.addEventListener('click',()=>{
+      this.mode=button.dataset.inferenceMode!;this.draw(true);this.dispatchEvent(new CustomEvent('plot-state-change',{bubbles:true}));
+    },{signal:this.abort!.signal}));
+    this.querySelector<HTMLSelectElement>('[data-rest-pair]')!.addEventListener('change',event=>{
+      this.pair=Number((event.target as HTMLSelectElement).value);this.setView('inference',true);
+    },{signal:this.abort!.signal});
   }
   draw(animate=false) {
-    const width=this.canvas(animate);if(!width)return;const l=restLayout(width,this.view,this.pair);this.size(width,l.height);
+    const width=this.canvas(animate);if(!width)return;
+    const l=restLayout(width,this.view,this.pair),state=this.activity;this.size(width,l.height);
+    const names={a:l.points[0].name,b:l.points[1].name,c:l.points[2].name};
+    const sequenceNames=state.sequence?{a:l.points[state.sequence[0]].name,b:l.points[state.sequence[1]].name,c:l.points[state.sequence[2]].name}:names;
+    this.dataset.replayPhase=String(state.phase);this.dataset.replayPaused=String(!this.timer);
     this.querySelector('[data-rest-axes]')!.innerHTML=restAxes(l);
-    for(const p of l.points){const el=this.querySelector<SVGElement>(`[data-rest-point="${p.id}"]`)!;el.style.transform=`translate(${p.x}px,${p.y}px)`;el.style.opacity=this.view!=='pieces'&&p.row===1?'0':'1';}
-    this.querySelector<HTMLElement>('[data-replay-controls]')!.hidden=this.view!=='map';
-    this.querySelectorAll<HTMLButtonElement>('[data-replay-policy]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.replayPolicy===this.policy)));
-    this.querySelector('[data-replay-rule]')!.textContent=this.querySelector(`[data-replay-rule-text="${this.policy}"]`)!.textContent;
-    this.querySelector('[data-replay-count]')!.textContent=this.replays===1?copy("replay.count.one"):copy("ui.paper-plots.value-simulated-replays", { value1: this.replays });
-    this.querySelector('[data-replay-run]')!.textContent=this.timer?copy("ui.paper-plots.pause-replay"):copy("ui.rest-map.simulate-12-replays");
-    this.querySelector('[data-replay-connections]')!.innerHTML=this.view==='map'?replayEdges.map(([a,b],i)=>`<path class="replay-link ${i===this.activeEdge?'replay-active':''}" d="M${l.points[a].x},${l.points[a].y}L${l.points[b].x},${l.points[b].y}" style="opacity:${.08+.92*this.strengths[i]};stroke-width:${1+2*this.strengths[i]}"/>`).join(''):'';
     for(const p of l.points){
       const el=this.querySelector<SVGElement>(`[data-rest-point="${p.id}"]`)!;
-      const clarity=nodeClarity(this.strengths,p.index),ring=el.querySelector('.replay-uncertainty')!,dot=el.querySelector<SVGElement>('.place-dot')!;
-      ring.setAttribute('r',String(8+24*(1-clarity)));ring.setAttribute('opacity',this.view==='map'?'.45':'0');
-      dot.style.opacity=this.view==='map'?String(.22+.78*clarity):'1';
+      el.style.transform=`translate(${p.x}px,${p.y}px)`;el.style.opacity=this.view!=='pieces'&&p.row===1?'0':'1';
+      el.setAttribute('aria-hidden',String(this.view!=='pieces'&&p.row===1));
+    }
+    this.querySelector<HTMLElement>('[data-replay-controls]')!.hidden=this.view!=='map';
+    this.querySelector<HTMLElement>('[data-replay-key]')!.hidden=this.view!=='map';
+    this.querySelectorAll<HTMLButtonElement>('[data-replay-policy]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.replayPolicy===this.policy)));
+    this.querySelector('[data-replay-rule]')!.textContent=this.querySelector(`[data-replay-rule-text="${this.policy}"]`)!.textContent;
+    this.querySelector('[data-replay-count]')!.textContent=state.replays===1?copy('replay.count.one'):copy('ui.paper-plots.value-simulated-replays',{value1:state.replays});
+    const runKey=this.timer?'ui.paper-plots.pause-replay':state.remaining>0?(state.checkpoint?'replay.run.continue':'replay.run.resume'):state.replays?'replay.run.more':'replay.run.start';
+    this.querySelector('[data-replay-run]')!.textContent=copy(runKey,names);
+    const moment=this.querySelector<HTMLElement>('[data-replay-moment]')!;
+    moment.hidden=this.view!=='map'||state.phase===0;
+    moment.textContent=state.phase?copy(`replay.stage.${state.phase}`,sequenceNames):'';
+    moment.classList.toggle('is-shortcut',state.phase===3);
+
+    const strengths=state.visibleStrengths(),edges=state.sequence?sequenceEdges(state.sequence):[];
+    for(const p of l.points){
+      const halo=this.querySelector(`[data-rest-point="${p.id}"] .replay-uncertainty`)!;
+      const clarity=nodeClarity(strengths,p.index);
+      halo.setAttribute('r',String(11+17*(1-clarity)));
+      halo.setAttribute('opacity',this.view==='map'?String(.12+.24*(1-clarity)):'0');
+    }
+    const layer=this.querySelector<SVGGElement>('[data-replay-connections]')!;
+    if(!layer.childElementCount)layer.innerHTML=replayEdges.map((_,i)=>`<path class="replay-link" data-replay-link="${i}"/>`).join('');
+    layer.style.opacity=this.view==='map'?'1':'0';
+    replayEdges.forEach(([a,b],i)=>{
+      const line=layer.children[i] as SVGPathElement;
+      line.setAttribute('d',`M${l.points[a].x},${l.points[a].y}L${l.points[b].x},${l.points[b].y}`);
+      line.dataset.strength=String(strengths[i]);
+      line.style.strokeWidth=String(.8+6*strengths[i]);line.style.opacity=String(.2+.75*strengths[i]);
+      line.classList.toggle('replay-inferred',state.phase===3&&i===edges[2]);
+    });
+    const trace=this.querySelector<SVGPathElement>('[data-replay-trace]')!;
+    trace.style.opacity=this.view==='map'&&state.sequence?'1':'0';
+    if(state.sequence){
+      const [a,b,c]=state.sequence,from=state.phase===2?b:a,to=state.phase===1?b:c;
+      trace.setAttribute('d',`M${l.points[from].x},${l.points[from].y}L${l.points[to].x},${l.points[to].y}`);
+      trace.style.stroke=state.phase===3?'var(--color-accent-2)':'var(--color-accent)';
+      const key=`${state.replays}:${state.phase}`;
+      if(key!==this.traceKey){
+        this.traceKey=key;trace.getAnimations().forEach(animation=>animation.cancel());
+        if(animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches)trace.animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:800,easing:'ease-out'});
+      }
     }
     const route=restRoute(l,this.mode);
     const path=this.querySelector<SVGElement>('[data-rest-path]')!;setPath(path,route.path);path.style.opacity=this.view==='inference'?'1':'0';
     path.style.stroke=this.mode==='map'?'var(--color-accent-2)':'var(--color-accent)';
+    const selectedEdge=replayEdges.findIndex(edge=>edge.includes(l.chosen[0].index)&&edge.includes(l.chosen[1].index));
+    const practiced=state.practiceCounts[selectedEdge];
+    path.style.strokeWidth=this.mode==='map'?String(.8+6*state.strengths[selectedEdge]):'2';
+    path.style.strokeDasharray=this.mode==='map'&&!practiced?'4 6':'none';
+    const preparation=this.querySelector<HTMLElement>('[data-rest-preparation]')!;
+    preparation.hidden=this.view!=='inference';
+    preparation.textContent=copy(practiced===0?'replay.comparison.unprepared':practiced===1?'replay.comparison.once':'replay.comparison.practiced',{
+      a:l.chosen[0].name,c:l.chosen[1].name,count:practiced,replays:state.replays
+    });
     this.querySelector<HTMLElement>('[data-inference-controls]')!.hidden=this.view!=='inference';
     this.querySelectorAll<HTMLButtonElement>('[data-inference-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.inferenceMode===this.mode)));
-    const [a,b]=l.chosen;
-    const tradeoff=(b.food-a.food)*(b.service-a.service)<0;
-    const text=this.view==='pieces'?copy("ui.rest-map.each-row-ranks-the-same-four"):this.view==='map'?this.replays?copy("ui.paper-plots.replayed-value-comparisons-brighter-lines-show", { value1: this.replays }):copy("ui.paper-plots.during-the-break-no-new-information"):tradeoff?copy("ui.paper-plots.value-and-value-offer-a-tradeoff", { value1: a.name, value2: b.name }):copy("ui.paper-plots.value-ranks-higher-than-value-for", { value1: b.name, value2: a.name });
-    const routeNote=this.view==='inference'?this.mode==='memory'?(" " + copy("ui.paper-plots.the-illustrated-food-ranking-route-takes", { value1: route.links })):(" " + copy("ui.paper-plots.the-map-makes-a-direct-comparison")):'';
-    this.querySelector('[data-rest-readout]')!.textContent=text+routeNote;this.querySelector('.chart-canvas svg')!.setAttribute('aria-label',copy("ui.paper-plots.conceptual-illustration-valuevalue", { value1: text, value2: routeNote }));
+    const [a,b]=l.chosen,tradeoff=(b.food-a.food)*(b.service-a.service)<0;
+    const replayText=state.phase?copy(`replay.explanation.${state.phase}`,sequenceNames):copy('ui.paper-plots.during-the-break-no-new-information');
+    const text=this.view==='pieces'?copy('ui.rest-map.each-row-ranks-the-same-four'):this.view==='map'?replayText:tradeoff?copy('ui.paper-plots.value-and-value-offer-a-tradeoff',{value1:a.name,value2:b.name}):copy('ui.paper-plots.value-ranks-higher-than-value-for',{value1:b.name,value2:a.name});
+    const routeNote=this.view==='inference'?' '+(this.mode==='memory'?copy('ui.paper-plots.the-illustrated-food-ranking-route-takes',{value1:route.links}):copy(practiced?'ui.paper-plots.the-map-makes-a-direct-comparison':'replay.comparison.not-ready')):'';
+    const readout=this.querySelector<HTMLElement>('[data-rest-readout]')!;
+    readout.textContent=text+routeNote;readout.classList.toggle('replay-insight',this.view==='map'&&state.phase===3);
+    this.querySelector('.chart-canvas svg')!.setAttribute('aria-label',copy('ui.paper-plots.conceptual-illustration-valuevalue',{value1:text,value2:routeNote}));
   }
 }
 for(const [name,element] of [['peer-plot',PeerPlot],['odor-map',OdorMap],['rest-map',RestMap]] as const)if(!customElements.get(name))customElements.define(name,element);

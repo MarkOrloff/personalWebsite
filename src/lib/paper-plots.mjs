@@ -3,8 +3,8 @@ import { copy, copyHtml } from "./site-copy.mjs";
 import { jitter } from './plot-jitter.mjs';
 import { summary } from './social-plot.mjs';
 
-export function chartBox(width = 520) {
-  const side = Math.max(150, Math.min(width - 70, 350));
+export function chartBox(width = 520, maxSide = 350) {
+  const side = Math.max(150, Math.min(width - 70, maxSide));
   const left = (width-side)/2+12, top = 24;
   return { width, height: side+98, side, left, right: left+side, top, bottom: top+side,
     x: v => left+v*side, y: v => top+(1-v)*side };
@@ -76,7 +76,7 @@ export const places = [
 ];
 export const restPairs = [[0,2],[1,3],[0,3]];
 export function restLayout(width=520,view='pieces',pair=0) {
-  const box=chartBox(width);
+  const box=chartBox(width,300);
   const points=['food','service'].flatMap((dimension,row)=>places.map((p,i)=>({...p,id:`${row}-${i}`,index:i,row,x:box.x(.13+(view==='pieces'?p[dimension]:p.food)*.245),y:view==='pieces'?box.y(row===0?.76:.3):box.y(.13+p.service*.245)})));
   const chosen=restPairs[pair].map(i=>points[i]);
   return {...box,view,pair,points,chosen};
@@ -85,7 +85,7 @@ export function restAxes(l) {
   return l.view==='pieces'?`<text class="chart-axis-label" x="${l.x(0)}" y="${l.y(.76)-36}">${copyHtml("ui.paper-plots.food-ranking")}</text><text class="chart-axis-label" x="${l.x(0)}" y="${l.y(.3)-36}">${copyHtml("ui.paper-plots.service-ranking")}</text><path class="neutral-line" d="M${l.x(.05)},${l.y(.76)}H${l.x(.95)}M${l.x(.05)},${l.y(.3)}H${l.x(.95)}"/>`:`<path class="chart-spine" d="M${l.left},${l.top}V${l.bottom}H${l.right}"/><text class="chart-axis-label" x="${l.left}" y="${l.top-12}">${copyHtml("ui.paper-plots.better-service")}</text><text class="chart-axis-label" x="${l.x(.5)}" y="${l.bottom+40}" text-anchor="middle">${copyHtml("ui.paper-plots.better-food")}</text>`;
 }
 export function restSVG(l) {
-  return `<svg viewBox="0 0 ${l.width} ${l.height}" width="${l.width}" height="${l.height}" role="img" aria-label="${copyHtml("ui.paper-plots.illustration-four-places-ranked-separately-for")}"><g data-rest-axes>${restAxes(l)}</g><g data-replay-connections></g><path class="decision-path" data-rest-path d="${vectorPath(l)}" opacity="0"/>${l.points.map(p=>`<g class="rest-point" data-rest-point="${p.id}" data-rest-index="${p.index}" style="transform:translate(${p.x}px,${p.y}px)"><circle class="replay-uncertainty" r="22" opacity="0"/><circle class="place-dot" r="8"/><text y="23" text-anchor="middle">${escapeCopy(p.name)}</text></g>`).join('')}</svg>`;
+  return `<svg viewBox="0 0 ${l.width} ${l.height}" width="${l.width}" height="${l.height}" role="img" aria-label="${copyHtml("ui.paper-plots.illustration-four-places-ranked-separately-for")}"><g data-rest-axes>${restAxes(l)}</g><g data-replay-connections></g><path class="replay-trace" data-replay-trace pathLength="1" opacity="0"/><path class="decision-path" data-rest-path d="${vectorPath(l)}" opacity="0"/>${l.points.map(p=>`<g class="rest-point" data-rest-point="${p.id}" data-rest-index="${p.index}" style="transform:translate(${p.x}px,${p.y}px)"><circle class="replay-uncertainty" r="22" opacity="0"/><circle class="place-dot" r="8"/><text y="23" text-anchor="middle">${escapeCopy(p.name)}</text></g>`).join('')}</svg>`;
 }
 
 export function restRoute(layout, mode='map') {

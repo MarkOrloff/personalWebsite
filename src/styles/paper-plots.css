@@ -105,13 +105,21 @@
 .replay-actions { display:flex; flex-wrap:wrap; gap:4px 18px; }
 .replay-actions button { font-size:12px; }
 .replay-actions [data-replay-run] { color:var(--color-accent); }
+rest-map { scroll-margin-top:100px; }
 [data-replay-count] { margin:10px 0; }
-.replay-link { stroke:var(--color-accent); fill:none; transition:stroke-width 400ms, opacity 400ms; }
-.replay-link.replay-active { stroke:var(--color-accent-2); }
-.rest-point .replay-uncertainty { stroke:var(--color-accent); fill:none; stroke-width:1; stroke-dasharray:3 5; transition:r 400ms; }
-.rest-point .place-dot { transition:opacity 400ms; }
+.replay-link { stroke:var(--color-accent); fill:none; stroke-linecap:round; transition:stroke-width 650ms, opacity 650ms; }
+.replay-link.replay-inferred { stroke:var(--color-accent-2); }
+.replay-trace { fill:none; stroke-width:3; stroke-linecap:round; stroke-dasharray:1; }
+.replay-key { display:flex; flex-wrap:wrap; gap:8px 24px; border-top:1px solid var(--color-line); padding-top:14px; margin:16px 0 12px; font-size:11px; color:var(--color-muted); }
+.replay-key span { display:flex; align-items:center; gap:8px; }
+.replay-key i { width:25px; display:inline-block; border-top:1px solid var(--color-accent); border-radius:2px; }
+.replay-key .replay-key-thick { border-top-width:6px; }
+.replay-moment { color:var(--color-accent); font:12px/1.6 var(--font-mono); margin:16px 0 0; min-height:20px; }
+.replay-moment.is-shortcut { color:var(--color-accent-2); }
+.chart-readout.replay-insight { color:var(--color-fg); border-left:2px solid var(--color-accent-2); padding-left:14px; font-size:14px; line-height:1.7; }
+.publication-reader[data-depth="story"] rest-map [data-replay-rule] { display:none; }
 @media(max-width:500px) { .peer-brain-key { grid-template-columns:100px minmax(0,1fr); gap:14px; } }
-@media(prefers-reduced-motion:reduce) { .replay-link,.rest-point .replay-uncertainty,.rest-point .place-dot { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .replay-link { transition:none; } }
 
 .guided-value [data-game-progress] progress { accent-color:var(--color-accent); width:100%; height:4px; display:block; margin:0 0 24px; }
 .guided-value .value-options { gap:14px; }
@@ -143,3 +151,7 @@
 .guided-value .map-corner-label { fill:var(--color-accent-2); font:10px var(--font-mono); }
 .guided-value .map-corner-bracket { fill:none; stroke:var(--color-accent-2); stroke-width:1.5; }
 .guided-value .map-reading-key { font-size:12px; line-height:1.6; color:var(--color-accent-2); margin:0 0 12px; max-width:46ch; }
+
+.rest-point .replay-uncertainty { stroke:var(--color-accent); fill:none; stroke-width:1; stroke-dasharray:2 5; transition:r 650ms,opacity 650ms; }
+.replay-preparation { font-size:13px; line-height:1.7; color:var(--color-accent-2); margin:16px 0; }
+@media(prefers-reduced-motion:reduce) { .rest-point .replay-uncertainty { transition:none; } }
