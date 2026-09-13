@@ -1,0 +1,37 @@
+---
+import { copy } from "../lib/site-copy.mjs";
+import data from '../data/peer-influence.json';
+import brain from '../data/peer-brain.json';
+import { peerLayout, peerSVG } from '../lib/paper-plots.mjs';
+import '../styles/paper-plots.css';
+---
+<peer-plot class="paper-plot" data-story-plot data-view="safe" data-deep-view="brain-safe">
+  <figure>
+    <p class="eyebrow" data-peer-eyebrow>{copy("ui.peer-plot.78-adolescents-behavioral-estimates-fig-1b")}</p>
+    <h3 data-peer-heading>{copy("ui.peer-plot.what-peers-choices-add-to-an")}</h3>
+    <div class="chart-controls" role="group" aria-label={copy("ui.peer-plot.behavior-or-brain-data")} hidden data-plot-enhanced>
+      <button type="button" data-peer-measure="behavior" aria-pressed="true">{copy("ui.peer-plot.in-their-choices")}</button>
+      <button type="button" data-peer-measure="brain" aria-pressed="false">{copy("ui.peer-plot.in-the-brain")}</button>
+    </div>
+    <div class="peer-brain-key" data-peer-brain-key hidden>
+      <svg viewBox="0 165 610 550" role="img" aria-label={copy("ui.peer-plot.anatomical-image-from-figure-2a-yellow")}>
+        <defs><clipPath id="peer-brain-cutout"><path d="M 8 452 C 18 395 42 361 67 321 C 112 205 217 166 300 185 C 408 188 500 248 552 306 C 596 356 616 431 592 493 C 574 545 522 553 486 549 L 444 564 L 409 553 L 395 571 L 365 553 L 353 581 L 331 553 L 301 560 L 287 606 L 263 645 L 239 698 L 198 702 L 173 690 L 139 672 C 100 633 66 602 42 565 C 13 533 1 491 8 452 Z" /></clipPath></defs>
+        <image href="/pubs/2020-chung-orloff-pnas.jpg" width="1528" height="958" clip-path="url(#peer-brain-cutout)" />
+      </svg>
+      <p><strong class="preserve-case">{copy("ui.peer-plot.vmpfc")}</strong><br />{copy("ui.peer-plot.helps-represent-how-much-an-option")}</p>
+    </div>
+    <div class="chart-controls" role="group" aria-label={copy("ui.peer-plot.type-of-peer-influence")} hidden data-plot-enhanced>
+      <button type="button" data-peer-context="safe" aria-pressed="true">{copy("ui.peer-plot.peers-choose-safely")}</button>
+      <button type="button" data-peer-context="risky" aria-pressed="false">{copy("ui.peer-plot.peers-take-a-risk")}</button>
+    </div>
+    <div class="peer-finding" aria-live="polite"><p data-peer-interpretation>{copy("ui.peer-plot.safer-peers-a-stronger-response-in")}</p><span data-peer-statistic>{copy("ui.peer-plot.published-association-p-0-021")}</span></div>
+    <div class="chart-legend"><span><i class="legend-naive"></i>{copy("ui.peer-plot.no-reported-substance-use")}</span><span><i class="legend-exposed"></i>{copy("ui.peer-plot.reported-substance-use")}</span></div>
+    <p class="chart-label" data-peer-y>{copy("ui.peer-plot.social-value-index")}</p>
+    <div class="chart-canvas" set:html={peerSVG(peerLayout(data))} />
+    <p class="chart-readout" data-peer-readout aria-live="polite">{copy("ui.peer-plot.switch-the-peers-choice-to-move")}</p>
+    <figcaption><span data-peer-caption>{copy("ui.peer-plot.colored-dots-individuals-grey-circles-means")}</span><br />{copy("ui.peer-plot.source")} <a class="text-link preserve-case" href="https://doi.org/10.1073/pnas.1919111117">{copy("ui.peer-plot.chung-orloff-et-al-2020")}</a> {copy("ui.peer-plot.figures-1b-2a")}</figcaption>
+  </figure>
+  <details class="chart-values"><summary>{copy("ui.peer-plot.see-the-plotted-values")}</summary><p>{copy("ui.peer-plot.rescaled-model-estimates-these-are-not")}</p><div class="table-scroll"><table><caption class="sr-only">{copy("ui.peer-plot.social-value-estimates-for-78-anonymous")}</caption><thead><tr><th scope="col">{copy("ui.peer-plot.display-label")}</th><th scope="col">{copy("ui.peer-plot.safer-peers")}</th><th scope="col">{copy("ui.peer-plot.riskier-peers")}</th></tr></thead><tbody>{data.participants.map(p=><tr><th scope="row">{p.id}</th><td>{p.safe.toFixed(3)}</td><td>{p.risky.toFixed(3)}</td></tr>)}</tbody></table></div></details>
+  <details class="chart-values"><summary>{copy("ui.peer-plot.see-the-brain-estimates")}</summary><p>{copy("ui.peer-plot.31-of-the-same-participants-value")}</p><div class="table-scroll"><table><caption class="sr-only">{copy("ui.peer-plot.vmpfc-estimates-from-figure-2a")}</caption><thead><tr><th scope="col">{copy("ui.peer-plot.display-label")}</th><th scope="col">{copy("ui.peer-plot.safer-peers")}</th><th scope="col">{copy("ui.peer-plot.riskier-peers")}</th></tr></thead><tbody>{brain.participants.map(p=><tr><th scope="row">{p.id}</th><td>{p.safe.toFixed(3)}</td><td>{p.risky.toFixed(3)}</td></tr>)}</tbody></table></div></details>
+</peer-plot>
+<script>import '../scripts/paper-plots';</script>

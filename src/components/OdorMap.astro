@@ -1,0 +1,21 @@
+---
+import { copy } from "../lib/site-copy.mjs";
+import { odorLayout, odorSVG, landmarks } from '../lib/paper-plots.mjs';
+import '../styles/paper-plots.css';
+---
+<odor-map class="paper-plot" data-story-plot data-view="landmarks">
+  <figure>
+    <p class="eyebrow">{copy("ui.odor-map.a-conceptual-illustration-follow-your-nose")}</p>
+    <h3>{copy("ui.odor-map.different-cues-the-same-spatial-relationships")}</h3>
+    <div class="chart-controls" role="group" aria-label={copy("ui.odor-map.landmark-cues")} hidden data-plot-enhanced><button type="button" data-plot-view="landmarks" aria-pressed="true">{copy("ui.odor-map.familiar-landmarks")}</button><button type="button" data-plot-view="odors" aria-pressed="false">{copy("smell-and-space.steps.1.label")}</button></div>
+    <div class="odor-game" hidden data-plot-enhanced>
+      <button type="button" class="reader-cta" data-odor-play>{copy("ui.odor-map.try-finding-the-places")} <span aria-hidden="true">→</span></button>
+      <div data-odor-question hidden><p class="eyebrow" data-odor-progress></p><h4 tabindex="-1" data-odor-prompt></h4><p class="chart-small">{copy("ui.odor-map.choose-a-scent-on-the-map")}</p><p class="odor-feedback" data-odor-feedback role="status"></p><button type="button" class="quiet-button" data-odor-next hidden>{copy("ui.odor-map.next-place")}</button><button type="button" class="quiet-button" data-odor-reset>{copy("ui.odor-map.start-again")}</button></div>
+    </div>
+    <div class="chart-canvas" set:html={odorSVG(odorLayout())} />
+    <div class="destination-controls" role="group" aria-label={copy("ui.odor-map.destination")} hidden data-plot-enhanced>{landmarks.map((p,i)=><button type="button" class="quiet-button" data-destination={i} aria-pressed={String(i===1)}>{p.name}</button>)}</div>
+    <p class="chart-readout" data-odor-readout aria-live="polite">{copy("ui.odor-map.the-garden-and-its-floral-smell")}</p>
+    <figcaption>{copy("ui.odor-map.illustrative-landmarks-odors-and-routes-map")}<br />{copy("ui.odor-map.the-study-discussed-in")} <a class="text-link preserve-case" href="https://doi.org/10.1016/j.cub.2023.08.053">{copy("ui.odor-map.orloff-boorman-2023")}</a> {copy("ui.odor-map.used-odor-landmarks-in-a-virtual")}</figcaption>
+  </figure>
+</odor-map>
+<script>import '../scripts/paper-plots';</script>

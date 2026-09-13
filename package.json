@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "node --test tests/*.test.mjs",
+    "predev": "node scripts/generate-copy.mjs",
+    "prebuild": "node scripts/generate-copy.mjs",
+    "pretest": "node scripts/generate-copy.mjs"
   },
   "dependencies": {
     "astro": "^4.8.0",
@@ -14,4 +18,3 @@
     "simple-icons": "^13.0.0"
   }
 }
-

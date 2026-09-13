@@ -1,0 +1,498 @@
+{
+  "source": {
+    "doi": "10.1073/pnas.1919111117",
+    "figure": "1B",
+    "repository": "https://code.vt.edu/maorloff/adolescent-peer-influence",
+    "commit": "4e1da2673f3abfe952d0525c315b4ca7e804a172",
+    "file": "data/allVars.mat",
+    "sha256": "bd9c2553b0d933c43191ddf8359c8ec84e165d3701b27b8855efab49c612dcef",
+    "variables": [
+      "OCUsafe_trans",
+      "OCUrisky_trans",
+      "anySubUse"
+    ],
+    "transform": "Archived transformed estimates: logistic(inverse temperature \u00d7 other-conferred utility). 0.5 denotes zero added utility."
+  },
+  "groups": [
+    {
+      "id": "naive",
+      "label": "no reported substance use",
+      "n": 46
+    },
+    {
+      "id": "exposed",
+      "label": "reported substance use",
+      "n": 32
+    }
+  ],
+  "participants": [
+    {
+      "id": "exposed-01",
+      "group": "exposed",
+      "safe": 0.5585890110078658,
+      "risky": 0.590444913383869
+    },
+    {
+      "id": "naive-01",
+      "group": "naive",
+      "safe": 0.7615353272676418,
+      "risky": 0.6630433132332192
+    },
+    {
+      "id": "naive-02",
+      "group": "naive",
+      "safe": 0.8671116293869551,
+      "risky": 0.11883699108730288
+    },
+    {
+      "id": "naive-03",
+      "group": "naive",
+      "safe": 0.5184046180626107,
+      "risky": 0.5470272926262412
+    },
+    {
+      "id": "naive-04",
+      "group": "naive",
+      "safe": 0.9246717305454965,
+      "risky": 0.25089886498953
+    },
+    {
+      "id": "exposed-02",
+      "group": "exposed",
+      "safe": 0.576931505414661,
+      "risky": 0.6186063540026885
+    },
+    {
+      "id": "exposed-03",
+      "group": "exposed",
+      "safe": 0.5746420892176173,
+      "risky": 0.42940760342510054
+    },
+    {
+      "id": "exposed-04",
+      "group": "exposed",
+      "safe": 0.5705452044705392,
+      "risky": 0.2485203021721265
+    },
+    {
+      "id": "exposed-05",
+      "group": "exposed",
+      "safe": 0.5717694917253946,
+      "risky": 0.6558781239416528
+    },
+    {
+      "id": "naive-05",
+      "group": "naive",
+      "safe": 0.5615852305837541,
+      "risky": 0.6823808349787748
+    },
+    {
+      "id": "exposed-06",
+      "group": "exposed",
+      "safe": 0.5758293607528577,
+      "risky": 0.5830484240333187
+    },
+    {
+      "id": "naive-06",
+      "group": "naive",
+      "safe": 0.5409833611086542,
+      "risky": 0.5427273478159906
+    },
+    {
+      "id": "naive-07",
+      "group": "naive",
+      "safe": 0.5623730268295508,
+      "risky": 0.7271020557750684
+    },
+    {
+      "id": "naive-08",
+      "group": "naive",
+      "safe": 0.762892540591107,
+      "risky": 0.29384115492084045
+    },
+    {
+      "id": "exposed-07",
+      "group": "exposed",
+      "safe": 0.577969376583681,
+      "risky": 0.7508132926658474
+    },
+    {
+      "id": "exposed-08",
+      "group": "exposed",
+      "safe": 0.5090330907426919,
+      "risky": 0.5071873860692057
+    },
+    {
+      "id": "naive-09",
+      "group": "naive",
+      "safe": 0.6368767176925335,
+      "risky": 0.7764749273821151
+    },
+    {
+      "id": "naive-10",
+      "group": "naive",
+      "safe": 0.810085770256526,
+      "risky": 0.7351722611922715
+    },
+    {
+      "id": "exposed-09",
+      "group": "exposed",
+      "safe": 0.5317447218906558,
+      "risky": 0.6066260180772193
+    },
+    {
+      "id": "naive-11",
+      "group": "naive",
+      "safe": 0.7657452252777425,
+      "risky": 0.6402470015076768
+    },
+    {
+      "id": "naive-12",
+      "group": "naive",
+      "safe": 0.5558732589214253,
+      "risky": 0.3687026572849062
+    },
+    {
+      "id": "naive-13",
+      "group": "naive",
+      "safe": 0.7032255739858145,
+      "risky": 0.5706328672525554
+    },
+    {
+      "id": "exposed-10",
+      "group": "exposed",
+      "safe": 0.8455396267864712,
+      "risky": 0.2536085181637659
+    },
+    {
+      "id": "exposed-11",
+      "group": "exposed",
+      "safe": 0.531426496827578,
+      "risky": 0.5298942214482171
+    },
+    {
+      "id": "exposed-12",
+      "group": "exposed",
+      "safe": 0.6025050157879921,
+      "risky": 0.5056141588190164
+    },
+    {
+      "id": "naive-14",
+      "group": "naive",
+      "safe": 0.5092240221802635,
+      "risky": 0.5094363046910421
+    },
+    {
+      "id": "exposed-13",
+      "group": "exposed",
+      "safe": 0.5666985840501284,
+      "risky": 0.7263728418294709
+    },
+    {
+      "id": "exposed-14",
+      "group": "exposed",
+      "safe": 0.6189696848745634,
+      "risky": 0.23548166571668747
+    },
+    {
+      "id": "naive-15",
+      "group": "naive",
+      "safe": 0.8534076646177361,
+      "risky": 0.15452604590944372
+    },
+    {
+      "id": "exposed-15",
+      "group": "exposed",
+      "safe": 0.52885847630296,
+      "risky": 0.5384085266634874
+    },
+    {
+      "id": "exposed-16",
+      "group": "exposed",
+      "safe": 0.5324645440420104,
+      "risky": 0.5569650344905379
+    },
+    {
+      "id": "naive-16",
+      "group": "naive",
+      "safe": 0.5169457298770689,
+      "risky": 0.5542288686956502
+    },
+    {
+      "id": "naive-17",
+      "group": "naive",
+      "safe": 0.597085385810514,
+      "risky": 0.5924077555187426
+    },
+    {
+      "id": "exposed-17",
+      "group": "exposed",
+      "safe": 0.5188457055137738,
+      "risky": 0.5285046773119875
+    },
+    {
+      "id": "naive-18",
+      "group": "naive",
+      "safe": 0.644648116769348,
+      "risky": 0.8340649095204132
+    },
+    {
+      "id": "naive-19",
+      "group": "naive",
+      "safe": 0.89211022459928,
+      "risky": 0.20112263688568974
+    },
+    {
+      "id": "naive-20",
+      "group": "naive",
+      "safe": 0.6126403816871342,
+      "risky": 0.7023164020384689
+    },
+    {
+      "id": "exposed-18",
+      "group": "exposed",
+      "safe": 0.8784649005938933,
+      "risky": 0.09428728490652478
+    },
+    {
+      "id": "exposed-19",
+      "group": "exposed",
+      "safe": 0.5114708481960879,
+      "risky": 0.5167528606155667
+    },
+    {
+      "id": "naive-21",
+      "group": "naive",
+      "safe": 0.8712606549025859,
+      "risky": 0.1263996075415426
+    },
+    {
+      "id": "exposed-20",
+      "group": "exposed",
+      "safe": 0.5448908704804782,
+      "risky": 0.5755779824160121
+    },
+    {
+      "id": "naive-22",
+      "group": "naive",
+      "safe": 0.9064369304369468,
+      "risky": 0.009520827493968835
+    },
+    {
+      "id": "naive-23",
+      "group": "naive",
+      "safe": 0.5626992850077296,
+      "risky": 0.5695107291105794
+    },
+    {
+      "id": "exposed-21",
+      "group": "exposed",
+      "safe": 0.8518723174321634,
+      "risky": 0.08735691689637562
+    },
+    {
+      "id": "naive-24",
+      "group": "naive",
+      "safe": 0.5226349884302808,
+      "risky": 0.5284119112549884
+    },
+    {
+      "id": "naive-25",
+      "group": "naive",
+      "safe": 0.7843199909565133,
+      "risky": 0.1715904080019884
+    },
+    {
+      "id": "exposed-22",
+      "group": "exposed",
+      "safe": 0.5942717761315466,
+      "risky": 0.5236409176536051
+    },
+    {
+      "id": "naive-26",
+      "group": "naive",
+      "safe": 0.5966538753356356,
+      "risky": 0.5729103551276598
+    },
+    {
+      "id": "exposed-23",
+      "group": "exposed",
+      "safe": 0.886113149179208,
+      "risky": 0.9921505973685171
+    },
+    {
+      "id": "exposed-24",
+      "group": "exposed",
+      "safe": 0.6920206758277277,
+      "risky": 0.79269364475243
+    },
+    {
+      "id": "naive-27",
+      "group": "naive",
+      "safe": 0.6175124444390829,
+      "risky": 0.24636169947424869
+    },
+    {
+      "id": "naive-28",
+      "group": "naive",
+      "safe": 0.5693906149830901,
+      "risky": 0.51844392956315
+    },
+    {
+      "id": "naive-29",
+      "group": "naive",
+      "safe": 0.5606333856065688,
+      "risky": 0.6225813843599083
+    },
+    {
+      "id": "naive-30",
+      "group": "naive",
+      "safe": 0.9069879367737745,
+      "risky": 0.009121515691862807
+    },
+    {
+      "id": "exposed-25",
+      "group": "exposed",
+      "safe": 0.5533821141047425,
+      "risky": 0.5284013286680274
+    },
+    {
+      "id": "exposed-26",
+      "group": "exposed",
+      "safe": 0.8295089688394438,
+      "risky": 0.571642772568689
+    },
+    {
+      "id": "naive-31",
+      "group": "naive",
+      "safe": 0.5867831172555564,
+      "risky": 0.4358350178944696
+    },
+    {
+      "id": "naive-32",
+      "group": "naive",
+      "safe": 0.874595208040072,
+      "risky": 0.20084298816022944
+    },
+    {
+      "id": "exposed-27",
+      "group": "exposed",
+      "safe": 0.6707575701470725,
+      "risky": 0.2000356083425872
+    },
+    {
+      "id": "naive-33",
+      "group": "naive",
+      "safe": 0.8147214008301296,
+      "risky": 0.39448772378832314
+    },
+    {
+      "id": "naive-34",
+      "group": "naive",
+      "safe": 0.6731191883140617,
+      "risky": 0.5987965981907203
+    },
+    {
+      "id": "naive-35",
+      "group": "naive",
+      "safe": 0.6657275826578225,
+      "risky": 0.8339748319888541
+    },
+    {
+      "id": "exposed-28",
+      "group": "exposed",
+      "safe": 0.5079596315512163,
+      "risky": 0.5033661148276856
+    },
+    {
+      "id": "exposed-29",
+      "group": "exposed",
+      "safe": 0.5154779882814727,
+      "risky": 0.5013478920695787
+    },
+    {
+      "id": "naive-36",
+      "group": "naive",
+      "safe": 0.5383037674156389,
+      "risky": 0.5588798713713548
+    },
+    {
+      "id": "naive-37",
+      "group": "naive",
+      "safe": 0.5820449722790162,
+      "risky": 0.6210128701093971
+    },
+    {
+      "id": "naive-38",
+      "group": "naive",
+      "safe": 0.5716066862374606,
+      "risky": 0.4266662981599091
+    },
+    {
+      "id": "naive-39",
+      "group": "naive",
+      "safe": 0.5244033958853432,
+      "risky": 0.566743348798957
+    },
+    {
+      "id": "naive-40",
+      "group": "naive",
+      "safe": 0.7363531595292396,
+      "risky": 0.5728110690657542
+    },
+    {
+      "id": "exposed-30",
+      "group": "exposed",
+      "safe": 0.5436131868235166,
+      "risky": 0.5065918796107621
+    },
+    {
+      "id": "naive-41",
+      "group": "naive",
+      "safe": 0.5432876819718961,
+      "risky": 0.4978630840218865
+    },
+    {
+      "id": "naive-42",
+      "group": "naive",
+      "safe": 0.5053256588692888,
+      "risky": 0.5049040186874875
+    },
+    {
+      "id": "exposed-31",
+      "group": "exposed",
+      "safe": 0.698934219468792,
+      "risky": 0.8015723930982432
+    },
+    {
+      "id": "naive-43",
+      "group": "naive",
+      "safe": 0.8658350941149086,
+      "risky": 0.9449433147969796
+    },
+    {
+      "id": "naive-44",
+      "group": "naive",
+      "safe": 0.5117867430760915,
+      "risky": 0.5114571916850098
+    },
+    {
+      "id": "naive-45",
+      "group": "naive",
+      "safe": 0.5034880854984203,
+      "risky": 0.5027588299421045
+    },
+    {
+      "id": "exposed-32",
+      "group": "exposed",
+      "safe": 0.5639821423317568,
+      "risky": 0.553651740235054
+    },
+    {
+      "id": "naive-46",
+      "group": "naive",
+      "safe": 0.5553514865700265,
+      "risky": 0.5634351627847516
+    }
+  ]
+}
