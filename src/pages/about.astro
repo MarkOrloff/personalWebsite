@@ -1,16 +1,19 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
 import { SITE } from '../data/site';
+import SquircleImage from '../components/SquircleImage.astro';
 ---
-<BaseLayout title={copy("ui.navigation.about")}>
-  <header class="page-intro"><p class="eyebrow">{copy("ui.about.the-person-behind-the-papers")}</p><h1>{copy("ui.about.hi-i-m")} <span class="preserve-case">{copy("ui.about.mark")}</span>.</h1></header>
-  <div class="about-layout"><img class="portrait" src="/headshot.jpg" width="576" height="576" alt={copy("ui.footer.mark-orloff")} /><div class="prose"><p>{copy("ui.about.i-m-a-decision-neuroscientist-and")} <span class="preserve-case">{copy("ui.about.ucla")}</span>.</p><p>{copy("ui.about.i-work-with")} <a class="preserve-case" href="https://www.psych.ucla.edu/faculty-page/erie/">{copy("ui.about.erie-boorman")}</a> {copy("ui.about.in-the-learning-and-decision-making")}</p><p>{copy("ui.about.i-m-interested-in-how-people")}</p><p>{copy("ui.about.reach-me-at")} <a href={`mailto:${SITE.author.email}`}>{copy("contact.email")}</a>.</p><a class="arrow-link" href="/cv">{copy("ui.about.my-cv")} <span aria-hidden="true">→</span></a></div></div>
+<BaseLayout title="about">
+	<PageHeader title="about" />
+	<div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+		<SquircleImage src="/headshot.jpg" alt="headshot" size={200} pad={0} borderColor="var(--color-accent-2)" />
+		<div class="prose" style="flex:1;min-width:280px">
+			<p>i'm a postdoctoral researcher interested in value-based decision-making and cognitive maps.</p>
+			<p>i currently work in <span class="preserve-case">Erie Boorman</span>'s <span class="preserve-case">Learning and Decision Making Lab</span> at the <span class="preserve-case">University of California, Davis</span>.</p>
+			<p>reach me at <a class="preserve-case" href={`mailto:${SITE.author.email}`}>{SITE.author.email}</a>.</p>
+		</div>
+	</div>
 </BaseLayout>
-<style>
-  .about-layout { display: grid; grid-template-columns: minmax(0,.65fr) minmax(0,1fr); gap: clamp(32px,6vw,80px); align-items: start; }
-  .portrait { width: 100%; max-width: 330px; border-radius: 34% / 28%; border: 2px solid var(--color-accent-2); }
-  .prose { padding-top: 14px; }
-  .prose a { overflow-wrap: anywhere; }
-  @media (max-width: 640px) { .about-layout { grid-template-columns: 1fr; } .portrait { max-width: 230px; } }
-</style>
+
+

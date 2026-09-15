@@ -14,9 +14,6 @@ const publications = defineCollection({
 		summary: z.string().optional(),
 		figure: z.string().optional(), // e.g., "/pubs/2024-orloff-et-al.jpg"
 		figureAlt: z.string().optional(),
-		figureWidth: z.number().int().positive().optional(),
-		figureHeight: z.number().int().positive().optional(),
-		walkthrough: z.string().startsWith('/publications/').optional(),
 	}),
 });
 
@@ -32,4 +29,5 @@ const projects = defineCollection({
 });
 
 export const collections = { publications, projects };
+
 

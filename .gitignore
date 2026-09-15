@@ -1,7 +1,1 @@
 .DS_Store
-node_modules/
-dist/
-.astro/
-
-# Derived automatically from the editable copy document
-src/generated/

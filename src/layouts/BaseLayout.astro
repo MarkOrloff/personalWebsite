@@ -1,5 +1,4 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -21,20 +20,18 @@ const pageDesc = description ?? SITE.description;
 	<meta property="og:description" content={pageDesc} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://${SITE.domain}${Astro.url.pathname}`} />
-	<meta property="og:image" content={`https://${SITE.domain}/headshot.jpg`} />
-	<meta property="og:image:alt" content="mark orloff" />
-	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:image" content={`https://${SITE.domain}/headshot.jpg`} />
+	<meta property="og:image" content="/og-image.png" />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={pageDesc} />
 </head>
 <body>
-	<a class="skip-link" href="#main-content">{copy("ui.base-layout.skip-to-content")}</a>
 	<Nav />
-	<main id="main-content" class="lowercase-all">
+	<main class="lowercase-all">
 		<slot />
 	</main>
 	<Footer />
 </body>
 </html>
+
 

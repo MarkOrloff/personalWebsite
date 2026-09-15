@@ -1,25 +1,43 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
-import Icon from './Icon.astro';
 import { SITE } from '../data/site';
+import { renderName } from '../utils/names';
+import Icon from './Icon.astro';
 const year = new Date().getFullYear();
 ---
-<footer class="site-footer lowercase-all">
-  <div class="footer-inner">
-    <p>© {year} <span class="preserve-case">{copy("ui.footer.mark-orloff")}</span> <span class="muted">{copy("ui.footer.decision-neuroscientist")}</span></p>
-    <ul aria-label={copy("ui.footer.elsewhere")}>
-      <li><a href={`mailto:${SITE.author.email}`} aria-label={copy("ui.footer.email")} title={copy("ui.footer.email")}><Icon name="email" size={19} /></a></li>
-      <li><a href={SITE.social.googleScholar} aria-label={copy("ui.footer.google-scholar")} title={copy("ui.footer.google-scholar")}><Icon name="google-scholar" size={21} /></a></li>
-      <li><a href={SITE.social.github} aria-label={copy("ui.footer.github")} title={copy("ui.footer.github")}><Icon name="github" size={19} /></a></li>
-      <li><a href={SITE.social.orcid} aria-label={copy("ui.footer.orcid")} title={copy("ui.footer.orcid")}><Icon name="orcid" size={19} /></a></li>
-      <li><a href={SITE.social.x} aria-label={copy("ui.footer.x")} title={copy("ui.footer.x")}><Icon name="x" size={18} /></a></li>
-    </ul>
-  </div>
+<footer class="hairline" style="margin-top:48px">
+	<div style="max-width:var(--container);margin:0 auto;padding:24px var(--gutter);display:flex;gap:12px;align-items:center;justify-content:space-between">
+		<span>&copy; {year} {renderName('solo')}</span>
+		<ul style="list-style:none;display:flex;gap:14px;margin:0;padding:0">
+			{SITE.social.googleScholar && (
+				<li>
+					<a href={SITE.social.googleScholar} aria-label="google scholar" title="google scholar" class="accent-2" style="display:inline-flex;align-items:center;gap:6px">
+						<Icon name="google-scholar" size={18} />
+					</a>
+				</li>
+			)}
+			{SITE.social.orcid && (
+				<li>
+					<a href={SITE.social.orcid} aria-label="orcid" title="orcid" class="accent-2" style="display:inline-flex;align-items:center;gap:6px">
+						<Icon name="orcid" size={18} />
+					</a>
+				</li>
+			)}
+			{SITE.social.github && (
+				<li>
+					<a href={SITE.social.github} aria-label="github" title="github" class="accent-2" style="display:inline-flex;align-items:center;gap:6px">
+						<Icon name="github" size={18} />
+					</a>
+				</li>
+			)}
+			{SITE.social.x && (
+				<li>
+					<a href={SITE.social.x} aria-label="x" title="x" class="accent-2" style="display:inline-flex;align-items:center;gap:6px">
+						<Icon name="x" size={18} />
+					</a>
+				</li>
+			)}
+		</ul>
+	</div>
 </footer>
-<style>
-  footer { border-top: 1px solid var(--color-line); font-size: 12px; }
-  .footer-inner { max-width: var(--container); padding: 22px var(--gutter); margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; align-items: center; }
-  p { margin: 0; }
-  ul { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
-  a { display: inline-flex; align-items: center; justify-content:center; min-width:44px; min-height: 44px; color: var(--color-muted); }
-</style>
+
+

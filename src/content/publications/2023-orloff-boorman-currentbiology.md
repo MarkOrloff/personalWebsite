@@ -11,8 +11,6 @@ tags: [cognitive-maps, commentary]
 summary: a commentary on an excellent article showing cognitive map formation in piriform cortex for an olfactory navigation task
 figure: /pubs/2023-orloff-boorman-currentbiology.jpg
 figureAlt: main result figure for current biology commentary showing cognitive map formation in piriform cortex for an olfactory navigation task
-figureWidth: 505
-figureHeight: 280
-walkthrough: /publications/smell-and-space
 ---
+
 

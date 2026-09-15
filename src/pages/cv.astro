@@ -1,17 +1,15 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title={copy("ui.navigation.cv")} description={copy("ui.cv.mark-orloff-s-curriculum-vitae")}>
-  <header class="cv-header"><div><p class="eyebrow">{copy("ui.cv.background-experience")}</p><h1>{copy("ui.cv.curriculum-vitae")}</h1></div><a class="arrow-link" href="/cv.pdf" download>{copy("ui.cv.download-earlier-cv")} <span aria-hidden="true">↓</span></a></header>
-  <p class="cv-current">{copy("ui.cv.i-m-now-a-postdoctoral-researcher")} <span class="preserve-case">{copy("ui.about.ucla")}</span>{copy("ui.cv.the-pdf-below-is-an-earlier")} <span class="preserve-case">{copy("ui.cv.uc-davis")}</span>.</p>
-  <p class="muted">{copy("ui.cv.you-can-also")} <a class="text-link" href="/cv.pdf">{copy("ui.cv.open-the-cv")}</a>.</p>
-  <object class="cv-document" data="/cv.pdf#view=FitH" type="application/pdf" width="100%" height="900" aria-label={copy("ui.cv.mark-orloff-s-curriculum-vitae.2")}><p><a class="text-link" href="/cv.pdf">{copy("ui.cv.open-the-cv-as-a-pdf")}</a>.</p></object>
+<BaseLayout title="cv">
+	<section style="display:flex;align-items:center;justify-content:space-between;margin:0 0 12px 0">
+		<h1 style="margin:0">cv</h1>
+		<a class="accent preserve-case" href="/cv.pdf" download>download pdf</a>
+	</section>
+	<object data="/cv.pdf#view=FitH" type="application/pdf" width="100%" height="900">
+		<p>your browser can't display embedded pdfs. <a class="accent preserve-case" href="/cv.pdf">click here to open the cv</a>.</p>
+	</object>
+	<p class="muted" style="margin-top:8px">replace <span class="preserve-case">public/cv.pdf</span> with your latest file.</p>
 </BaseLayout>
-<style>
-  .cv-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 10px; }
-  .cv-header h1 { font-size: clamp(40px,6vw,64px); margin-bottom: 15px; }
-  .cv-current { max-width: 660px; color: var(--color-muted); font-size: 14px; margin-top: 24px; }
-  .cv-document { height: min(900px,80vh); border: 1px solid var(--color-line); margin-top: 18px; }
-  @media (max-width: 640px) { .cv-document { height: 65vh; } }
-</style>
+
+

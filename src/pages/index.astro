@@ -1,73 +1,37 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ValuePreview from '../components/ValuePreview.astro';
-import { withPublicationCopy } from '../lib/publication-copy';
+import { SITE } from '../data/site';
+import { renderName } from '../utils/names';
+import Card from '../components/Card.astro';
 import { getCollection } from 'astro:content';
-const latest = (await getCollection('publications')).map(withPublicationCopy).filter(p => p.data.type === 'commentary').sort((a,b) => (b.data.year || 0) - (a.data.year || 0))[0];
+
+const pubs = await getCollection('publications');
+const latest = pubs
+	.sort((a, b) => (Number(b.data.year ?? 0) - Number(a.data.year ?? 0)) || a.data.title.localeCompare(b.data.title))
+	.at(0);
 ---
 <BaseLayout>
-  <header class="home-intro">
-    <div><p class="eyebrow">{copy("ui.index.decision-neuroscientist")} <span class="preserve-case">{copy("ui.about.ucla")}</span></p><h1>{copy("ui.index.how-do-we-decide")}<br /> {copy("ui.index.what-matters")}</h1></div>
-    <div class="home-bio"><p>{copy("ui.index.i-m")} <span class="preserve-case">{copy("ui.about.mark")}</span>{copy("ui.index.a-decision-neuroscientist-studying-how-we")}</p><a class="arrow-link" href="/about">{copy("ui.index.a-little-about-me")} <span aria-hidden="true">→</span></a></div>
-  </header>
-  <section class="featured-research" aria-labelledby="selected-research">
-    <div class="section-heading"><h2 class="section-label" id="selected-research">{copy("ui.index.01-a-closer-look")}</h2><a class="text-link small-link" href="/publications">{copy("ui.index.all-publications")}</a></div>
-    <div class="feature-grid">
-      <div class="feature-story">
-        <p class="eyebrow">{copy("ui.paper-stories.subjective-value-biorxiv-preprint-2026")}</p>
-        <h2><a href="/publications/subjective-value">{copy("ui.index.the-same-options")}<br /> {copy("ui.index.a-different-map")}</a></h2>
-        <p>{copy("ui.index.how-can-we-decide-between-options")}</p>
-        <p class="muted">{copy("ui.index.see-the-idea-in-action-then")}</p>
-        <a class="arrow-link" href="/publications/subjective-value?depth=story&step=1">{copy("ui.index.explore-the-study")} <span aria-hidden="true">→</span></a>
-        <p class="feature-citation"><span class="preserve-case">{copy("ui.index.orloff-park-blumwald-domenech")}</span> {copy("ui.index.colleagues")}<br />{copy("ui.index.biorxiv-may-2026")}</p>
-      </div>
-      <div class="home-plot"><ValuePreview /></div>
-    </div>
-  </section>
-  <section class="home-notes" aria-labelledby="in-the-margins">
-    <div class="section-heading"><h2 class="section-label" id="in-the-margins">{copy("ui.index.02-a-few-other-threads")}</h2></div>
-    <div class="notes-grid">
-      <article class="research-note"><p class="eyebrow">{copy("ui.index.social-influence-2024")}</p><h3>{copy("social-conformity.page.title")}</h3><p>{copy("ui.index.when-evaluating-a-choice-is-difficult")}</p><a class="arrow-link" href="/publications/social-conformity">{copy("ui.index.explore-the-study")} <span aria-hidden="true">→</span></a></article>
-      {latest && <article class="reading-note"><div><p class="eyebrow">{copy("ui.index.a-recent-commentary")} {latest.data.year}</p><h3><a href={latest.data.walkthrough || `https://doi.org/${latest.data.doi}`}>{latest.data.title}</a></h3><p class="muted">{copy("ui.index.on-how-cognitive-maps-take-shape")}</p><a class="arrow-link" href={latest.data.walkthrough || `https://doi.org/${latest.data.doi}`}>{copy("ui.index.explore-the-idea")} <span aria-hidden="true">→</span></a></div><div class="paper-figure-frame"><img src={latest.data.figure} width="2870" height="1290" loading="lazy" alt={latest.data.figureAlt} /></div></article>}
-    </div>
-  </section>
+	<section style="display:grid;gap:16px;margin:24px 0">
+		<h1 class="preserve-case" style="margin:0">{renderName('solo')}</h1>
+		<p class="muted" style="margin:0">{SITE.description}</p>
+	</section>
+
+	<section style="display:grid;gap:12px;margin-top:32px">
+		<h2 style="margin:0">highlights</h2>
+		<div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+			{latest ? (
+				<div class="preserve-case">
+					<Card
+						title={latest.data.title}
+						description={`${latest.data.venue ?? ''}${latest.data.year ? `, ${latest.data.year}` : ''}`}
+						href={latest.data.doi ? `https://doi.org/${latest.data.doi}` : (latest.data.url ?? '/publications')}
+					/>
+				</div>
+			) : (
+				<Card title="latest publication" description="add a key paper here soon" href="/publications" />
+			)}
+		</div>
+	</section>
 </BaseLayout>
-<style>
-  .home-intro { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,.8fr); gap: 54px; align-items: end; margin: 26px 0 70px; }
-  .home-intro .eyebrow { margin-bottom: 24px; }
-  .home-intro h1 { margin: 0; }
-  .home-bio { padding-bottom: 5px; font-size: 16px; }
-  .home-bio p { margin-bottom: 8px; color: var(--color-muted); }
-  .home-bio .arrow-link { font-size: 13px; }
-  .small-link { font-size: 12px; }
-  .feature-grid { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(32px,5vw,68px); align-items: start; }
-  .feature-story { padding-top: 12px; }
-  .feature-story h2 { font-family: var(--font-editorial); font-size: clamp(34px,4.5vw,52px); margin: 25px 0; }
-  .feature-story > p { max-width: 330px; font-size: 15px; }
-  .feature-story > .eyebrow { font-size: 10px; }
-  .feature-story .arrow-link { margin: 4px 0 26px; font-size: 14px; }
-  .feature-story > .feature-citation { color: var(--color-muted); font: 10px/1.8 var(--font-mono); }
-  .home-plot { border-left: 1px solid var(--color-line); padding-left: clamp(24px,3vw,40px); }
-  .home-notes { margin-top: 70px; }
-  .notes-grid { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); gap: clamp(32px,5vw,68px); }
-  .notes-grid p { font-size: 14px; }
-  .notes-grid .eyebrow { font-size: 10px; margin-bottom: 20px; }
-  .notes-grid .arrow-link { font-size: 13px; }
-  .research-note p { max-width: 350px; color: var(--color-muted); }
-  .research-note h3 { font-family: var(--font-editorial); font-size: 30px; }
-  .reading-note { display: grid; grid-template-columns: minmax(0,1fr) 140px; gap: 24px; align-items: center; }
-  .reading-note h3 { font-family: var(--font-editorial); font-size: 28px; }
-  .reading-note img { width: 140px; }
-  @media (max-width: 800px) {
-    .home-intro { grid-template-columns: 1fr; gap: 28px; margin-top: 10px; margin-bottom: 46px; }
-    .home-bio { max-width: 500px; }
-    .feature-grid, .notes-grid { grid-template-columns: 1fr; gap: 28px; }
-    .home-plot { border-left: none; padding-left: 0; border-top: 1px solid var(--color-line); padding-top: 26px; }
-    .feature-story > p { max-width: 520px; }
-    .feature-story .arrow-link { margin-bottom: 16px; }
-    .feature-story .feature-citation { margin-bottom: 0; }
-    .reading-note { border-top: 1px solid var(--color-line); padding-top: 28px; }
-  }
-  @media (max-width: 420px) { .reading-note { grid-template-columns: 1fr; } .reading-note img { width: 100%; max-width: 260px; } }
-</style>
+
+

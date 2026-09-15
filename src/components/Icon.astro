@@ -1,17 +1,15 @@
 ---
-import { copy } from "../lib/site-copy.mjs";
 import type { AstroGlobal } from 'astro';
 import { siGithub, siOrcid, siGooglescholar, siX } from 'simple-icons/icons';
 
-type IconName = 'github' | 'orcid' | 'google-scholar' | 'x' | 'email';
+type IconName = 'github' | 'orcid' | 'google-scholar' | 'x';
 const { name, size = 18, title } = Astro.props as { name: IconName; size?: number; title?: string };
 
 const MAP: Record<IconName, { path: string; title: string }> = {
-	github: { path: siGithub.path, title: copy("ui.footer.github") },
-	orcid: { path: siOrcid.path, title: copy("ui.footer.orcid") },
-	'google-scholar': { path: siGooglescholar.path, title: copy("ui.footer.google-scholar") },
-	x: { path: siX.path, title: copy("ui.footer.x") },
-	email: { path: 'M3 4h18a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 2 9 6 9-6H3Zm18 12V8.4l-9 6-9-6V18h18Z', title: copy("ui.footer.email") },
+	github: { path: siGithub.path, title: siGithub.title },
+	orcid: { path: siOrcid.path, title: siOrcid.title },
+	'google-scholar': { path: siGooglescholar.path, title: siGooglescholar.title },
+	x: { path: siX.path, title: siX.title },
 };
 
 const icon = MAP[name];
