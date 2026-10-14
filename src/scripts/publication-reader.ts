@@ -76,10 +76,14 @@ if (reader) {
     plot.restoreReadingState?.(params);
     render(false);
   }
+  // Switching tabs keeps the tabs where they were on screen, however tall the new content is.
+  const toolbar = reader.querySelector<HTMLElement>('.reader-toolbar')!;
   function selectDepth(value: string) {
+    const before = toolbar.getBoundingClientRect().top;
     depth = value;
     if (depth === 'deep') view = plot.dataset.deepView || defaultView;
     render();
+    window.scrollTo({ top: window.scrollY + toolbar.getBoundingClientRect().top - before, behavior: 'instant' });
   }
   tabs.forEach(tab => tab.addEventListener('click', () => selectDepth(tab.dataset.depth!)));
   reader.querySelector('.depth-tabs')!.addEventListener('keydown', (event: KeyboardEvent) => {

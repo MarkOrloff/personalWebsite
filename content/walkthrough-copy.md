@@ -1923,7 +1923,7 @@ the short version
 ### ui.paper-reader.walk-me-through-it
 
 <!-- copy: ui.paper-reader.walk-me-through-it -->
-walk me through it
+walk through it
 <!-- /copy -->
 
 ### ui.paper-reader.5-minutes
@@ -1953,7 +1953,7 @@ methods & numbers
 ### ui.paper-reader.explore-the-idea-with-me
 
 <!-- copy: ui.paper-reader.explore-the-idea-with-me -->
-walk me through it
+walk through it
 <!-- /copy -->
 
 ### ui.paper-reader.see-the-original-figure
@@ -3697,7 +3697,7 @@ The same 44 participants: solo model mismatch on the horizontal axis, following 
 ### ui.value-map.put-my-choices-on-a-map
 
 <!-- copy: ui.value-map.put-my-choices-on-a-map -->
-put my choices on a map →
+put your choices on a map →
 <!-- /copy -->
 
 ### ui.value-map.use-this-choice
@@ -3763,7 +3763,7 @@ place the other option →
 ### ui.value-map.revisit-my-choices
 
 <!-- copy: ui.value-map.revisit-my-choices -->
-revisit my choices →
+revisit your choices →
 <!-- /copy -->
 
 ### ui.value-map.compare-these-options
@@ -3787,13 +3787,13 @@ feeling more adventurous →
 ### ui.value-map.reveal-my-map
 
 <!-- copy: ui.value-map.reveal-my-map -->
-reveal my map →
+reveal your map →
 <!-- /copy -->
 
 ### ui.value-map.show-one-possible-map
 
 <!-- copy: ui.value-map.show-one-possible-map -->
-show me my map! →
+show your map! →
 <!-- /copy -->
 
 ### ui.value-map.what-did-the-brain-show

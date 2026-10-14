@@ -19,7 +19,7 @@ const latest = (await getCollection('publications')).map(withPublicationCopy).fi
         <h2><a href="/publications/subjective-value">{copy("subjective-value.title")}</a></h2>
         <p class="preserve-case">{copy("ui.index.feature-text")}</p>
         <p class="muted" set:html={copyRich("ui.index.feature-invite")} />
-        <a class="arrow-link" href="/publications/subjective-value?depth=story&step=1">{copy("ui.index.try-it")} <span aria-hidden="true">→</span></a>
+        <a class="arrow-link" href="/publications/subjective-value">{copy("ui.index.try-it")} <span aria-hidden="true">→</span></a>
         <p class="feature-citation"><span class="preserve-case">{copy("ui.index.orloff-park-blumwald-domenech")}</span> {copy("ui.index.colleagues")}<br />{copy("ui.index.biorxiv-may-2026")}</p>
       </div>
       <div class="home-plot"><ValuePreview /></div>

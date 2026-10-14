@@ -119,3 +119,5 @@
 
 /* The story only discusses the grid-like code; the positional map is in the details tab. */
 .publication-reader[data-depth="story"] .map-choices { display: none; }
+/* The reader keeps its own place when content changes (see selectDepth), so the browser's scroll anchoring stays out of it. */
+.publication-reader { overflow-anchor:none; }
