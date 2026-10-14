@@ -4980,3 +4980,281 @@ grid-like code: where activity rose and fell every 60 degrees as participants co
 <!-- copy: value-brain.scale -->
 the group maps on a standard brain surface, showing only the clusters that touch entorhinal or medial prefrontal cortex (the full maps are on NeuroVault). lighter means stronger evidence (the bar shows the t-statistic scale). thresholds are uncorrected and for display only; the paper’s tests are corrected within independently defined regions.
 <!-- /copy -->
+
+## Subjective value · rescaling explainer
+
+### page title
+
+<!-- copy: value-rescale.title -->
+why we rescale the value map
+<!-- /copy -->
+
+### page description
+
+<!-- copy: value-rescale.description -->
+how we turn dollars and chances into the value map in our study, and why both of its axes run from 0 to 1.
+<!-- /copy -->
+
+### intro
+
+<!-- copy: value-rescale.intro -->
+on the value maps, both axes run from 0 to 1. here’s how we get there from dollars and chances. pick any offer on the chart (hover or tap) to follow it through each step.
+<!-- /copy -->
+
+### step 1 · heading
+
+<!-- copy: value-rescale.step1.heading -->
+step 1: from dollars to value
+<!-- /copy -->
+
+### step 1 · text
+
+<!-- copy: value-rescale.step1.text -->
+first, we use your choices to estimate two curves. one turns each chance into a ‘subjective probability’: how much a chance *seems* when you choose. the other turns each amount into ‘utility’: how much that amount is worth to you. switch the chart to *after preferences* to watch every offer move.
+<!-- /copy -->
+
+### step 1 · decision weights
+
+<!-- copy: value-rescale.weights.text -->
+subjective probabilities have fixed ends: a 0% chance always counts as 0, and a 100% chance always counts as 1. so each one means something on its own. {{source}}, an 80% chance seems like {{weight}}{{toyou}}.
+<!-- /copy -->
+
+### step 1 · utility
+
+<!-- copy: value-rescale.utility.text -->
+utility is different: it has no natural unit. we could count $1 as 1 unit, or $10 as 10 units, and every choice the model predicts would stay exactly the same. so it isn’t quite right to say that $3 feels like {{three}}{{toyou}}. what is meaningful is the shape of the curve. {{gaps}}
+<!-- /copy -->
+
+### step 1 · whose numbers, before any choices
+
+<!-- copy: value-rescale.source.example -->
+with the example preferences (make a few choices below to see your own)
+<!-- /copy -->
+
+### step 1 · whose numbers, after choosing
+
+<!-- copy: value-rescale.source.yours -->
+based on the choices you’ve made
+<!-- /copy -->
+
+### step 1 · utility gaps, before any choices
+
+<!-- copy: value-rescale.whose.example -->
+with the example preferences
+<!-- /copy -->
+
+### step 1 · utility gaps, after choosing
+
+<!-- copy: value-rescale.whose.yours -->
+with your preferences
+<!-- /copy -->
+
+### step 1 · added after a number once it’s the visitor’s own
+
+<!-- copy: value-rescale.to-you -->
+*to you*
+<!-- /copy -->
+
+### step 1 · utility gaps when the curve flattens
+
+<!-- copy: value-rescale.gaps.less -->
+$3 and $5 are $2 apart, and so are $8 and $10. counted in utility {{whose}}, the first gap is {{low}} units ({{u5}} − {{u3}}), but the second is only {{high}} units ({{u10}} − {{u8}}): the same $2 is worth less{{toyou}} higher up. economists call this ‘diminishing marginal utility’.
+<!-- /copy -->
+
+### step 1 · utility gaps when the curve steepens
+
+<!-- copy: value-rescale.gaps.more -->
+$3 and $5 are $2 apart, and so are $8 and $10. counted in utility {{whose}}, the first gap is {{low}} units ({{u5}} − {{u3}}), and the second is {{high}} units ({{u10}} − {{u8}}): the same $2 is worth *more*{{toyou}} higher up. that’s the opposite of the usual ‘diminishing marginal utility’ in economics.
+<!-- /copy -->
+
+### step 1 · utility gaps when the curve is straight
+
+<!-- copy: value-rescale.gaps.same -->
+$3 and $5 are $2 apart, and so are $8 and $10. counted in utility {{whose}}, the gaps are {{low}} and {{high}} units: about the same, so each extra dollar is worth about the same{{toyou}}.
+<!-- /copy -->
+
+### step 2 · heading
+
+<!-- copy: value-rescale.step2.heading -->
+step 2: rescaling
+<!-- /copy -->
+
+### step 2 · text
+
+<!-- copy: value-rescale.step2.text -->
+since utility has no natural unit, we rescale both axes to the range of offers in the task: the least likely chance and the smallest prize sit at 0, and the surest chance and the biggest prize sit at 1. so a 10% offer at 0 doesn’t mean a 0% chance. it’s just the least likely offer in the set.
+<!-- /copy -->
+
+### step 2 · why the map needs it
+
+<!-- copy: value-rescale.why.text -->
+this matters for the map. the grid-like signal we looked for depends on the direction of each comparison across the map, and a direction only means something when both axes are on the same scale: stretch one axis, and every angle changes.
+<!-- /copy -->
+
+### step 2 · the brain
+
+<!-- copy: value-rescale.brain.text -->
+it also fits how the brain seems to handle value. dopamine neurons (Tobler and colleagues, 2005) and neurons in orbitofrontal cortex (Padoa-Schioppa, 2009) adapt their value signals to the range of options on offer, rather than coding amounts on a fixed scale, called 'range adaptation'. and in our study, the brain’s grid-like signal fit the rescaled map. when we try our same analyses on a map that does not rescale each axis, we do not see effects as strong as when we do rescale.
+<!-- /copy -->
+
+### game · heading
+
+<!-- copy: value-rescale.game.heading -->
+watch your map change
+<!-- /copy -->
+
+### game · text
+
+<!-- copy: value-rescale.game.text -->
+the more choices you make, the better we can estimate your map. keep choosing below, and watch your map shift with each answer.
+<!-- /copy -->
+
+### game · prompt
+
+<!-- copy: value-rescale.game.prompt -->
+which would you rather play?
+<!-- /copy -->
+
+### game · prompt when finished
+
+<!-- copy: value-rescale.game.done -->
+that’s {{count}} choices, as many as this demo asks. your map is as sharp as it gets here.
+<!-- /copy -->
+
+### game · screen reader label for the two offers
+
+<!-- copy: value-rescale.game.options -->
+two money offers
+<!-- /copy -->
+
+### game · fit before any choices
+
+<!-- copy: value-rescale.fit.example -->
+these are example preferences until you choose: an 80% chance seems like {{weight}}, and $10 is worth {{ratio}} times as much as $5.
+<!-- /copy -->
+
+### game · fit after one choice
+
+<!-- copy: value-rescale.fit.one -->
+after 1 choice: an 80% chance seems like {{weight}} *to you*, and $10 is worth {{ratio}} times as much as $5 *to you*.
+<!-- /copy -->
+
+### game · fit after several choices
+
+<!-- copy: value-rescale.fit.yours -->
+after {{count}} choices: an 80% chance seems like {{weight}} *to you*, and $10 is worth {{ratio}} times as much as $5 *to you*.
+<!-- /copy -->
+
+### game · start over
+
+<!-- copy: value-rescale.reset -->
+start over
+<!-- /copy -->
+
+### chart · step buttons label
+
+<!-- copy: value-rescale.stage.label -->
+which step to show
+<!-- /copy -->
+
+### chart · step: amounts
+
+<!-- copy: value-rescale.stage.amounts -->
+dollars and chances
+<!-- /copy -->
+
+### chart · step: after preferences
+
+<!-- copy: value-rescale.stage.felt -->
+after preferences
+<!-- /copy -->
+
+### chart · step: rescaled
+
+<!-- copy: value-rescale.stage.map -->
+rescaled map
+<!-- /copy -->
+
+### chart · axis: chance
+
+<!-- copy: value-rescale.axis.amounts.x -->
+chance of winning
+<!-- /copy -->
+
+### chart · axis: amount
+
+<!-- copy: value-rescale.axis.amounts.y -->
+amount to win
+<!-- /copy -->
+
+### chart · axis: decision weight
+
+<!-- copy: value-rescale.axis.felt.x -->
+subjective probability
+<!-- /copy -->
+
+### chart · axis: utility
+
+<!-- copy: value-rescale.axis.felt.y -->
+utility ($1 = 1 unit)
+<!-- /copy -->
+
+### chart · axis: rescaled weight
+
+<!-- copy: value-rescale.axis.map.x -->
+subjective probability, rescaled (0 = least likely offer)
+<!-- /copy -->
+
+### chart · axis: rescaled utility
+
+<!-- copy: value-rescale.axis.map.y -->
+utility, rescaled (0 = smallest prize)
+<!-- /copy -->
+
+### chart · readout: amounts
+
+<!-- copy: value-rescale.readout.amounts -->
+{{chance}} chance of {{amount}}, as offered.
+<!-- /copy -->
+
+### chart · readout: after preferences
+
+<!-- copy: value-rescale.readout.felt -->
+{{chance}} chance of {{amount}}: the chance seems like {{weight}}{{toyou}}, and the amount is worth {{units}} units. the dashed ring shows where it would sit with no preferences at all.
+<!-- /copy -->
+
+### chart · readout: rescaled
+
+<!-- copy: value-rescale.readout.map -->
+{{chance}} chance of {{amount}} sits {{x}} of the way across the rescaled map and {{y}} of the way up.
+<!-- /copy -->
+
+### chart · screen reader label
+
+<!-- copy: value-rescale.canvas -->
+chart of every offer in the task at the chosen step. use the arrow keys to pick an offer.
+<!-- /copy -->
+
+### references · heading
+
+<!-- copy: value-rescale.references.heading -->
+references
+<!-- /copy -->
+
+### references · Tobler
+
+<!-- copy: value-rescale.references.tobler -->
+Tobler, Fiorillo & Schultz (2005). Adaptive coding of reward value by dopamine neurons. Science.
+<!-- /copy -->
+
+### references · Padoa-Schioppa
+
+<!-- copy: value-rescale.references.padoa -->
+Padoa-Schioppa (2009). Range-adapting representation of economic value in the orbitofrontal cortex. Journal of Neuroscience.
+<!-- /copy -->
+
+### link from the value maps
+
+<!-- copy: value-rescale.link -->
+why rescale? learn more →
+<!-- /copy -->

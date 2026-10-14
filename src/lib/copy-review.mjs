@@ -11,7 +11,7 @@ const pages = [
   ['the brain can build a map from smells', /^(smell-and-space\.|smell-brain\.|ui\.odor-map\.|ui\.odor-compass\.)/],
   ['following the crowd as a shortcut', /^(social-conformity\.|ui\.social-plot\.|ui\.fog-game\.|ui\.social-conformity\.)/],
   ['learning on a break', /^(maps-at-rest\.|ui\.rest-map\.|replay\.)/],
-  ['preferences shape how the brain maps options', /^(subjective-value\.|ui\.value-map\.|ui\.value-copy\.|value\.|value-brain\.|brain-map\.)/],
+  ['preferences shape how the brain maps options', /^(subjective-value\.|ui\.value-map\.|ui\.value-copy\.|value\.|value-brain\.|brain-map\.|value-rescale\.)/],
 ];
 export const pageOf = key => pages.find(([, pattern]) => pattern.test(key))?.[0] ?? 'shared bits (charts, labels, nav, footer)';
 export const pageOrder = [...pages.map(([name]) => name), 'shared bits (charts, labels, nav, footer)'];

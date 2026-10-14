@@ -20,6 +20,7 @@ import '../styles/paper-plots.css';
       <div class="chart-canvas" set:html={valueSVG(valueLayout())} />
       <p class="map-reading-key" data-map-reading-key></p>
       <p class="chart-readout" data-value-readout aria-live="polite"></p>
+      <a class="arrow-link rescale-link" href="/publications/subjective-value/rescaling" data-rescale-link hidden>{copy('value-rescale.link')}</a>
     </div>
     <noscript><p>{copy("ui.value-map.this-activity-needs-javascript-the-full")}</p></noscript>
   </figure>

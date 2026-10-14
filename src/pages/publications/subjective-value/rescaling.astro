@@ -1,0 +1,53 @@
+---
+// Explainer linked from the value maps ("why rescale?"): how dollars and chances become the 0–1 map.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import RescaleExplainer from '../../../components/RescaleExplainer.astro';
+import { copy, copyRich } from '../../../lib/site-copy.mjs';
+import { explainerTokens, examplePreferences } from '../../../lib/rescale.mjs';
+// These paragraphs quote numbers from the example settings; the page swaps in the visitor's own once they choose.
+const tokens = explainerTokens(examplePreferences);
+const references = [
+  { key: 'value-rescale.references.tobler', href: 'https://doi.org/10.1126/science.1105370' },
+  { key: 'value-rescale.references.padoa', href: 'https://doi.org/10.1523/JNEUROSCI.3751-09.2009' },
+];
+---
+<BaseLayout title={copy('value-rescale.title')} description={copy('value-rescale.description')}>
+  <article class="rescale-page preserve-case">
+    <header class="page-intro">
+      <a class="back-link text-link" href="/publications/subjective-value">← {copy('subjective-value.title')}</a>
+      <h1>{copy('value-rescale.title')}</h1>
+      <p set:html={copyRich('value-rescale.intro')} />
+    </header>
+    <RescaleExplainer>
+      <section>
+        <h2>{copy('value-rescale.step1.heading')}</h2>
+        <p set:html={copyRich('value-rescale.step1.text')} />
+        <p data-rescale-copy="value-rescale.weights.text" set:html={copyRich('value-rescale.weights.text', tokens)} />
+        <p data-rescale-copy="value-rescale.utility.text" set:html={copyRich('value-rescale.utility.text', tokens)} />
+      </section>
+      <section>
+        <h2>{copy('value-rescale.step2.heading')}</h2>
+        <p set:html={copyRich('value-rescale.step2.text')} />
+        <p set:html={copyRich('value-rescale.why.text')} />
+        <p set:html={copyRich('value-rescale.brain.text')} />
+      </section>
+      <section>
+        <h2>{copy('value-rescale.game.heading')}</h2>
+        <p set:html={copyRich('value-rescale.game.text')} />
+      </section>
+      <section slot="after" class="rescale-references">
+        <p class="section-label">{copy('value-rescale.references.heading')}</p>
+        {references.map(r => <p><a class="text-link" href={r.href}>{copy(r.key)} ↗</a></p>)}
+      </section>
+    </RescaleExplainer>
+  </article>
+</BaseLayout>
+<style>
+  .rescale-page .back-link { display:inline-block; font-size:12px; margin-bottom:22px; }
+  .rescale-page .page-intro h1 { font-size:clamp(36px, 5.4vw, 64px); }
+  .rescale-page :global(.rescale-text h2) { font:400 clamp(24px,2.6vw,30px)/1.2 var(--font-editorial); margin:8px 0 16px; }
+  .rescale-page section + section { margin-top:36px; }
+  .rescale-page section p { font-size:16px; line-height:1.75; }
+  .rescale-references { border-top:1px solid var(--color-line); padding-top:18px; margin-top:36px; }
+  .rescale-page .rescale-references p:not(.section-label) { font-size:13px; margin:0 0 8px; }
+</style>

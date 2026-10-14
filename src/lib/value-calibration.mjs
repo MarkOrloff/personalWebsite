@@ -52,6 +52,17 @@ export function replayAnswers(answers) {
   for(const answer of answers) weights=updatePosterior(weights,answer.question,answer.choice);
   return weights;
 }
+/** Choices saved as {id, choice} (sessionStorage); unknown or repeated questions are dropped. */
+export function answersFrom(saved) {
+  const seen = new Set();
+  return (Array.isArray(saved) ? saved : []).flatMap(item => {
+    const question = questions.find(q => q.id === item?.id);
+    if (!question || seen.has(question.id) || ![0, 1].includes(item.choice)) return [];
+    seen.add(question.id);
+    return [{ question, choice: item.choice }];
+  });
+}
+export const savedAnswers = answers => answers.map(a => ({ id: a.question.id, choice: a.choice }));
 export function predictChoice(options,alpha,rho) {
   const values=options.map(o=>subjectiveValue(o,alpha,rho));
   return Math.abs(values[0]-values[1])<.015 ? null : values[0]>values[1]?0:1;

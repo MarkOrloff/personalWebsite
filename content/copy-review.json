@@ -326,6 +326,11 @@
   "smell-and-space.brain.regions.0.role": "2026-10-13",
   "ui.research.how-i-study-this": "2026-10-14",
   "ui.about.site": "2026-10-14",
-  "explorer.description": "2026-10-14"
+  "explorer.description": "2026-10-14",
+  "value-rescale.intro": "2026-10-14",
+  "value-rescale.weights.text": "2026-10-14",
+  "value-rescale.why.text": "2026-10-14",
+  "value-rescale.brain.text": "2026-10-14",
+  "value-rescale.game.text": "2026-10-14"
  }
 }

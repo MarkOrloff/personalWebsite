@@ -1,4 +1,4 @@
-import { CHOICE_COUNT, nextQuestion, replayAnswers, estimatePreferences, predictChoice, unseenPair } from './value-calibration.mjs';
+import { CHOICE_COUNT, nextQuestion, replayAnswers, estimatePreferences, predictChoice, unseenPair, answersFrom } from './value-calibration.mjs';
 import { valuePairs } from './paper-plots.mjs';
 
 export const scenes = ['game', 'place-a', 'place-b', 'review', 'new', 'reliable', 'adventurous', 'personal', 'brain'];
@@ -16,6 +16,16 @@ export class ValueSession {
     const posterior = replayAnswers(this.answers);
     this.fit = estimatePreferences(posterior); this.origin = 'answers';
     this.question = this.answers.length < CHOICE_COUNT ? nextQuestion(posterior, this.answers.map(a => a.question.id)) : undefined;
+    return true;
+  }
+  /** Restores choices saved earlier in the visit, so moving around or reloading keeps them. */
+  load(saved) {
+    const answers = answersFrom(saved).slice(0, CHOICE_COUNT);
+    if (!answers.length) return false;
+    this.answers = answers;
+    const posterior = replayAnswers(answers);
+    this.fit = estimatePreferences(posterior); this.origin = 'answers';
+    this.question = answers.length < CHOICE_COUNT ? nextQuestion(posterior, answers.map(a => a.question.id)) : undefined;
     return true;
   }
   undo() {

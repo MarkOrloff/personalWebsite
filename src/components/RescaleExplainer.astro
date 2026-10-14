@@ -1,0 +1,66 @@
+---
+// Follows every offer from dollars and chances, through a visitor's preferences, to the rescaled map.
+// More choices refine the preferences, and the chart moves with each one (src/scripts/rescale-explainer.ts).
+import { copy } from '../lib/site-copy.mjs';
+import { offers, stages } from '../lib/rescale.mjs';
+import { chartBox } from '../lib/paper-plots.mjs';
+import '../styles/paper-plots.css';
+const box = chartBox(520, 360);
+---
+<!-- The page's text goes in the default slot, then the game, then the "after" slot; the chart stays beside them. -->
+<rescale-explainer class="paper-plot rescale-explainer" data-stage="felt">
+  <div class="rescale-text">
+  <slot />
+  <div class="rescale-game" hidden data-enhanced>
+    <h3 data-rescale-prompt>{copy('value-rescale.game.prompt')}</h3>
+    <div class="value-options" role="group" aria-label={copy('value-rescale.game.options')}>
+      {[0, 1].map(i => <button type="button" class={`value-option value-option-${i}`} data-rescale-choice={i}>
+        <span class="option-label">{copy('ui.value-map.option')} {copy(i === 0 ? 'ui.paper-plots.a' : 'ui.paper-plots.b')}</span>
+        <span class="option-offer"><i class="chance-pie" aria-hidden="true"></i><span class="option-numbers"><span><strong data-option-money></strong><small>{copy('ui.value-map.amount-label')}</small></span><span><strong data-option-chance></strong><small>{copy('ui.value-map.chance-label')}</small></span></span></span>
+        <span class="option-zero">{copy('ui.value-map.otherwise-0')}</span><span class="option-action">{copy('ui.value-map.choose-this')}</span>
+      </button>)}
+    </div>
+    <p class="game-response" data-rescale-fit role="status"></p>
+    <button type="button" class="text-button" data-rescale-reset hidden>{copy('value-rescale.reset')}</button>
+  </div>
+  <slot name="after" />
+  </div>
+  <figure class="rescale-figure">
+    <div class="chart-controls" role="group" aria-label={copy('value-rescale.stage.label')}>
+      {stages.map(stage => <button type="button" data-stage-choice={stage} aria-pressed={String(stage === 'felt')}>{copy(`value-rescale.stage.${stage}`)}</button>)}
+    </div>
+    <p class="chart-label" data-rescale-y>{copy('value-rescale.axis.felt.y')}</p>
+    <div class="chart-canvas">
+      <svg viewBox={`0 0 ${box.width} ${box.height}`} width={box.width} height={box.height} tabindex="0" role="img" aria-label={copy('value-rescale.canvas')}>
+        <g data-rescale-axes></g>
+        <g data-rescale-shift></g>
+        <g>{offers.map((o, i) => <circle class="gamble-dot" data-offer={i} r="4" />)}</g>
+        <g data-rescale-picked></g>
+      </svg>
+    </div>
+    <p class="chart-readout" data-rescale-readout aria-live="polite"></p>
+  </figure>
+  <noscript><p>{copy('ui.value-map.this-activity-needs-javascript-the-full')}</p></noscript>
+</rescale-explainer>
+<script>import '../scripts/rescale-explainer';</script>
+<style>
+  rescale-explainer { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:clamp(28px,5vw,64px); align-items:start; }
+  .rescale-figure { position:sticky; top:96px; min-width:0; margin:0; }
+  @media (max-width:900px) { rescale-explainer { grid-template-columns:1fr; } .rescale-figure { position:static; order:-1; } }
+  .rescale-game { margin:18px 0 8px; }
+  .rescale-game h3 { font-size:17px; margin:0 0 14px; }
+  .rescale-game .value-option { padding:14px 14px; }
+  .rescale-game .game-response { font-size:13px; color:var(--color-muted); margin:14px 0 6px; min-height:3em; }
+  .text-button { background:none; border:0; padding:0; color:var(--color-accent); font-size:12px; text-decoration:underline; text-underline-offset:3px; }
+  .rescale-explainer .chart-controls button { font-size:11px; padding:6px 10px; border:1px solid var(--color-line); border-radius:5px; background:none; }
+  .rescale-explainer .chart-controls button[aria-pressed="true"] { border-color:var(--color-fg); }
+  .rescale-explainer svg { cursor:crosshair; }
+  .rescale-explainer svg:focus-visible { outline:1px solid var(--color-accent); outline-offset:4px; }
+  .rescale-explainer .gamble-dot { opacity:.45; }
+  .rescale-explainer :global(.rescale-ghost) { fill:none; stroke:var(--color-muted); stroke-width:1.2; stroke-dasharray:2 2; }
+  .rescale-explainer :global(.rescale-arrow) { stroke:var(--color-accent); stroke-width:1.5; fill:none; }
+  .rescale-explainer :global(.rescale-guide) { stroke:var(--color-accent); stroke-width:1; stroke-dasharray:3 4; fill:none; }
+  .rescale-explainer :global(.rescale-guide-label) { fill:var(--color-accent); font-size:12px; }
+  .rescale-explainer :global(.rescale-dot) { fill:var(--color-accent); stroke:var(--color-fg); stroke-width:1.5; }
+  .rescale-explainer .chart-readout { min-height:4.8em; }
+</style>

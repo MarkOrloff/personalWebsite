@@ -210,3 +210,4 @@ social-plot[data-view="game"] > figure, social-plot[data-view="game"] > details 
 .fog-game .value-option.is-chosen { box-shadow:0 0 0 1px var(--option-color); background-color:var(--color-surface); }
 .fog-game[data-done="true"] .fog-options { display:none; }
 @media(max-width:500px) { .fog-option .chance-pie { width:52px; height:52px; } .fog-game h4 { font-size:22px; } }
+.rescale-link { display:inline-block; font-size:13px; margin-top:6px; }

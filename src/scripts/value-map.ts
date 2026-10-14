@@ -2,6 +2,8 @@ import { copy, copyHtml, richText } from "../lib/site-copy.mjs";
 import { fillValueCopy } from '../lib/value-copy.mjs';
 import { ValueSession } from '../lib/value-walkthrough.mjs';
 import { valueLayout, valueAxes, vectorPath } from '../lib/paper-plots.mjs';
+import { savedAnswers } from '../lib/value-calibration.mjs';
+import { recall, remember } from '../lib/game-memory.mjs';
 
 class ValueMap extends HTMLElement {
   session = new ValueSession();
@@ -10,8 +12,11 @@ class ValueMap extends HTMLElement {
   drawn = false;
   connectedCallback() {
     this.abort = new AbortController();
+    // Choices last for the visit; the rescaling explainer picks them up too.
+    this.session.load(recall('value', (saved: unknown) => Array.isArray(saved)));
     this.querySelectorAll<HTMLButtonElement>('[data-value-choice]').forEach(button => button.addEventListener('click', () => {
       if (!this.session.choose(Number(button.dataset.valueChoice))) return;
+      remember('value', savedAnswers(this.session.answers));
       this.draw();
       this.dispatchEvent(new CustomEvent('plot-state-change', { bubbles: true }));
       // Keep keyboard users at the next question, or at the one story control.
@@ -25,7 +30,11 @@ class ValueMap extends HTMLElement {
   setView(view: string) { this.session.enter(view); this.dataset.view = this.session.scene; this.draw(true); }
   readingState() { return { ...(this.session.fit ? { alpha: this.session.fit.alpha.toFixed(2), rho: this.session.fit.rho.toFixed(2) } : {}), choice: String(this.session.reviewIndex + 1) }; }
   restoreReadingState(params: URLSearchParams) { this.session.restore(params); }
-  advanceStory(direction: number) { const moved = this.session.advance(direction); if (moved) this.draw(true); return moved; }
+  advanceStory(direction: number) {
+    const moved = this.session.advance(direction);
+    if (moved) { remember('value', savedAnswers(this.session.answers)); this.draw(true); }
+    return moved;
+  }
   storyNavigation() {
     const s = this.session, n = s.answers.length;
     if (s.scene === 'game') return { next: n === 5 ? copy("ui.value-map.put-my-choices-on-a-map") : n ? n === 1 ? copy("ui.value-map.use-this-choice") : copy("ui.value-map.use-these-value-choices", { value1: n }) : copy("ui.value-map.skip-with-example-choices"), previous: copy("ui.value-map.undo-choice"), canGoBack: n > 0, detail: copy("ui.value-map.value-5-choices", { value1: n }) };
@@ -95,6 +104,8 @@ class ValueMap extends HTMLElement {
     this.querySelector('[data-map-guides]')!.innerHTML = guided ? `<path class="map-guide" d="M${l.left},${p.y}H${p.x}V${l.bottom}"/>${p.a!==1&&p.a!==10?`<text class="map-guide-label" text-anchor="end" x="${l.left - 10}" y="${p.y + 4}">${copyHtml("format.money",{amount:p.a})}</text>`:''}${p.p!==.1&&p.p!==1?`<text class="map-guide-label" text-anchor="middle" x="${p.x}" y="${l.bottom + 25}">${copyHtml("format.percent",{percent:Math.round(p.p*100)})}</text>`:''}` : '';
     this.querySelector('[data-map-annotation]')!.innerHTML = `<text class="map-corner-label" x="${l.right}" y="${l.top-10}" text-anchor="end">${copyHtml("value.annotation.favorable-corner")}</text><path class="map-corner-bracket" d="M${l.right-13},${l.top}H${l.right}V${l.top+13}"/>`;
     this.querySelector('[data-map-reading-key]')!.textContent = copy(subjective?'value.annotation.subjective':'value.annotation.objective');
+    // The rescaled map links to the page explaining why its axes run from 0 to 1.
+    this.querySelector<HTMLElement>('[data-rescale-link]')!.hidden = !subjective;
     const pred = s.prediction;
     const readout = s.scene === 'place-a' ? copy("ui.value-map.option-a-go-across-to-value", { value1: Math.round(pair[0].p * 100), value2: pair[0].a }) : s.scene === 'place-b' ? copy("ui.value-map.option-b-goes-at-value-and", { value1: Math.round(pair[1].p * 100), value2: pair[1].a }) : s.scene === 'review' ? n ? copy("ui.value-map.the-ring-marks-your-answer-the") : copy("ui.value-map.each-end-of-the-line-is") : subjective ? copy("ui.value-map.value-the-offers-are-unchanged-their", { value1: pred === null ? copy("ui.value-map.these-settings-put-the-two-offers") : copy("ui.value-map.with-these-preferences-the-model-favors", { value1: copy(pred === 0 ? "ui.paper-plots.a" : "ui.paper-plots.b") }) }) : copy("ui.value-map.two-new-offers-located-using-the");
     this.querySelector('[data-value-readout]')!.textContent = readout;

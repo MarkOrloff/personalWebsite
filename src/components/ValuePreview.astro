@@ -10,6 +10,7 @@ import '../styles/paper-plots.css';
     <p class="chart-label">{copy("ui.value-preview.a-30-chance-of-8-b")}</p>
     <div class="chart-canvas" set:html={valueSVG(valueLayout())} />
     <figcaption data-preview-caption data-objective={copy('home.preview.caption.objective')} data-subjective={copy('home.preview.caption.subjective')}>{copy('home.preview.caption.objective')}</figcaption>
+    <a class="arrow-link rescale-link" href="/publications/subjective-value/rescaling" data-preview-rescale hidden>{copy('value-rescale.link')}</a>
   </figure>
 </value-preview>
 <script>
@@ -32,6 +33,8 @@ class ValuePreview extends HTMLElement {
     this.querySelector('.decision-path')!.setAttribute('d',vectorPath(l));
     this.querySelectorAll<HTMLButtonElement>('[data-preview-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.previewView===this.view)));
     const caption=this.querySelector<HTMLElement>('[data-preview-caption]')!;caption.textContent=caption.dataset[this.view]!;
+    // The rescaled map links to the page explaining why its axes run from 0 to 1.
+    this.querySelector<HTMLElement>('[data-preview-rescale]')!.hidden=this.view!=='subjective';
   }
 }
 if(!customElements.get('value-preview'))customElements.define('value-preview',ValuePreview);
