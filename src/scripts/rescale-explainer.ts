@@ -96,7 +96,7 @@ class RescaleExplainer extends HTMLElement {
     const box = this.box!, range = stageRange(this.stage, this.preferences);
     const ticks = this.stage === 'map' ? [0, 1] : [0, .5, 1];
     const label = (axis: 'x' | 'y', t: number) => this.stage === 'amounts' ? (axis === 'x' ? percent(t) : money(t * 10))
-      : this.stage === 'felt' ? (axis === 'x' ? String(t) : String(Math.round(t * range.y * 10) / 10)) : String(t);
+      : this.stage === 'felt' ? (axis === 'x' ? percent(t) : String(Math.round(t * range.y * 10) / 10)) : String(t);
     const at = (t: number) => this.pixel({ x: t, y: t });
     return `<path class="chart-spine" d="M${box.left},${box.top}V${box.bottom}H${box.right}"/>`
       + ticks.map(t => `<text x="${at(t).x}" y="${box.bottom + 24}" text-anchor="middle">${label('x', t)}</text><text x="${box.left - 10}" y="${at(t).y + 5}" text-anchor="end">${label('y', t)}</text>`).join('')
@@ -105,7 +105,7 @@ class RescaleExplainer extends HTMLElement {
   drawPicked() {
     if (!this.box) return;
     const offer = offers[this.picked], s = offerStages(offer, this.preferences), p = this.positions[this.picked], box = this.box;
-    const xText = this.stage === 'amounts' ? percent(offer.p) : this.stage === 'felt' ? `${percent(offer.p)} → ${s.weight.toFixed(2)}` : s.map.x.toFixed(2);
+    const xText = this.stage === 'amounts' ? percent(offer.p) : this.stage === 'felt' ? `${percent(offer.p)} → ${percent(s.weight)}` : s.map.x.toFixed(2);
     const yText = this.stage === 'amounts' ? money(offer.a) : this.stage === 'felt' ? `${money(offer.a)} → ${s.units.toFixed(2)}` : s.map.y.toFixed(2);
     // After preferences, a faint ring marks where the offer would sit with no preferences at all.
     const ghost = this.stage === 'felt' ? this.pixel({ x: offer.p, y: offer.a / stageRange('felt', this.preferences).y }) : null;
