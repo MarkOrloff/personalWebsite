@@ -1,0 +1,38 @@
+---
+import { copy } from '../lib/site-copy';
+import {valueLayout,valueSVG} from '../lib/paper-plots.mjs';
+import '../styles/paper-plots.css';
+---
+<value-preview class="paper-plot" data-view="objective">
+  <figure>
+    <h3>{copy("ui.value-preview.more-to-win-or-a-better")}</h3>
+    <div class="chart-controls" role="group" aria-label={copy("ui.value-preview.preview-map")} hidden><button type="button" data-preview-view="objective" aria-pressed="true">{copy("ui.value-preview.the-objective-map")}</button><button type="button" data-preview-view="subjective" aria-pressed="false">{copy("ui.value-preview.add-a-preference")}</button></div>
+    <p class="chart-label">{copy("ui.value-preview.a-30-chance-of-8-b")}</p>
+    <div class="chart-canvas" set:html={valueSVG(valueLayout())} />
+    <figcaption data-preview-caption data-objective={copy('home.preview.caption.objective')} data-subjective={copy('home.preview.caption.subjective')}>{copy('home.preview.caption.objective')}</figcaption>
+  </figure>
+</value-preview>
+<script>
+import {valueLayout,valueAxes,vectorPath} from '../lib/paper-plots.mjs';
+class ValuePreview extends HTMLElement {
+  view='objective';observer?:ResizeObserver;abort?:AbortController;
+  connectedCallback(){
+    this.abort=new AbortController();this.querySelector<HTMLElement>('.chart-controls')!.hidden=false;
+    this.addEventListener('click',event=>{const b=(event.target as Element).closest<HTMLButtonElement>('[data-preview-view]');if(!b)return;this.view=b.dataset.previewView!;this.draw();},{signal:this.abort.signal});
+    this.observer=new ResizeObserver(()=>this.draw());this.observer.observe(this);this.draw();
+  }
+  disconnectedCallback(){this.observer?.disconnect();this.abort?.abort();}
+  draw(){
+    const width=this.querySelector('.chart-canvas')!.getBoundingClientRect().width;if(!width)return;
+    const l=valueLayout(width,this.view,.55,.8);this.dataset.animate='true';
+    const svg=this.querySelector('svg')!;svg.setAttribute('viewBox',`0 0 ${width} ${l.height}`);svg.setAttribute('width',String(width));svg.setAttribute('height',String(l.height));
+    this.querySelector('[data-map-axes]')!.innerHTML=valueAxes(l);
+    l.points.forEach(p=>this.querySelector<SVGElement>(`[data-gamble="${p.id}"]`)!.style.transform=`translate(${p.x}px,${p.y}px)`);
+    l.chosen.forEach((p,i)=>this.querySelector<SVGElement>(`[data-option="${i}"]`)!.style.transform=`translate(${p.x}px,${p.y}px)`);
+    this.querySelector('.decision-path')!.setAttribute('d',vectorPath(l));
+    this.querySelectorAll<HTMLButtonElement>('[data-preview-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.previewView===this.view)));
+    const caption=this.querySelector<HTMLElement>('[data-preview-caption]')!;caption.textContent=caption.dataset[this.view]!;
+  }
+}
+if(!customElements.get('value-preview'))customElements.define('value-preview',ValuePreview);
+</script>

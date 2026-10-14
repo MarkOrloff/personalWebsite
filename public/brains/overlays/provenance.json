@@ -1,0 +1,425 @@
+{
+  "study": "Orloff et al., A cognitive map of subjective value space for human risky choice (bioRxiv preprint, 2026); NeuroVault collection 21751",
+  "method": "fsaverage5 white and pial surfaces (Nilearn, matching the FreeSurfer reference pial) are taken as MNI305 coordinates and moved to MNI152 with FreeSurfer's linear MNI305-to-MNI152 matrix. Each vertex samples the group t map with trilinear interpolation at 7 evenly spaced depths from white (0) to pial (1); the mean is kept. Voxels outside the image read as 0. Destrieux Medial_wall vertices are set to 0, except near anterior piriform cortex. Values are positive-only and thresholded for display, and only surface clusters touching the expected regions are kept.",
+  "mni305_to_mni152": [
+    [
+      0.9975,
+      -0.0073,
+      0.0176,
+      -0.0429
+    ],
+    [
+      0.0146,
+      1.0009,
+      -0.0024,
+      1.5496
+    ],
+    [
+      -0.013,
+      -0.0093,
+      0.9971,
+      1.184
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "mni305_to_mni152_source": "https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems (item 8)",
+  "depths": [
+    0.0,
+    0.16666666666666666,
+    0.3333333333333333,
+    0.5,
+    0.6666666666666666,
+    0.8333333333333333,
+    1.0
+  ],
+  "thresholds": {
+    "neurovault-1009070.json": {
+      "t": 1.6909242551868553,
+      "p_one_sided": 0.05,
+      "df": 34,
+      "computed_with": "scipy.stats.t.isf(0.05, 34)"
+    },
+    "neurovault-1009072.json": {
+      "t": 2.4411496279064835,
+      "p_one_sided": 0.01,
+      "df": 34,
+      "computed_with": "scipy.stats.t.isf(0.01, 34)"
+    }
+  },
+  "note": "Display only, uncorrected, and only clusters touching entorhinal or medial prefrontal cortex. The paper's tests are corrected within independently defined regions.",
+  "regions": {
+    "ec": "Desikan-Killiany entorhinal parcel",
+    "mpfc": "vmpfc plus mpfc masks from public/brains",
+    "piriform": "vertices within 12 mm (mid-thickness, MNI152) of {'left': [-22, 5, -18], 'right': [22, 5, -18]}, medial wall included",
+    "kept": "a cluster is kept if any vertex is within two edges of the region"
+  },
+  "encoding": "Per-vertex integers round(t * scale) for shown vertices; 0 = not shown. Arrays follow fsaverage5 vertex order. regions[name][hemisphere] lists the shown vertices of each region's clusters; outlines[name][hemisphere] the ring around them.",
+  "surfaces": {
+    "white_left.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/white_left.gii.gz",
+      "bytes": 200092,
+      "sha256": "ecd590c1405e5553604fd4b113cee13d62638e5fb4084438201db82a4c711c64"
+    },
+    "white_right.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/white_right.gii.gz",
+      "bytes": 200089,
+      "sha256": "bd0f184539c82eae3b5b22297c4b5f64f901e276152f79d9fa62337f7e0d30d8"
+    }
+  },
+  "overlays": {
+    "neurovault-1009070.json": {
+      "name": "subjective grid-like code",
+      "df": 34,
+      "regions": {
+        "ec": "1009070",
+        "mpfc": "1009070"
+      },
+      "sources": {
+        "1009070": {
+          "neurovault_image": 1009070,
+          "name": "subjective grid-like code",
+          "collection": "http://neurovault.org/collections/21751/",
+          "image_page": "https://neurovault.org/images/1009070/",
+          "api": "https://neurovault.org/api/images/1009070/",
+          "source_url": "https://neurovault.org/media/images/21751/spmT_0001.nii_3.nii.gz",
+          "source_file_name": "spmT_0001.nii_3.nii.gz",
+          "source_bytes": 273925,
+          "source_sha256": "12020707bb9e6ab7a24cf798fdb57f8c2e12ecd7b710432503c4cbac92b54bab",
+          "map_type": "T map",
+          "participants": 35,
+          "template": "MNI152NLin2009cAsym",
+          "voxel_size_mm": [
+            3.0,
+            3.0,
+            3.0
+          ],
+          "affine": [
+            [
+              3.0,
+              0.0,
+              0.0,
+              -96.5
+            ],
+            [
+              0.0,
+              3.0,
+              0.0,
+              -132.5
+            ],
+            [
+              0.0,
+              0.0,
+              3.0,
+              -78.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "volume_check": {
+            "cluster_forming_threshold": 2.44115,
+            "cluster_forming_p": 0.01,
+            "largest_clusters": [
+              {
+                "voxels": 77,
+                "peak_t": 3.19,
+                "peak_mni": [
+                  50.5,
+                  -24.5,
+                  26.5
+                ]
+              },
+              {
+                "voxels": 37,
+                "peak_t": 4.28,
+                "peak_mni": [
+                  -30.5,
+                  -18.5,
+                  -30.5
+                ]
+              },
+              {
+                "voxels": 33,
+                "peak_t": 3.03,
+                "peak_mni": [
+                  -57.5,
+                  -27.5,
+                  29.5
+                ]
+              },
+              {
+                "voxels": 26,
+                "peak_t": 3.26,
+                "peak_mni": [
+                  -21.5,
+                  -66.5,
+                  -51.5
+                ]
+              },
+              {
+                "voxels": 25,
+                "peak_t": 3.36,
+                "peak_mni": [
+                  -18.5,
+                  11.5,
+                  44.5
+                ]
+              },
+              {
+                "voxels": 25,
+                "peak_t": 3.51,
+                "peak_mni": [
+                  32.5,
+                  -18.5,
+                  -24.5
+                ]
+              },
+              {
+                "voxels": 21,
+                "peak_t": 2.86,
+                "peak_mni": [
+                  53.5,
+                  -72.5,
+                  2.5
+                ]
+              },
+              {
+                "voxels": 20,
+                "peak_t": 2.85,
+                "peak_mni": [
+                  -9.5,
+                  38.5,
+                  -9.5
+                ]
+              }
+            ],
+            "at_reported_peaks": {
+              "right EC": 2.42,
+              "mPFC": 2.73
+            }
+          }
+        }
+      },
+      "shown_vertices": {
+        "left": 76,
+        "right": 82
+      },
+      "max_t_on_surface": 3.76,
+      "output_sha256": "74ce9e70e6ba24a5eb66ecd10ed767ba6f9167a0dcc9afdb0e2e8878d97157a4",
+      "checks": {
+        "surface": {
+          "left": {
+            "shown_vertices": 76,
+            "by_desikan_label": {
+              "medialorbitofrontal": 21,
+              "rostralanteriorcingulate": 19,
+              "parahippocampal": 14,
+              "fusiform": 9,
+              "unknown": 5,
+              "entorhinal": 4,
+              "superiorfrontal": 3,
+              "caudalanteriorcingulate": 1
+            }
+          },
+          "right": {
+            "shown_vertices": 82,
+            "by_desikan_label": {
+              "fusiform": 31,
+              "medialorbitofrontal": 15,
+              "parahippocampal": 15,
+              "inferiortemporal": 9,
+              "rostralanteriorcingulate": 7,
+              "entorhinal": 2,
+              "superiorfrontal": 2,
+              "lateralorbitofrontal": 1
+            }
+          }
+        }
+      }
+    },
+    "neurovault-1009072.json": {
+      "name": "subjective 2D positional code",
+      "df": 34,
+      "regions": {
+        "ec": "1009072",
+        "mpfc": "1009072"
+      },
+      "sources": {
+        "1009072": {
+          "neurovault_image": 1009072,
+          "name": "subjective 2D positional code",
+          "collection": "http://neurovault.org/collections/21751/",
+          "image_page": "https://neurovault.org/images/1009072/",
+          "api": "https://neurovault.org/api/images/1009072/",
+          "source_url": "https://neurovault.org/media/images/21751/spmT_0001.nii_5.nii.gz",
+          "source_file_name": "spmT_0001.nii_5.nii.gz",
+          "source_bytes": 274850,
+          "source_sha256": "1290eaf51ea75f52e80a76012a6f50e1940b4542aa0c14db9b0d61312c014e52",
+          "map_type": "T map",
+          "participants": 35,
+          "template": "MNI152NLin2009cAsym",
+          "voxel_size_mm": [
+            3.0,
+            3.0,
+            3.0
+          ],
+          "affine": [
+            [
+              3.0,
+              0.0,
+              0.0,
+              -96.5
+            ],
+            [
+              0.0,
+              3.0,
+              0.0,
+              -132.5
+            ],
+            [
+              0.0,
+              0.0,
+              3.0,
+              -78.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "volume_check": {
+            "cluster_forming_threshold": 2.44115,
+            "cluster_forming_p": 0.01,
+            "largest_clusters": [
+              {
+                "voxels": 409,
+                "peak_t": 3.79,
+                "peak_mni": [
+                  26.5,
+                  5.5,
+                  -39.5
+                ]
+              },
+              {
+                "voxels": 297,
+                "peak_t": 3.3,
+                "peak_mni": [
+                  14.5,
+                  38.5,
+                  14.5
+                ]
+              },
+              {
+                "voxels": 218,
+                "peak_t": 3.26,
+                "peak_mni": [
+                  -36.5,
+                  2.5,
+                  -36.5
+                ]
+              },
+              {
+                "voxels": 217,
+                "peak_t": 4.34,
+                "peak_mni": [
+                  17.5,
+                  -87.5,
+                  -6.5
+                ]
+              },
+              {
+                "voxels": 90,
+                "peak_t": 3.21,
+                "peak_mni": [
+                  68.5,
+                  -18.5,
+                  -24.5
+                ]
+              },
+              {
+                "voxels": 79,
+                "peak_t": 3.13,
+                "peak_mni": [
+                  -21.5,
+                  26.5,
+                  26.5
+                ]
+              },
+              {
+                "voxels": 64,
+                "peak_t": 2.71,
+                "peak_mni": [
+                  -33.5,
+                  -72.5,
+                  -45.5
+                ]
+              },
+              {
+                "voxels": 30,
+                "peak_t": 2.69,
+                "peak_mni": [
+                  8.5,
+                  35.5,
+                  -30.5
+                ]
+              }
+            ],
+            "at_reported_peaks": {
+              "left EC": 3.08,
+              "right EC": 3.75,
+              "mPFC": 3.16
+            }
+          }
+        }
+      },
+      "shown_vertices": {
+        "left": 57,
+        "right": 154
+      },
+      "max_t_on_surface": 3.74,
+      "output_sha256": "cc975b455e3ec81cc0095840d1cc5ede69aa41dd3faa9189d741e6604cc099bd",
+      "checks": {
+        "surface": {
+          "left": {
+            "shown_vertices": 57,
+            "by_desikan_label": {
+              "inferiortemporal": 23,
+              "fusiform": 15,
+              "temporalpole": 12,
+              "middletemporal": 3,
+              "caudalanteriorcingulate": 2,
+              "corpuscallosum": 2
+            }
+          },
+          "right": {
+            "shown_vertices": 154,
+            "by_desikan_label": {
+              "superiorfrontal": 31,
+              "rostralmiddlefrontal": 28,
+              "temporalpole": 25,
+              "middletemporal": 19,
+              "inferiortemporal": 16,
+              "fusiform": 12,
+              "entorhinal": 10,
+              "rostralanteriorcingulate": 4,
+              "lateralorbitofrontal": 3,
+              "superiortemporal": 3,
+              "frontalpole": 2,
+              "medialorbitofrontal": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

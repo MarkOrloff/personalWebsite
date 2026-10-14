@@ -1,21 +1,8 @@
 ---
+import { copy } from "../lib/site-copy.mjs";
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/PageHeader.astro';
-import Card from '../components/Card.astro';
-import { getCollection } from 'astro:content';
-
-const projects = await getCollection('projects');
 ---
-<BaseLayout title="projects" description="selected projects">
-	<PageHeader title="projects" />
-	{projects.length === 0 && (
-		<p class="muted">no projects added yet. add markdown files to <span class="preserve-case">src/content/projects</span>.</p>
-	)}
-	<div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
-		{projects.map(({ id, data }) => (
-			<Card title={data.title} description={data.summary} href={data.links?.demo || data.links?.paper || data.links?.code} />
-		))}
-	</div>
+<BaseLayout title={copy("ui.projects.code-projects")} description={copy("ui.projects.code-and-data-accompanying-my-research")}>
+  <header class="page-intro"><h1>{copy("ui.projects.code-projects.2")}</h1><p>{copy("ui.projects.resources-accompanying-the-research")}</p></header>
+  <section class="prose hairline" style="padding-top:28px"><h2>{copy("ui.projects.social-conformity-decision-making")}</h2><p>{copy("ui.projects.the-public-repository-includes-data-and")}</p><p><a href="https://code.vt.edu/maorloff/insula-lesions-and-social-heuristic">{copy("ui.projects.browse-the-data-code")}</a></p><p><a href="/publications/social-conformity">{copy("ui.projects.walk-through-the-findings")}</a></p></section>
 </BaseLayout>
-
-

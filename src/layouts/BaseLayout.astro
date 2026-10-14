@@ -1,4 +1,5 @@
 ---
+import { copy } from "../lib/site-copy.mjs";
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -11,6 +12,7 @@ const pageDesc = description ?? SITE.description;
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
+	<script is:inline>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDesc} />
@@ -20,18 +22,24 @@ const pageDesc = description ?? SITE.description;
 	<meta property="og:description" content={pageDesc} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={`https://${SITE.domain}${Astro.url.pathname}`} />
-	<meta property="og:image" content="/og-image.png" />
-	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="og:image" content={`https://${SITE.domain}/headshot.jpg`} />
+	<meta property="og:image:alt" content="mark orloff" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:image" content={`https://${SITE.domain}/headshot.jpg`} />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={pageDesc} />
 </head>
 <body>
+	<a class="skip-link" href="#main-content">{copy("ui.base-layout.skip-to-content")}</a>
 	<Nav />
-	<main class="lowercase-all">
+	<main id="main-content" class="lowercase-all">
 		<slot />
 	</main>
 	<Footer />
+	<script>
+		import '../scripts/theme-toggle';
+		if (import.meta.env.DEV) import('../dev/copy-editor');
+	</script>
 </body>
 </html>
-
 

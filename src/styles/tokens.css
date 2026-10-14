@@ -1,16 +1,59 @@
-:root{
-	--color-bg:#1e2631;
-	--color-fg:#f3f4f6;
-	--color-muted:#9aa0a6;
-	--color-accent:#6ea8fe;
-	--color-accent-2:#ff6b6b;
-
-	--font-sans:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-
-	--radius:10px;
-	--container:960px;
-	--gutter:24px;
-	--lh:1.6;
-	--shadow:0 1px 2px rgb(0 0 0 / .08);
+:root {
+  /* Light by default; dark follows the visitor's system setting unless they pick one with the nav toggle. */
+  color-scheme: light;
+  --color-bg: #fbfaf8;
+  --color-fg: #1b2430;
+  --color-muted: #586271;
+  --color-accent: #2a63c9;
+  --color-accent-2: #c94343;
+  --color-line: #dcdfe4;
+  --color-surface: #f0f1f3;
+  --color-chart-third: #a8851f;
+  --color-chart-fourth: #3d8a70;
+  --color-dot: #98a1ad;
+  --brain-tone: .86;
+  --brain-alpha: .65;
+  --brain-context: .8;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-editorial: Georgia, "Times New Roman", serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --radius: 8px;
+  --container: 1160px;
+  --gutter: clamp(20px, 5vw, 56px);
+  --lh: 1.65;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  color-scheme: dark;
+  --color-bg: #1e2631;
+  --color-fg: #f3f4f6;
+  --color-muted: #acb4bf;
+  --color-accent: #6ea8fe;
+  --color-accent-2: #ff6b6b;
+  --color-line: #3c4653;
+  --color-surface: #252f3c;
+  --color-chart-third: #d6c481;
+  --color-chart-fourth: #80bca5;
+  --color-dot: #aab2bd;
+  --brain-tone: 1;
+  --brain-alpha: .55;
+  --brain-context: .65;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #1e2631;
+  --color-fg: #f3f4f6;
+  --color-muted: #acb4bf;
+  --color-accent: #6ea8fe;
+  --color-accent-2: #ff6b6b;
+  --color-line: #3c4653;
+  --color-surface: #252f3c;
+  --color-chart-third: #d6c481;
+  --color-chart-fourth: #80bca5;
+  --color-dot: #aab2bd;
+  --brain-tone: 1;
+  --brain-alpha: .55;
+  --brain-context: .65;
+}

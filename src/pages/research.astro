@@ -1,13 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/PageHeader.astro';
+import { copy } from '../lib/site-copy';
 ---
-<BaseLayout title="research">
-	<PageHeader title="research" subtitle="interests and directions" />
-	<div class="prose">
-		<p>my focus areas include value-based decision-making and cognitive maps. i use computational modeling, fMRI, and intracranial EEG.</p>
-		<p>specifically, i'm interested in how people calculate subjective value and how those calculations drive behavior.</p>
-		<p>i'm also interested in how people construct and use cognitive maps in decision-making.</p>
-		<p>my current research focuses on how cognitive maps are used to encode subjective value and how the brain regions involved in cognitive maps and value-based decision-making interact.</p>
-	</div>
+<BaseLayout title={copy("ui.navigation.research")}>
+  <header class="page-intro preserve-case"><h1>{copy('research.title')}</h1><p>{copy('research.intro')}</p></header>
+  <section class="research-primer preserve-case" aria-label={copy("ui.research.background")}>
+    <article><h2>{copy('research.maps.title')}</h2><p>{copy('research.maps.text')}</p></article>
+    <article><h2>{copy('research.value.title')}</h2><p>{copy('research.value.text')}</p></article>
+  </section>
+  <div class="questions preserve-case">
+    <section><p class="section-label">{copy("ui.research.topic-maps-value")}</p><div><h2>{copy('research.connection.title')}</h2><p>{copy('research.connection.text')}</p><div class="research-links"><a class="arrow-link" href="/publications/subjective-value">{copy("ui.research.walk-through-the-study")} <span aria-hidden="true">→</span></a><a class="arrow-link" href="/publications/smell-and-space">{copy("ui.research.maps-built-from-smell")} <span aria-hidden="true">→</span></a></div></div></section>
+    <section><p class="section-label">{copy("ui.research.topic-learning")}</p><div><h2>{copy('research.learning.title')}</h2><p>{copy('research.learning.text')}</p><a class="arrow-link" href="/publications/maps-at-rest">{copy("ui.research.learning-during-rest")} <span aria-hidden="true">→</span></a></div></section>
+    <section><p class="section-label">{copy("ui.research.topic-social")}</p><div><h2>{copy('research.social.title')}</h2><p>{copy('research.social.text')}</p><div class="research-links"><a class="arrow-link" href="/publications/social-conformity">{copy("ui.research.following-as-a-shortcut")} <span aria-hidden="true">→</span></a><a class="arrow-link" href="/publications/safer-peers">{copy("ui.research.when-peers-play-it-safe")} <span aria-hidden="true">→</span></a></div></div></section>
+  </div>
+  <aside class="methods-note preserve-case"><p class="section-label">{copy("ui.research.how-i-study-this")}</p><p>{copy('research.methods')}</p></aside>
 </BaseLayout>
+<style>
+  .questions > section { display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 40px; padding: 34px 0; border-top: 1px solid var(--color-line); }
+  .questions h2 { font-family: var(--font-editorial); font-size: 33px; max-width: 650px; }
+  .questions p:not(.section-label) { color: var(--color-muted); max-width: 620px; }
+  .questions .arrow-link { font-size: 13px; }
+  .research-links { display: flex; flex-wrap: wrap; gap: 2px 24px; }
+  .methods-note { border-top: 1px solid var(--color-line); margin-top: 20px; padding-top: 24px; }
+  .methods-note > p:last-child { margin-top: 14px; font-size: 14px; color: var(--color-muted); max-width: 650px; }
+  @media (max-width: 680px) { .questions > section { grid-template-columns: 1fr; gap: 20px; } }
+</style>
+
+<style>
+.research-primer { display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px,5vw,64px); padding:32px 0 42px; border-top:1px solid var(--color-line); }
+.research-primer h2 { font:400 30px/1.2 var(--font-editorial); margin:22px 0; }
+.research-primer article > p:last-child { color:var(--color-muted); font-size:15px; }
+@media(max-width:680px) { .research-primer { grid-template-columns:1fr; gap:16px; } }
+</style>

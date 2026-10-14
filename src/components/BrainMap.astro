@@ -1,0 +1,66 @@
+---
+// Interactive 3D surface map of group statistics (see src/scripts/brain-map.ts).
+import { copy } from '../lib/site-copy.mjs';
+type Half = 'left'|'right'|'both';
+// Each map opens on the half of the brain where its results are easiest to see.
+interface MapEntry { id:string; label:string; caption:string; url:string; low:string; high:string; threshold:number; max:number; hemisphere:Half; regions:readonly string[]; }
+interface Props { maps:readonly MapEntry[]; views:Record<Half,{yaw:number;pitch:number;zoom?:number}>; label:string; note?:string; }
+const { maps, views, label, note } = Astro.props;
+const hemisphere = maps[0].hemisphere;
+const halves:Half[] = ['left','right','both'];
+const config = { maps:maps.map(({id,url,low,high,hemisphere,regions})=>({id,url,low,high,hemisphere,regions})), views };
+const format = (value:number) => value.toFixed(2);
+---
+<brain-map class="brain-map preserve-case" data-hemisphere={hemisphere} data-lazy data-zoom-label={copy('explorer.zoom.level')}>
+  <script type="application/json" data-map-config set:html={JSON.stringify(config).replace(/</g,'\\u003c')} />
+  <div class="map-choices" role="group" aria-label={copy('brain-map.choose')} hidden={maps.length<2}>
+    {maps.map((map,i)=><button type="button" data-map={map.id} aria-pressed={String(i===0)} style={`--map-color:${map.high}`}><span class="map-swatch" aria-hidden="true"></span>{map.label}</button>)}
+  </div>
+  <div class="map-frame">
+    <canvas tabindex="0" role="img" aria-label={label}></canvas>
+    <div class="map-landmarks" aria-hidden="true" data-show-when-ready hidden>
+      <span data-landmark="front">{copy('explorer.orient.front-label')}</span><span data-landmark="back">{copy('explorer.orient.back-label')}</span><span data-landmark="top">{copy('explorer.orient.top-label')}</span>
+    </div>
+    <p data-brain-loading role="status">{copy('explorer.loading')}</p><p data-brain-error hidden>{copy('brain-map.error')}</p>
+  </div>
+  {maps.map((map,i)=><div class="map-scale" data-map-panel={map.id} hidden={i!==0}>
+    <span>{format(map.threshold)}</span><span class="map-bar" style={`background:linear-gradient(90deg,${map.low},${map.high})`}></span><span>{format(map.max)}</span><i>{copy('brain-map.statistic')}</i>
+  </div>)}
+  <div class="map-controls">
+    <div role="group" aria-label={copy('explorer.half.label')}>{halves.map(half=><button type="button" data-hemisphere-choice={half} aria-pressed={String(half===hemisphere)}>{copy(`explorer.half.${half}`)}</button>)}</div>
+    <div role="group" aria-label={copy('explorer.zoom.label')}><button type="button" data-zoom="out" disabled>{copy('explorer.zoom.out')}</button><output data-zoom-status aria-live="polite">{copy('explorer.zoom.level',{percent:100})}</output><button type="button" data-zoom="in">{copy('explorer.zoom.in')}</button></div>
+    <button type="button" data-camera="reset">{copy('brain-map.reset')}</button>
+  </div>
+  {maps.map((map,i)=><p class="map-caption" data-map-panel={map.id} hidden={i!==0}>{map.caption}</p>)}
+  {note&&<p class="map-note">{note}</p>}
+  <p class="map-note">{copy('explorer.gesture')}</p>
+</brain-map>
+<script>import '../scripts/brain-map';</script>
+<style>
+brain-map { display:block; }
+.map-choices { display:flex; flex-wrap:wrap; column-gap:20px; border-bottom:1px solid var(--color-line); }
+.map-choices button { display:flex; align-items:center; gap:8px; background:none; border:0; border-bottom:2px solid transparent; color:var(--color-muted); padding:10px 0; min-height:44px; font-size:12px; }
+.map-choices button[aria-pressed="true"] { color:var(--color-fg); border-bottom-color:var(--color-fg); }
+.map-swatch { width:8px; height:8px; border-radius:50%; background:var(--color-muted); }
+.map-choices button[aria-pressed="true"] .map-swatch { background:var(--map-color); }
+.map-frame { position:relative; width:100%; aspect-ratio:1.45; }
+canvas { width:100%; height:100%; display:block; cursor:grab; touch-action:pan-y; }
+canvas:active { cursor:grabbing; }
+canvas:focus-visible { outline:1px solid var(--color-accent); outline-offset:2px; }
+.map-landmarks { pointer-events:none; position:absolute; inset:0; }
+.map-landmarks span { position:absolute; font:10px/1.5 var(--font-mono); color:var(--color-muted); transform:translate(-50%,-50%); white-space:nowrap; background:var(--color-bg); padding:2px 5px; border-radius:4px; }
+[data-brain-loading],[data-brain-error] { position:absolute; top:40%; text-align:center; width:100%; color:var(--color-muted); font-size:12px; margin:0; }
+.map-scale { display:flex; align-items:center; gap:8px; font:10px/1.4 var(--font-mono); color:var(--color-muted); margin:2px 0 10px; }
+.map-bar { width:110px; height:8px; border-radius:2px; }
+.map-scale i { font-style:italic; margin-left:2px; }
+.map-controls { border-top:1px solid var(--color-line); display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:10px 0; }
+.map-controls [role="group"] { display:flex; flex-wrap:wrap; gap:6px; }
+.map-controls button { background:none; color:var(--color-fg); font-size:11px; padding:6px 9px; border:1px solid var(--color-line); border-radius:5px; min-height:36px; }
+.map-controls button:hover { border-color:var(--color-muted); }
+.map-controls button[aria-pressed="true"] { border-color:var(--color-fg); }
+.map-controls button:disabled { opacity:.35; cursor:default; }
+[data-zoom-status] { align-self:center; min-width:34px; text-align:center; color:var(--color-muted); font:10px var(--font-mono); }
+.map-caption { font-size:12px; line-height:1.6; color:var(--color-fg); margin:4px 0 8px; }
+.map-note { font-size:11px; line-height:1.6; color:var(--color-muted); margin:0 0 6px; }
+@media(max-width:600px) { .map-frame { aspect-ratio:1.2; } }
+</style>

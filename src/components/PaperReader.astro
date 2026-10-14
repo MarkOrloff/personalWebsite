@@ -1,0 +1,52 @@
+---
+import { copy, richText } from "../lib/site-copy.mjs";
+import BrainEvidence from './BrainEvidence.astro';
+import { brainEvidence } from '../data/brain-evidence';
+import { fillValueCopy } from '../lib/value-copy.mjs';
+import type { PaperStory } from '../data/paper-stories';
+import type { CollectionEntry } from 'astro:content';
+import '../styles/publication-reader.css';
+interface Props { story: PaperStory; paper: CollectionEntry<'publications'>['data']; }
+const { story, paper } = Astro.props;
+const figures = story.figures || (paper.figure ? [{src:paper.figure,width:paper.figureWidth!,height:paper.figureHeight!,alt:paper.figureAlt || '',caption:paper.type==='commentary'?copy("ui.paper-reader.figure-from-our-commentary"):copy("ui.paper-reader.figure-2a-valuation-related-responses-to")}] : []);
+---
+<article class="publication-reader preserve-case" data-reader data-paper={story.slug} data-deep-visual={story.deepVisual}>
+  <header class="reader-header"><a class="back-link text-link" href="/publications">{copy("ui.paper-reader.all-publications")}</a><p class="eyebrow preserve-case">{story.category}</p><h1>{story.title}</h1><p class="reader-deck" set:html={richText(story.deck)} />{paper.status==='preprint'&&<p class="preprint-label">{copy("ui.paper-reader.preprint-may-2026-not-yet-peer")}</p>}</header>
+  {paper.type==='commentary'&&<aside class="original-study-credit preserve-case"><p class="section-label">{copy("ui.paper-reader.the-original-research")}</p><p>{story.originalStudy!.authors}</p><a class="text-link" href={story.originalStudy!.href}>{story.originalStudy!.title} ↗</a></aside>}
+  <div class="reader-toolbar" hidden data-enhanced>
+    <div class="depth-tabs" role="tablist" aria-label={copy("ui.paper-reader.reading-depth")}>
+      <button type="button" role="tab" id="depth-gist" aria-controls="panel-gist" aria-selected="true" data-depth="gist">{copy("ui.paper-reader.the-gist")} <span>{copy("ui.paper-reader.30-seconds")}</span></button>
+      <button type="button" role="tab" id="depth-story" aria-controls="panel-story" aria-selected="false" tabindex="-1" data-depth="story">{copy("ui.paper-reader.walk-me-through-it")} <span>{story.slug==='subjective-value'?copy("ui.paper-reader.5-minutes"):copy("ui.paper-reader.3-minutes")}</span></button>
+      <button type="button" role="tab" id="depth-deep" aria-controls="panel-deep" aria-selected="false" tabindex="-1" data-depth="deep">{copy("ui.paper-reader.go-deeper")} <span>{copy("ui.paper-reader.another-layer")}</span></button>
+    </div>
+  </div>
+  <div class="reader-body">
+    <div class="reader-narrative preserve-case">
+      <section id="panel-gist" role="tabpanel" aria-labelledby="depth-gist" data-depth-panel="gist">{story.gist.map(text=><p set:html={richText(text)} />)}<button type="button" class="reader-cta" data-start-story hidden data-enhanced>{copy("ui.paper-reader.explore-the-idea-with-me")} <span aria-hidden="true">→</span></button></section>
+      <section id="panel-story" role="tabpanel" aria-labelledby="depth-story" data-depth-panel="story">
+        <div class="story-copy" aria-live="polite" aria-atomic="true">
+          {story.steps.map((step,i)=><div data-step-panel={i} data-view={step.view} data-visual={step.visual || 'plot'} data-emphasis={step.emphasis || 'all'}>
+            <h2 class="sr-only">{step.title}</h2>
+            {step.text&&<p data-value-template={story.slug==='subjective-value'?step.text:undefined} set:html={richText(story.slug==='subjective-value'?fillValueCopy(step.text):step.text)} />}
+            {step.more&&<p data-value-template={story.slug==='subjective-value'?step.more:undefined} set:html={richText(story.slug==='subjective-value'?fillValueCopy(step.more):step.more)} />}
+            {step.hint&&<p class="step-hint" data-value-template={story.slug==='subjective-value'?step.hint:undefined} set:html={richText(story.slug==='subjective-value'?fillValueCopy(step.hint):step.hint)} />}
+          </div>)}
+        </div>
+      </section>
+      <section id="panel-deep" role="tabpanel" aria-labelledby="depth-deep" data-depth-panel="deep">{story.deep.map(text=><p set:html={richText(text)} />)}{story.deepVisual!=='commentary'&&figures.map(fig=><details><summary>{copy("ui.paper-reader.see-the-original-figure")}</summary><figure class="original-figure"><a class="paper-figure-frame" href={fig.src} target="_blank" rel="noopener" aria-label={copy("ui.paper-reader.open-the-original-figure-at-full")}><img src={fig.src} width={fig.width} height={fig.height} loading="lazy" alt={fig.alt} /></a><figcaption>{fig.caption} <a class="text-link" href={fig.src} target="_blank" rel="noopener">{copy("ui.paper-reader.view-full-size")}</a></figcaption></figure></details>)}<a class="arrow-link" href={`https://doi.org/${paper.doi}`}>{copy("ui.paper-reader.read-the-full")} {copy(paper.type==='commentary'?"label.commentary":paper.status==='preprint'?"label.preprint":"label.paper")} <span aria-hidden="true">↗</span></a></section>
+    </div>
+    <div class="reader-figure">
+      <div data-reader-plot><slot name="figure" /></div>
+      <div data-reader-brain>{story.slug in brainEvidence&&<BrainEvidence slug={story.slug as keyof typeof brainEvidence} compact />}</div>
+      {paper.type==='commentary'&&paper.figure&&<figure data-reader-commentary class="original-figure story-commentary">
+        <a class="paper-figure-frame" href={paper.figure} target="_blank" rel="noopener"><img src={paper.figure} width={paper.figureWidth} height={paper.figureHeight} alt={paper.figureAlt || copy("ui.paper-reader.figure-from-our-commentary.2")} loading="lazy" /></a>
+        <figcaption>{copy("ui.paper-reader.from-our-commentary")} <a class="text-link preserve-case" href={`https://doi.org/${paper.doi}`}>{copy("ui.paper-reader.orloff-boorman")} {paper.year} ↗</a></figcaption>
+      </figure>}
+    </div>
+    <div class="story-pagination" hidden data-enhanced><button class="quiet-button" type="button" data-step-previous disabled>{copy("ui.paper-reader.back")}</button><span class="eyebrow" data-step-count></span><button class="quiet-button" type="button" data-step-next>{copy("ui.paper-reader.next")}</button></div>
+  </div>
+  <aside class="author-note"><div><p class="section-label">{story.takeawayTitle}</p></div><p class="excitement-copy preserve-case" set:html={richText(story.takeaway)} /></aside>
+  <footer class="paper-reference"><p class="section-label">{copy("ui.paper-reader.the")} {copy(paper.type==='commentary'?"label.commentary":"label.paper")}</p><div><p class="citation-title preserve-case">{paper.title}</p><p class="citation-authors preserve-case">{paper.authors.join(', ')}.</p><p class="preserve-case muted">{paper.venue} · {paper.year}{paper.authors.some(a=>a.includes('*'))?(" " + copy("ui.paper-reader.equal-contribution")):''}</p><div class="reference-links preserve-case">{story.sources.map(source=><a class="text-link" href={source.href}>{source.label} ↗</a>)}</div></div></footer>
+</article>
+<script>import '../scripts/publication-reader';</script>
+<style>.preprint-label { display: inline-block; color: var(--color-accent); font: 11px/1.5 var(--font-mono); border-left: 2px solid var(--color-accent); padding-left: 12px; margin: -20px 0 32px; }</style>

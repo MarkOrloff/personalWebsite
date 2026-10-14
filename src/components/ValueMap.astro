@@ -1,0 +1,27 @@
+---
+import { copy } from "../lib/site-copy.mjs";
+import { valueLayout, valueSVG, valuePairs } from '../lib/paper-plots.mjs';
+import '../styles/paper-plots.css';
+---
+<value-map class="paper-plot guided-value" data-story-plot data-view="game" data-deep-view="brain">
+  <figure>
+    <p class="eyebrow" data-value-status>{copy("ui.value-map.choice-1-of-5")}</p>
+    <div data-game-progress><progress data-calibration-progress max="5" value="0" aria-label={copy("ui.value-map.choices-completed")}></progress></div>
+    <div class="value-options" role="group" aria-label={copy("ui.value-map.two-money-options")}>
+      {valuePairs[0].map((option,i)=><button type="button" class={`value-option value-option-${i}`} data-value-choice={i} disabled>
+        <span class="option-label">{copy("ui.value-map.option")} {copy(i===0?"ui.paper-plots.a":"ui.paper-plots.b")}</span>
+        <span class="option-offer"><i class="chance-pie" style={`--chance:${option.p*100}%`} aria-hidden="true"></i><span class="option-numbers"><span><strong data-option-money>{copy("format.money",{amount:option.a})}</strong><small>{copy("ui.value-map.amount-label")}</small></span><span><strong data-option-chance>{copy("ui.value-map.chance-percent",{value1:option.p*100})}</strong><small>{copy("ui.value-map.chance-label")}</small></span></span></span>
+        <span class="option-zero">{copy("ui.value-map.otherwise-0")}</span><span class="option-action" data-option-action>{copy("ui.value-map.choose-this")}</span>
+      </button>)}
+    </div>
+    <p class="game-response" data-game-response role="status"></p>
+    <div data-value-map hidden>
+      <p class="chart-label" data-value-y>{copy("ui.value-map.amount-to-win")}</p>
+      <div class="chart-canvas" set:html={valueSVG(valueLayout())} />
+      <p class="map-reading-key" data-map-reading-key></p>
+      <p class="chart-readout" data-value-readout aria-live="polite"></p>
+    </div>
+    <noscript><p>{copy("ui.value-map.this-activity-needs-javascript-the-full")}</p></noscript>
+  </figure>
+</value-map>
+<script>import '../scripts/value-map';</script>

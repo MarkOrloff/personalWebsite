@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {copy} from '../lib/site-copy.mjs';
+import {favoriteRegions} from '../data/brain-explorer';
+const halves=['left','right','both'] as const;
+// Orientation sentences for each half of the brain and each named viewpoint.
+const views={left:['medial','lateral','front','back','below'],right:['medial','lateral','front','back','below'],both:['left','right','front','back','below']};
+const viewKey=(half:string,view:string)=>half==='left'?`explorer.orient.${view}`:`explorer.orient.${view}.${half}`;
+const halfKey=(base:string,half:string)=>half==='left'?base:`${base}.${half}`;
+// The tabs run front to back; the page opens on vmPFC.
+const firstRegion='vmpfc';
+---
+<BaseLayout title={copy('explorer.title')} description={copy('explorer.description')}>
+ <header class="page-intro"><h1>{copy('explorer.title')}</h1><p>{copy('explorer.description')}</p></header>
+ <brain-explorer class="preserve-case" data-region-id={firstRegion} data-hemisphere="both" data-zoom-label={copy('explorer.zoom.level')}>
+  <script type="application/json" data-region-config set:html={JSON.stringify(favoriteRegions).replace(/</g,'\\u003c')} />
+  <div class="region-tabs" role="group" aria-label={copy('explorer.choose-region')}>
+   {favoriteRegions.map(r=><button type="button" data-region={r.id} style={`--region-color:${r.color}`} aria-pressed={String(r.id===firstRegion)}><span class="region-dot"></span>{r.short}</button>)}
+  </div>
+  <div class="explorer-layout">
+   <figure>
+    <div class="orientation-intro">
+     <div class="head-locator" data-hemi-only="left right" hidden>
+      <svg viewBox="0 0 80 94" aria-hidden="true">
+       <path d="M40 17 C23 17 13 31 13 49 C13 71 24 85 40 85 C56 85 67 71 67 49 C67 31 57 17 40 17Z" fill="none" stroke="currentColor" stroke-width="1.2" />
+       <path d="M34 18 L40 9 L46 18 M13 40 Q6 39 9 53 L14 57 M67 40 Q74 39 71 53 L66 57" fill="none" stroke="currentColor" stroke-width="1.2" />
+       <path class="head-half head-left" d="M37 24 C24 24 19 35 19 50 C19 68 27 77 37 78Z" />
+       <path class="head-half head-right" d="M43 24 C56 24 61 35 61 50 C61 68 53 77 43 78Z" />
+       <path d="M40 25 V77" stroke="currentColor" stroke-dasharray="2 3" opacity=".45" />
+      </svg>
+      {halves.map(half=><span class="sr-only" data-hemi-only={half} hidden={half!=='both'}>{copy(halfKey('explorer.orient.head-label',half))}</span>)}
+      <span aria-hidden="true">{copy('explorer.orient.head')}</span>
+     </div>
+     <div><p class="eyebrow">{halves.map(half=><span data-hemi-only={half} hidden={half!=='both'}>{copy(halfKey('explorer.hemisphere',half))}</span>)}</p>
+      {halves.flatMap(half=>views[half].map(view=><p class="view-description" data-view-description={`${half}:${view}`} hidden={half!=='both'||view!=='front'}>{copy(viewKey(half,view))}</p>))}
+     </div>
+    </div>
+    <p class="surface-legend" data-region-legend>{favoriteRegions.find(r=>r.id===firstRegion)!.legend}</p>
+    <div class="surface-frame">
+     <canvas tabindex="0" role="img" aria-label={copy('explorer.canvas-label')} data-label-left={copy('explorer.canvas-label')} data-label-right={copy('explorer.canvas-label.right')} data-label-both={copy('explorer.canvas-label.both')}></canvas>
+     <div class="orientation-labels" aria-hidden="true">
+      <span data-landmark="front">{copy('explorer.orient.front-label')}</span><span data-landmark="back">{copy('explorer.orient.back-label')}</span><span data-landmark="top">{copy('explorer.orient.top-label')}</span>
+     </div>
+     <p data-brain-loading role="status">{copy('explorer.loading')}</p><p data-brain-error hidden>{copy('explorer.error')}</p>
+    </div>
+    <div class="surface-controls">
+     <div role="group" aria-label={copy('explorer.half.label')}>{halves.map(half=><button type="button" data-hemisphere-choice={half} aria-pressed={String(half==='both')}>{copy(`explorer.half.${half}`)}</button>)}</div>
+     <div role="group" aria-label={copy('explorer.camera')}><button type="button" data-camera="medial" data-hemi-only="left right" hidden>{copy('explorer.medial')}</button><button type="button" data-camera="lateral" data-hemi-only="left right" hidden>{copy('explorer.lateral')}</button><button type="button" data-camera="side-left" data-hemi-only="both">{copy('explorer.side.left')}</button><button type="button" data-camera="side-right" data-hemi-only="both">{copy('explorer.side.right')}</button><button type="button" data-camera="reset">{copy('explorer.reset')}</button></div>
+     <div role="group" aria-label={copy('explorer.zoom.label')}><button type="button" data-zoom="out" disabled>{copy('explorer.zoom.out')}</button><output data-zoom-status aria-live="polite">{copy('explorer.zoom.level').replace('{{percent}}','100')}</output><button type="button" data-zoom="in">{copy('explorer.zoom.in')}</button></div>
+    </div>
+    <figcaption><span>{copy('explorer.gesture')}</span><br />{copy('explorer.caption')}</figcaption>
+   </figure>
+   <div class="region-story" aria-live="polite">
+    {favoriteRegions.map(r=><section data-region-panel={r.id} hidden={r.id!==firstRegion}><p class="eyebrow" style={`color:${r.color}`}>{r.name}</p><h2>{r.question}</h2>
+     <p>{r.text}</p><p class="section-label">{copy('explorer.related')}</p>{r.studies.map(study=><a class="region-study" href={study.href}>{study.title}<span aria-hidden="true">→</span></a>)}</section>)}
+   </div>
+  </div>
+ </brain-explorer>
+</BaseLayout>
+<script>import '../scripts/brain-explorer';</script>
+<style>
+ brain-explorer { display:block; }
+ .region-tabs { display:flex; flex-wrap:wrap; column-gap:26px; border-block:1px solid var(--color-line); margin-bottom:24px; }
+ .region-tabs button { display:flex; align-items:center; gap:9px; background:none; border:0; border-bottom:2px solid transparent; color:var(--color-muted); padding:15px 0; min-height:48px; font-size:13px; }
+ .region-tabs button[aria-pressed="true"] { color:var(--color-fg); border-bottom-color:var(--color-fg); }
+ .region-dot { width:7px; height:7px; border-radius:50%; background:var(--color-muted); }
+ .region-tabs button[aria-pressed="true"] .region-dot { background:var(--region-color); }
+ .explorer-layout { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr); gap:40px; align-items:start; }
+ figure { margin:0; min-width:0; }
+ .orientation-intro { display:flex; align-items:center; gap:18px; min-height:90px; }
+ .head-locator { width:78px; flex-shrink:0; text-align:center; color:var(--color-muted); }
+ .head-locator svg { display:block; width:50px; height:59px; margin:auto; }
+ .head-locator span { display:block; font-size:9px; line-height:1.3; margin-top:2px; }
+ .head-half { fill:currentColor; opacity:.1; }
+ brain-explorer[data-hemisphere="left"] .head-left,brain-explorer[data-hemisphere="right"] .head-right,brain-explorer[data-hemisphere="both"] .head-half { fill:var(--color-accent); opacity:.7; }
+ .orientation-intro .eyebrow { font-size:10px; margin:0 0 6px; }
+ .view-description { font-size:12px; line-height:1.7; color:var(--color-muted); margin:0; max-width:360px; }
+ .surface-legend { color:var(--color-fg); font-size:11px; line-height:1.6; margin:14px 0 0; }
+ .surface-frame { position:relative; width:100%; aspect-ratio:1.65; }
+ canvas { width:100%; height:100%; display:block; cursor:grab; touch-action:pan-y; }
+ canvas:active { cursor:grabbing; }
+ .orientation-labels { pointer-events:none; position:absolute; inset:0; }
+ .orientation-labels span { position:absolute; font:10px/1.5 var(--font-mono); color:var(--color-muted); transform:translate(-50%,-50%); white-space:nowrap; background:var(--color-bg); padding:2px 5px; border-radius:4px; }
+ [data-brain-loading],[data-brain-error] { position:absolute; top:40%; text-align:center; width:100%; color:var(--color-muted); font-size:13px; }
+ .surface-controls { border-top:1px solid var(--color-line); display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:14px 0; }
+ .surface-controls button { background:none; color:var(--color-fg); font-size:11px; padding:8px 10px; border:1px solid var(--color-line); border-radius:5px; min-height:40px; }
+ .surface-controls button:hover { border-color:var(--color-muted); }
+ .surface-controls button:disabled { opacity:.35; cursor:default; }
+ .surface-controls [data-hemisphere-choice][aria-pressed="true"] { border-color:var(--color-fg); }
+ [data-zoom-status] { align-self:center; min-width:34px; text-align:center; color:var(--color-muted); font:10px var(--font-mono); }
+ .surface-controls [role="group"] { display:flex; flex-wrap:wrap; gap:6px; }
+ figcaption { font-size:11px; line-height:1.7; color:var(--color-muted); }
+ figcaption p { margin:0 0 8px; }
+ figcaption > span { display:inline-block; margin:4px 0; }
+ .region-story h2 { font:400 clamp(27px,3vw,36px)/1.18 var(--font-editorial); margin:12px 0 18px; }
+ .region-story p { font-size:14px; line-height:1.8; }
+ .region-story .eyebrow,.region-story .section-label { font-size:10px; }
+ .region-story .section-label { margin-top:24px; }
+ .region-study { display:flex; align-items:center; justify-content:space-between; gap:20px; border-top:1px solid var(--color-line); padding:13px 0; color:var(--color-accent); font-size:13px; line-height:1.5; }
+ @media(max-width:800px) { .explorer-layout { grid-template-columns:1fr; gap:30px; } .surface-frame { aspect-ratio:1.3; } .region-tabs { column-gap:18px; margin-bottom:16px; } .region-tabs button { font-size:12px; padding:12px 0; } .region-story h2 { max-width:580px; } }
+ @media(max-width:450px) { .orientation-intro { gap:10px; } .head-locator { width:58px; } .view-description { font-size:11px; } .orientation-labels span { font-size:9px; } .region-tabs { column-gap:16px; } }
+</style>

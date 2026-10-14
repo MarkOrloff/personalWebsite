@@ -1,0 +1,362 @@
+{
+  "study": "Raithel et al., Recruitment of grid-like responses in human entorhinal and piriform cortices by odor landmark-based navigation (Current Biology, 2023); NeuroVault collection TPTJBHBU",
+  "method": "fsaverage5 white and pial surfaces (Nilearn, matching the FreeSurfer reference pial) are taken as MNI305 coordinates and moved to MNI152 with FreeSurfer's linear MNI305-to-MNI152 matrix. Each vertex samples the group t map with trilinear interpolation at 7 evenly spaced depths from white (0) to pial (1); the mean is kept. Voxels outside the image read as 0. Destrieux Medial_wall vertices are set to 0, except near anterior piriform cortex. Values are positive-only and thresholded for display, and only surface clusters touching the expected regions are kept.",
+  "mni305_to_mni152": [
+    [
+      0.9975,
+      -0.0073,
+      0.0176,
+      -0.0429
+    ],
+    [
+      0.0146,
+      1.0009,
+      -0.0024,
+      1.5496
+    ],
+    [
+      -0.013,
+      -0.0093,
+      0.9971,
+      1.184
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "mni305_to_mni152_source": "https://surfer.nmr.mgh.harvard.edu/fswiki/CoordinateSystems (item 8)",
+  "depths": [
+    0.0,
+    0.16666666666666666,
+    0.3333333333333333,
+    0.5,
+    0.6666666666666666,
+    0.8333333333333333,
+    1.0
+  ],
+  "thresholds": {
+    "neurovault-raithel-2023.json": {
+      "t": 2.7706829571222116,
+      "p_one_sided": 0.005,
+      "df": 27,
+      "computed_with": "scipy.stats.t.isf(0.005, 27)"
+    }
+  },
+  "note": "Display only, uncorrected. Each region shows the clusters touching it in the map whose grid orientation was measured in that region (leave-one-out across participants). The paper's main tests are within anatomically defined regions.",
+  "regions": {
+    "ec": "Desikan-Killiany entorhinal parcel",
+    "mpfc": "vmpfc plus mpfc masks from public/brains",
+    "piriform": "vertices within 12 mm (mid-thickness, MNI152) of {'left': [-22, 5, -18], 'right': [22, 5, -18]}, medial wall included",
+    "kept": "a cluster is kept if any vertex is within two edges of the region"
+  },
+  "encoding": "Per-vertex integers round(t * scale) for shown vertices; 0 = not shown. Arrays follow fsaverage5 vertex order. regions[name][hemisphere] lists the shown vertices of each region's clusters; outlines[name][hemisphere] the ring around them.",
+  "surfaces": {
+    "white_left.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/white_left.gii.gz",
+      "bytes": 200092,
+      "sha256": "ecd590c1405e5553604fd4b113cee13d62638e5fb4084438201db82a4c711c64"
+    },
+    "white_right.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/white_right.gii.gz",
+      "bytes": 200089,
+      "sha256": "bd0f184539c82eae3b5b22297c4b5f64f901e276152f79d9fa62337f7e0d30d8"
+    }
+  },
+  "overlays": {
+    "neurovault-raithel-2023.json": {
+      "name": "grid-like code in entorhinal and anterior piriform cortex, each with its own grid orientation",
+      "df": 27,
+      "regions": {
+        "ec": "796768",
+        "piriform": "796968"
+      },
+      "sources": {
+        "796768": {
+          "neurovault_image": 796768,
+          "name": "aligned vs misaligned movement, grid orientation estimated in right entorhinal cortex",
+          "collection": "TPTJBHBU",
+          "image_page": "https://neurovault.org/collections/TPTJBHBU/",
+          "source_url": "https://neurovault.org/media/images/TPTJBHBU/spmT_0001.nii.gz",
+          "source_file_name": "spmT_0001.nii.gz",
+          "source_bytes": 690979,
+          "source_sha256": "eac6b42e9897696b432a9f1642e3ab9481000a1bc13896f59d3a02107c072662",
+          "map_type": "T map",
+          "participants": 28,
+          "template": "MNI152 (SPM12)",
+          "voxel_size_mm": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "affine": [
+            [
+              -2.0,
+              0.0,
+              0.0,
+              78.0
+            ],
+            [
+              0.0,
+              2.0,
+              0.0,
+              -112.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0,
+              -70.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "volume_check": {
+            "cluster_forming_threshold": 3.42103,
+            "cluster_forming_p": 0.001,
+            "largest_clusters": [
+              {
+                "voxels": 927,
+                "peak_t": 7.88,
+                "peak_mni": [
+                  -44.0,
+                  -32.0,
+                  2.0
+                ]
+              },
+              {
+                "voxels": 502,
+                "peak_t": 4.7,
+                "peak_mni": [
+                  28.0,
+                  -18.0,
+                  -34.0
+                ]
+              },
+              {
+                "voxels": 470,
+                "peak_t": 5.81,
+                "peak_mni": [
+                  -36.0,
+                  -4.0,
+                  -10.0
+                ]
+              },
+              {
+                "voxels": 180,
+                "peak_t": 4.69,
+                "peak_mni": [
+                  60.0,
+                  -20.0,
+                  28.0
+                ]
+              },
+              {
+                "voxels": 123,
+                "peak_t": 4.95,
+                "peak_mni": [
+                  -32.0,
+                  -6.0,
+                  14.0
+                ]
+              },
+              {
+                "voxels": 120,
+                "peak_t": 4.68,
+                "peak_mni": [
+                  -60.0,
+                  -6.0,
+                  -4.0
+                ]
+              },
+              {
+                "voxels": 111,
+                "peak_t": 4.77,
+                "peak_mni": [
+                  68.0,
+                  -34.0,
+                  0.0
+                ]
+              },
+              {
+                "voxels": 80,
+                "peak_t": 4.66,
+                "peak_mni": [
+                  36.0,
+                  -28.0,
+                  46.0
+                ]
+              }
+            ],
+            "at_reported_peaks": {
+              "vmPFC ROI center": 1.2
+            }
+          }
+        },
+        "796968": {
+          "neurovault_image": 796968,
+          "name": "aligned vs misaligned movement, grid orientation estimated in anterior piriform cortex",
+          "collection": "TPTJBHBU",
+          "image_page": "https://neurovault.org/collections/TPTJBHBU/",
+          "source_url": "https://neurovault.org/media/images/TPTJBHBU/spmT_0001_1.nii.gz",
+          "source_file_name": "spmT_0001_1.nii.gz",
+          "source_bytes": 699669,
+          "source_sha256": "fa5f55b1507f8cc6e3a96943082f6a1ebd61dc19f338fb55ef4d49302988642e",
+          "map_type": "T map",
+          "participants": 28,
+          "template": "MNI152 (SPM12)",
+          "voxel_size_mm": [
+            2.0,
+            2.0,
+            2.0
+          ],
+          "affine": [
+            [
+              -2.0,
+              0.0,
+              0.0,
+              78.0
+            ],
+            [
+              0.0,
+              2.0,
+              0.0,
+              -112.0
+            ],
+            [
+              0.0,
+              0.0,
+              2.0,
+              -70.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "volume_check": {
+            "cluster_forming_threshold": 3.42103,
+            "cluster_forming_p": 0.001,
+            "largest_clusters": [
+              {
+                "voxels": 46,
+                "peak_t": 4.71,
+                "peak_mni": [
+                  -18.0,
+                  38.0,
+                  32.0
+                ]
+              },
+              {
+                "voxels": 35,
+                "peak_t": 3.9,
+                "peak_mni": [
+                  60.0,
+                  -12.0,
+                  -24.0
+                ]
+              },
+              {
+                "voxels": 29,
+                "peak_t": 4.18,
+                "peak_mni": [
+                  58.0,
+                  26.0,
+                  26.0
+                ]
+              },
+              {
+                "voxels": 27,
+                "peak_t": 3.98,
+                "peak_mni": [
+                  10.0,
+                  62.0,
+                  6.0
+                ]
+              },
+              {
+                "voxels": 26,
+                "peak_t": 4.26,
+                "peak_mni": [
+                  -4.0,
+                  2.0,
+                  0.0
+                ]
+              },
+              {
+                "voxels": 26,
+                "peak_t": 4.62,
+                "peak_mni": [
+                  -8.0,
+                  20.0,
+                  -20.0
+                ]
+              },
+              {
+                "voxels": 23,
+                "peak_t": 3.83,
+                "peak_mni": [
+                  56.0,
+                  -56.0,
+                  20.0
+                ]
+              },
+              {
+                "voxels": 23,
+                "peak_t": 4.58,
+                "peak_mni": [
+                  56.0,
+                  10.0,
+                  -36.0
+                ]
+              }
+            ],
+            "at_reported_peaks": {
+              "left APC": 0.66,
+              "right APC": 0.24
+            }
+          }
+        }
+      },
+      "shown_vertices": {
+        "left": 86,
+        "right": 68
+      },
+      "max_t_on_surface": 5.31,
+      "output_sha256": "73a3934eccd9dcc1934cc2ce2e134f77b86ddb700b1a592cef67befd0d172ada",
+      "checks": {
+        "surface": {
+          "left": {
+            "shown_vertices": 86,
+            "by_desikan_label": {
+              "fusiform": 22,
+              "entorhinal": 16,
+              "parahippocampal": 16,
+              "medialorbitofrontal": 13,
+              "unknown": 9,
+              "inferiortemporal": 9,
+              "lateralorbitofrontal": 1
+            }
+          },
+          "right": {
+            "shown_vertices": 68,
+            "by_desikan_label": {
+              "fusiform": 35,
+              "parahippocampal": 14,
+              "entorhinal": 13,
+              "unknown": 6
+            }
+          }
+        }
+      }
+    }
+  }
+}

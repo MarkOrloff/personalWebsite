@@ -1,0 +1,158 @@
+{
+  "template": "FreeSurfer fsaverage5, left and right hemispheres",
+  "atlas": "Destrieux 2009 surface atlas; Desikan-Killiany entorhinal parcel; FreeSurfer aseg Left-Hippocampus (17) and Right-Hippocampus (53); mPFC from HCP-MMP1 (Glasser et al. 2016)",
+  "nilearn_revision": "aee5750ead87eb4147f65c5d4239b4150e839ed1",
+  "transform": "Each hemisphere is centered on its own pial bounding box and uniformly scaled; frame.center and frame.scale in each asset recover surface RAS (= display * scale + center), so the viewer can place both hemispheres together. Hippocampus converted with aseg vox2ras_tkr and the same hemisphere pial transform. Only the folded pial surface is exported; there are no inflated coordinates.",
+  "same_template_check": "Nilearn pial coordinates and topology exactly match the FreeSurfer fsaverage5 reference pial in each hemisphere.",
+  "regions": {
+    "vmpfc": "Approximate lower medial prefrontal neighborhood: Destrieux rectus (31), subcallosal (32), medial orbital/olfactory sulcus (64), suborbital sulcus (71), and lower anterior cingulate (6; surface RAS z < 10 mm). Includes medial OFC; not an exclusively orbital label.",
+    "acc": "Anterior cingulate entry: Destrieux anterior midcingulate (7, G_and_S_cingul-Mid-Ant) plus the dorsal part of Destrieux anterior cingulate (6, G_and_S_cingul-Ant): its vertices that Desikan-Killiany labels superiorfrontal or caudalanteriorcingulate. Drops the pregenual/subgenual wrap around the genu (DK rostralanteriorcingulate and medialorbitofrontal). Not presented as the study lesion mask. Regions may overlap; the viewer colors one at a time.",
+    "mpfc": "Medial prefrontal cortex between ACC and vmPFC: HCP-MMP1 (Glasser et al. 2016) pregenual areas a24, p24, p32 and d32 on fsaverage (first 10242 vertices = fsaverage5). Destrieux Medial_wall vertices excluded. Overlaps vmpfc and acc in places.",
+    "insula": "Anterior insula guide: Destrieux short insular gyri (18, G_insular_short) and anterior circular sulcus (48, S_circular_insula_ant). Excludes long insular gyri and the full superior/inferior circular sulci.",
+    "ec": "Dedicated Desikan-Killiany entorhinal parcel (index 6); 48 left and 42 right fsaverage5 vertices; not the whole parahippocampal parcel.",
+    "hc": "Matching fsaverage5 aseg label 17 (Left-Hippocampus) or 53 (Right-Hippocampus). Gaussian sigma 0.65 voxel, marching cubes at 0.5; display smoothing only."
+  },
+  "hemispheres": {
+    "left": {
+      "file": "fsaverage5-left.json",
+      "vertices": 10242,
+      "triangles": 20480,
+      "pial_center_ras": [
+        -33.78361892700195,
+        -17.872329711914062,
+        14.8997802734375
+      ],
+      "pial_scale": 104.18364715576172,
+      "masks": {
+        "vmpfc": 261,
+        "acc": 190,
+        "insula": 107,
+        "ec": 48,
+        "mpfc": 110
+      },
+      "hippocampus": {
+        "aseg_label": 17,
+        "voxels": 5354,
+        "vertices": 3646,
+        "triangles": 7288,
+        "ras_bounds": [
+          [
+            -37.49489212036133,
+            -43.46494507789612,
+            -31.496543884277344
+          ],
+          [
+            -11.600177526473999,
+            -6.8506317138671875,
+            4.496385097503662
+          ]
+        ]
+      },
+      "output_sha256": "aa2819c452a83efcc6737d0e71c0d3979d850b9085f1793fe398e3052b793e42"
+    },
+    "right": {
+      "file": "fsaverage5-right.json",
+      "vertices": 10242,
+      "triangles": 20480,
+      "pial_center_ras": [
+        34.86091613769531,
+        -17.637481689453125,
+        15.40934944152832
+      ],
+      "pial_scale": 104.15230560302734,
+      "masks": {
+        "vmpfc": 259,
+        "acc": 236,
+        "insula": 107,
+        "ec": 42,
+        "mpfc": 119
+      },
+      "hippocampus": {
+        "aseg_label": 53,
+        "voxels": 5396,
+        "vertices": 3616,
+        "triangles": 7228,
+        "ras_bounds": [
+          [
+            13.694168090820312,
+            -43.22739863395691,
+            -31.349254608154297
+          ],
+          [
+            39.43897318840027,
+            -7.5,
+            5.440363645553589
+          ]
+        ]
+      },
+      "output_sha256": "585105aaa4d764bc2ef60f35ebec78a1d4838e8829b7fcdd7c647c2544db3d47"
+    }
+  },
+  "sources": {
+    "pial_left.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/pial_left.gii.gz",
+      "bytes": 200168,
+      "sha256": "1e76fe43ac194c15fd272643f7ae7995621e2a496b3102b2d6175f0f8e6d7fc8"
+    },
+    "sulc_left.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/sulc_left.gii.gz",
+      "bytes": 38996,
+      "sha256": "bd0f87e0cba153e9d5c5281edc7267f631b1967e5883d4027924766c8430eb62"
+    },
+    "left.aparc.a2009s.annot": {
+      "url": "https://www.nitrc.org/frs/download.php/9343/lh.aparc.a2009s.annot",
+      "bytes": 85260,
+      "sha256": "c2401d6137949f33788283a4926cb61cb3b0bfe5bda1b368c22aa921ea06d38d"
+    },
+    "lh.pial": {
+      "url": "https://www.freesurfer.net/pub/dist/freesurfer/tutorial_versions_centos6/freesurfer/subjects/fsaverage5/surf/lh.pial",
+      "bytes": 368962,
+      "sha256": "d3e772b74f39ed7a979d78dab5b98d1fe5916f1354b52d05c23b85a8080b72bd"
+    },
+    "lh.aparc.annot": {
+      "url": "https://www.freesurfer.net/pub/dist/freesurfer/tutorial_versions_centos6/freesurfer/subjects/fsaverage5/label/lh.aparc.annot",
+      "bytes": 83444,
+      "sha256": "74d1c2fd5e6b7ca193f06fee45a86f5638f347e38cea5ba27fce9fd69c0056be"
+    },
+    "lh.HCP-MMP1.annot": {
+      "url": "https://ndownloader.figshare.com/files/5528816",
+      "bytes": 1316983,
+      "sha256": "d4da634644b4c595dbda23963e01752059f0e7714be70169eb84e25e09ba2b44"
+    },
+    "pial_right.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/pial_right.gii.gz",
+      "bytes": 200202,
+      "sha256": "fdfae008bc10acf7cba82737ea5db9a7298948c41884a2d3330a785783a60a91"
+    },
+    "sulc_right.gii.gz": {
+      "url": "https://raw.githubusercontent.com/nilearn/nilearn/aee5750ead87eb4147f65c5d4239b4150e839ed1/nilearn/datasets/data/fsaverage5/sulc_right.gii.gz",
+      "bytes": 39026,
+      "sha256": "97afe76225903205a16b88f88cd796945f2a27011328e98decaa9128ff063afb"
+    },
+    "right.aparc.a2009s.annot": {
+      "url": "https://www.nitrc.org/frs/download.php/9342/rh.aparc.a2009s.annot",
+      "bytes": 85260,
+      "sha256": "99c028f9f9d8dce617e9f29a5ebdc2f1b187d83650b68128fae53c3669588da7"
+    },
+    "rh.pial": {
+      "url": "https://www.freesurfer.net/pub/dist/freesurfer/tutorial_versions_centos6/freesurfer/subjects/fsaverage5/surf/rh.pial",
+      "bytes": 368962,
+      "sha256": "64440462e8d1cec650d100c0fb16cb4704937e19e0bc42f58997a6a09e5e536b"
+    },
+    "rh.aparc.annot": {
+      "url": "https://www.freesurfer.net/pub/dist/freesurfer/tutorial_versions_centos6/freesurfer/subjects/fsaverage5/label/rh.aparc.annot",
+      "bytes": 83444,
+      "sha256": "ca86b3b0bd5b74e367519dd94157154ae7c61ad128680fcc7b52e1a799e34e9f"
+    },
+    "rh.HCP-MMP1.annot": {
+      "url": "https://ndownloader.figshare.com/files/5528819",
+      "bytes": 1316984,
+      "sha256": "744eff4e57ce8121c43851eea425475baf92d9ba8686299a7435517ab972e9a2"
+    },
+    "aseg.mgz": {
+      "url": "https://www.freesurfer.net/pub/dist/freesurfer/tutorial_versions_centos6/freesurfer/subjects/fsaverage5/mri/aseg.mgz",
+      "bytes": 362462,
+      "sha256": "f69a16aad073471cef634db1002f6cae1ef7cd9548ab1b028ca7963861f136f3"
+    }
+  }
+}

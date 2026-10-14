@@ -1,0 +1,212 @@
+.paper-plot { display: block; min-width: 0; }
+.paper-plot h3 { font-size: 21px; margin-bottom: 18px; }
+.paper-plot > figure > .eyebrow { margin-bottom: 12px; }
+.chart-controls { display: flex; flex-wrap: wrap; gap: 10px 24px; border-bottom: 1px solid var(--color-line); margin-bottom: 22px; }
+.chart-controls button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 0; min-height: 44px; color: var(--color-muted); font-size: 12px; }
+.chart-controls button[aria-pressed="true"] { color: var(--color-fg); border-bottom-color: var(--color-accent); }
+.chart-label { font-size: 13px; margin: 0 0 6px; }
+.chart-label span { color: var(--color-muted); display: block; font-size: 11px; }
+.chart-canvas svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+.chart-canvas text { font: 14px Helvetica,Arial,sans-serif; text-transform: none; fill: var(--color-fg); }
+.chart-canvas .chart-number { font-size: 18px; }
+.chart-canvas .chart-small { font-size: 11px; fill: var(--color-muted); }
+.chart-canvas .chart-axis-label { font-size: 13px; fill: var(--color-muted); }
+.chart-spine { stroke: var(--color-fg); stroke-width: 1; fill: none; }
+.neutral-line { stroke: var(--color-muted); stroke-width: 1; stroke-dasharray: 3 5; opacity: .45; fill: none; }
+.mean-error { stroke: var(--color-fg); stroke-width: 1.5; }
+.mean-point { fill: var(--color-muted); stroke: var(--color-fg); stroke-width: 1.5; }
+.series-naive { fill: var(--color-accent); }
+.series-exposed { fill: var(--color-accent-2); }
+.peer-dot { cursor: pointer; }
+.peer-dot > circle:first-child { fill: inherit; stroke: var(--color-bg); stroke-width: 1.2; }
+.peer-dot .selection-ring { stroke: var(--color-fg); stroke-width: 1.5; fill: none; opacity: 0; }
+.peer-dot.is-selected .selection-ring { opacity: 1; }
+.paper-plot[data-animate="true"] .peer-dot, .paper-plot[data-animate="true"] .gamble-dot, .paper-plot[data-animate="true"] .option-point, .paper-plot[data-animate="true"] .rest-point { transition: transform 600ms cubic-bezier(.2,.65,.2,1), opacity 400ms; }
+.paper-plot[data-animate="true"] .decision-path { transition: d 600ms cubic-bezier(.2,.65,.2,1), opacity 300ms; }
+.gamble-dot { fill: var(--color-dot); opacity: .55; }
+.decision-path { fill: none; stroke: var(--color-accent); stroke-width: 2; }
+.option-point > circle { stroke: var(--color-fg); stroke-width: 1.5; fill: var(--color-accent); }
+.option-1 > circle { fill: var(--color-accent-2); }
+.chart-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 11px; color: var(--color-muted); margin: 0 0 16px; }
+.chart-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.chart-legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.legend-naive { background: var(--color-accent); }
+.legend-exposed { background: var(--color-accent-2); }
+.chart-readout { font-size: 12px; color: var(--color-muted); border-block: 1px solid var(--color-line); padding: 15px 0; min-height: 65px; margin: 0; font-variant-numeric: tabular-nums; }
+.paper-plot figcaption { font-size: 11px; color: var(--color-muted); margin-top: 16px; line-height: 1.7; }
+.chart-values { font-size: 12px; margin-top: 24px; }
+.chart-values table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.chart-values th, .chart-values td { text-align: right; font-weight: 400; padding: 10px 6px; border-bottom: 1px solid var(--color-line); }
+.chart-values th:first-child { text-align: left; }
+.chart-select { display: block; font-size: 12px; color: var(--color-muted); }
+.replay-compare path { fill:none; stroke-linecap:round; }
+.compare-best { stroke:var(--color-accent-2); stroke-width:4; }
+.compare-worst { stroke:var(--color-accent-2); stroke-width:2; stroke-dasharray:5 6; opacity:.8; }
+.compare-label { font-size:11px; fill:var(--color-accent-2); paint-order:stroke; stroke:var(--color-bg); stroke-width:4px; }
+.text-button { background:none; border:0; padding:6px 0; color:var(--color-muted); font-size:12px; text-decoration:underline; text-underline-offset:3px; cursor:pointer; }
+.text-button:hover { color:var(--color-fg); }
+/* In the story, the replay step only needs its play button; strategies live in the details tab. */
+rest-map[data-reading-depth="story"][data-view="map"] .replay-policies, rest-map[data-reading-depth="story"][data-view="map"] [data-replay-rule] { display:none; }
+.replay-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:6px 0 14px; }
+.replay-mini { margin:0; border:1px solid var(--color-line); border-radius:10px; padding:10px 10px 8px; }
+.replay-mini .mini-name { margin:0 0 4px; font:11px var(--font-mono); color:var(--color-accent); }
+.replay-mini svg { display:block; width:100%; height:auto; }
+.replay-mini svg text { font-size:11px; fill:var(--color-muted); }
+.replay-mini .mini-note { margin:4px 0 0; font-size:12px; line-height:1.45; color:var(--color-muted); }
+rest-map[data-view="priorities"] .chart-canvas { display:none; }
+@media(max-width:500px) { .replay-grid { gap:8px; } .replay-mini { padding:8px; } }
+.chart-select select { width: auto; min-width: 140px; margin-top: 6px; display: block; border: 1px solid var(--color-line); background: var(--color-surface); color: var(--color-fg); padding: 4px 8px; border-radius: 4px; font-size: 13px; }
+.preference-sliders { border: 0; margin: 22px 0 8px; padding: 0; }
+.preference-sliders:disabled { opacity: .45; }
+.preference-sliders legend { font-size: 12px; color: var(--color-muted); margin-bottom: 14px; padding: 0; }
+.preference-sliders label { display: block; font-size: 13px; margin-bottom: 18px; }
+.preference-sliders output { float: right; font: 12px var(--font-mono); color: var(--color-accent); }
+.preference-sliders input { width: 100%; display: block; accent-color: var(--color-accent); min-height: 32px; margin: 8px 0 0; }
+.preference-sliders label span { font-size: 10px; color: var(--color-muted); }
+.chart-small { color: var(--color-muted); font-size: 11px; }
+.map-settings { margin-bottom: 18px; }
+.landmark-label { font-size: 13px; }
+.landmark-point { fill: var(--color-accent); stroke: var(--color-bg); stroke-width: 2; }
+.landmark-point[data-selected="true"] { fill: var(--color-accent-2); stroke: var(--color-fg); }
+.destination-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.destination-controls button { text-align: left; font-size: 12px; }
+.rest-point .place-dot { fill: var(--color-accent); stroke: var(--color-fg); stroke-width: 1.5; }
+.rest-point text { font-size: 12px; }
+.rest-point[data-rest-index="1"] .place-dot { fill: var(--color-accent-2); }
+.rest-point[data-rest-index="2"] .place-dot { fill: var(--color-chart-third); }
+.rest-point[data-rest-index="3"] .place-dot { fill: var(--color-chart-fourth); }
+@media(max-width:400px) { .chart-canvas text { font-size: 12px; } .chart-controls { gap: 10px 18px; } }
+@media print { .paper-plot [data-plot-enhanced] { display: none !important; } }
+
+/* Money offers stay linked to the same colored locations on the map. */
+.calibration-intro .reader-cta { margin:0 0 3px; }
+.calibration-intro { margin-bottom:20px; }
+.value-options { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.value-option { --option-color:var(--color-accent); display:block; min-width:0; background:transparent; border:1px solid var(--color-line); border-top:2px solid var(--option-color); border-radius:12px; color:var(--color-fg); text-align:left; padding:16px; }
+.value-option-1 { --option-color:var(--color-accent-2); }
+.value-option:disabled { opacity:1; cursor:default; }
+.value-option:not(:disabled):hover { background:var(--color-surface); border-color:var(--option-color); }
+.option-label { display:block; font:10px var(--font-mono); color:var(--option-color); margin-bottom:12px; }
+.option-offer { display:flex; align-items:center; gap:13px; }
+.option-numbers { display:flex; gap:clamp(14px,3vw,26px); align-items:flex-start; }
+.option-numbers > span { display:block; min-width:0; }
+.option-offer strong { display:block; font:500 26px/1.15 var(--font-sans); letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.option-numbers small { display:block; font-size:11px; color:var(--color-muted); margin-top:3px; }
+.chance-pie { flex:none; display:block; width:60px; height:60px; border-radius:50%; background:conic-gradient(var(--option-color) var(--chance),color-mix(in srgb, var(--color-muted) 18%, transparent) 0); box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--color-muted) 40%, transparent); }
+.option-zero { display:block; font-size:11px; color:var(--color-muted); margin-top:12px; }
+.option-action { display:block; margin-top:14px; color:var(--option-color); font-size:12px; }
+.calibration-status h4,.value-prediction h4 { font:400 24px/1.2 var(--font-editorial); margin:12px 0; }
+.calibration-status progress { accent-color:var(--color-accent); width:100%; height:5px; display:block; margin:16px 0; }
+.calibration-actions { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; }
+.calibration-actions .quiet-button { font-size:11px; }
+.value-prediction { border-left:2px solid var(--color-accent-2); padding-left:18px; margin:0 0 24px; }
+.value-prediction p { font-size:13px; }
+.value-prediction .chart-small { font-size:11px; }
+.manual-preferences { margin-top:18px; }
+.manual-preferences summary { font-size:12px; color:var(--color-muted); }
+@media(max-width:500px) { .value-option { padding:12px; } .option-offer { gap:8px; } .chance-pie { width:44px; height:44px; } .option-offer strong { font-size:22px; } }
+
+.peer-brain-key { display:grid; grid-template-columns:170px minmax(0,1fr); gap:16px; align-items:center; margin:0 0 18px; }
+.peer-brain-key p { font-size:12px; color:var(--color-muted); margin:0; }
+.peer-brain-key strong { font-weight:500; color:var(--color-fg); }
+.peer-finding { margin:4px 0 18px; }
+.peer-finding p { font-size:14px; margin:0 0 3px; }
+.peer-finding span { color:var(--color-muted); font-size:11px; }
+.odor-game h4 { font:400 26px/1.2 var(--font-editorial); margin:10px 0; }
+.odor-feedback { min-height:2.8em; font-size:13px; color:var(--color-accent); }
+[data-landmark] { cursor:pointer; outline:none; }
+.compass-ring { fill:none; stroke:var(--color-line); stroke-dasharray:3 5; }
+.compass-aim { stroke:var(--color-accent); stroke-width:3; stroke-linecap:round; }
+.compass-tip { fill:var(--color-accent); }
+.compass-preview { stroke:var(--color-accent); stroke-width:2; stroke-linecap:round; opacity:.35; }
+.compass-truth { stroke:var(--color-accent-2); stroke-width:2; stroke-dasharray:6 6; }
+odor-map[data-view="compass"] .chart-canvas svg { cursor:crosshair; touch-action:manipulation; }
+odor-map[data-view="compass"] .chart-canvas svg:focus-visible { outline:1px solid var(--color-fg); outline-offset:4px; }
+[data-landmark]:focus-visible .landmark-hit { stroke:var(--color-fg); stroke-width:1.5; }
+.replay-policies { display:grid; grid-template-columns:1fr 1fr; gap:4px 14px; margin:12px 0; }
+.replay-policies button { text-align:left; border-bottom:1px solid var(--color-line); font-size:12px; }
+.replay-policies button[aria-pressed="true"] { color:var(--color-fg); border-color:var(--color-accent); }
+.replay-actions { display:flex; flex-wrap:wrap; gap:4px 18px; }
+.replay-actions button { font-size:12px; }
+.replay-actions [data-replay-run] { color:var(--color-accent); }
+rest-map { scroll-margin-top:100px; }
+[data-replay-count] { margin:10px 0; }
+.replay-link { stroke:var(--color-accent); fill:none; stroke-linecap:round; transition:stroke-width 650ms, opacity 650ms; }
+.replay-link.replay-inferred { stroke:var(--color-accent-2); }
+.replay-trace { fill:none; stroke-width:3; stroke-linecap:round; stroke-dasharray:1; }
+.replay-key { display:flex; flex-wrap:wrap; gap:8px 24px; border-top:1px solid var(--color-line); padding-top:14px; margin:16px 0 12px; font-size:11px; color:var(--color-muted); }
+.replay-key span { display:flex; align-items:center; gap:8px; }
+.replay-key i { width:25px; display:inline-block; border-top:1px solid var(--color-accent); border-radius:2px; }
+.replay-key .replay-key-thick { border-top-width:6px; }
+.replay-moment { color:var(--color-accent); font:12px/1.6 var(--font-mono); margin:16px 0 0; min-height:20px; }
+.replay-moment.is-shortcut { color:var(--color-accent-2); }
+.chart-readout.replay-insight { color:var(--color-fg); border-left:2px solid var(--color-accent-2); padding-left:14px; font-size:14px; line-height:1.7; }
+.publication-reader[data-depth="story"] rest-map [data-replay-rule] { display:none; }
+@media(max-width:500px) { .peer-brain-key { grid-template-columns:130px minmax(0,1fr); gap:12px; } }
+@media(prefers-reduced-motion:reduce) { .replay-link { transition:none; } }
+
+.guided-value [data-game-progress] progress { accent-color:var(--color-accent); width:100%; height:4px; display:block; margin:0 0 24px; }
+.guided-value .value-options { gap:14px; }
+.guided-value[data-view="game"] .value-option { padding:24px 20px; }
+.guided-value[data-view="game"] .option-offer { display:block; }
+.guided-value[data-view="game"] .chance-pie { width:88px; height:88px; margin-bottom:18px; }
+.guided-value[data-view="game"] .option-offer strong { font-size:34px; }
+.guided-value[data-view="game"] .option-action { padding-top:12px; border-top:1px solid var(--color-line); }
+.guided-value .game-response { font-size:13px; color:var(--color-muted); min-height:3em; margin:22px 0 12px; }
+.guided-value:not([data-view="game"]) .value-option { padding:10px 12px; border-radius:9px; }
+.guided-value:not([data-view="game"]) .option-label { margin-bottom:6px; }
+.guided-value:not([data-view="game"]) .option-offer strong { font-size:20px; }
+.guided-value:not([data-view="game"]) .chance-pie { width:40px; height:40px; }
+.guided-value:not([data-view="game"]) .option-zero { margin-top:7px; font-size:10px; }
+.guided-value .value-option.is-chosen { box-shadow:0 0 0 1px var(--option-color); background:var(--color-surface); }
+.guided-value .value-option.is-muted { opacity:.3; }
+.guided-value .chart-canvas .gamble-dot { opacity:.35; r:2.6; }
+.guided-value .option-point > .choice-ring { fill:none; stroke:var(--color-fg); stroke-width:1.5; }
+.guided-value .map-guide { stroke:var(--color-accent); stroke-width:1.5; fill:none; stroke-dasharray:3 4; }
+.guided-value .map-guide-label { fill:var(--color-accent); font-size:12px; }
+.guided-value [data-value-y] { font-size:12px; margin-top:20px; }
+.guided-value .chart-readout { font-size:12px; min-height:0; }
+@media(max-width:500px) {
+  .guided-value[data-view="game"] .value-option { padding:18px 14px; }
+  .guided-value .option-offer { gap:8px; }
+}
+@media(prefers-reduced-motion:reduce) { .guided-value .gamble-dot,.guided-value .option-point,.guided-value .decision-path { transition:none !important; } }
+
+.guided-value .map-corner-label { fill:var(--color-accent-2); font:10px var(--font-mono); }
+.guided-value .map-corner-bracket { fill:none; stroke:var(--color-accent-2); stroke-width:1.5; }
+.guided-value .map-reading-key { font-size:12px; line-height:1.6; color:var(--color-accent-2); margin:0 0 12px; max-width:46ch; }
+
+.rest-point .replay-uncertainty { stroke:var(--color-accent); fill:none; stroke-width:1; stroke-dasharray:2 5; transition:r 650ms,opacity 650ms; }
+.replay-preparation { font-size:13px; line-height:1.7; color:var(--color-accent-2); margin:16px 0; }
+@media(prefers-reduced-motion:reduce) { .rest-point .replay-uncertainty { transition:none; } }
+
+/* peer game: coin-flip gambles in the same cards as the value game */
+peer-plot[data-view="game"] > figure, peer-plot[data-view="game"] > details { display:none; }
+.peer-game h4 { font:400 26px/1.25 var(--font-editorial); margin:10px 0 18px; }
+.gamble-option { position:relative; }
+.gamble-flip { display:grid; grid-template-columns:1fr 1fr; gap:3px; margin:4px 0 10px; }
+.gamble-flip > span { display:block; padding:12px 6px; text-align:center; font:500 26px/1.1 var(--font-sans); letter-spacing:-.02em; font-variant-numeric:tabular-nums; background:color-mix(in srgb, var(--option-color) 14%, transparent); border-radius:6px; }
+.gamble-peers { display:flex; gap:6px; min-height:22px; margin-top:10px; }
+.gamble-peers i { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; font:10px var(--font-mono); font-style:normal; color:var(--color-bg); background:var(--color-fg); }
+.peer-players { display:flex; flex-wrap:wrap; gap:8px 18px; margin:-6px 0 16px; font-size:13px; color:var(--color-muted); }
+.peer-players span { display:inline-flex; align-items:center; gap:8px; }
+.peer-players i { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; font:10px var(--font-mono); font-style:normal; color:var(--color-bg); background:var(--color-fg); }
+.peer-game .value-option.is-chosen { box-shadow:0 0 0 1px var(--option-color); background:var(--color-surface); }
+.peer-game[data-done="true"] .gamble-options { display:none; }
+@media(max-width:500px) { .gamble-flip > span { font-size:21px; padding:10px 4px; } .peer-game h4 { font-size:22px; } }
+
+/* lesion game: red and blue gambles, sometimes fogged over */
+social-plot[data-view="game"] > figure, social-plot[data-view="game"] > details { display:none; }
+.fog-game h4 { font:400 26px/1.25 var(--font-editorial); margin:10px 0 14px; }
+.fog-option[data-color="red"] { --option-color:var(--color-accent-2); }
+.fog-option[data-color="blue"] { --option-color:var(--color-accent); }
+.fog-option .option-offer { display:block; }
+.fog-option .chance-pie { width:72px; height:72px; margin-bottom:14px; }
+.fog-option .option-label { font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.fog-unreadable { display:none; }
+.fog-game[data-foggy="true"] .fog-blur { filter:blur(9px); opacity:.55; user-select:none; }
+.fog-game[data-foggy="true"] .fog-unreadable { display:block; }
+.fog-game[data-foggy="true"] .fog-option { background-image:repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-fg) 5%, transparent) 0 6px, transparent 6px 12px); }
+.fog-game .value-option.is-chosen { box-shadow:0 0 0 1px var(--option-color); background-color:var(--color-surface); }
+.fog-game[data-done="true"] .fog-options { display:none; }
+@media(max-width:500px) { .fog-option .chance-pie { width:52px; height:52px; } .fog-game h4 { font-size:22px; } }

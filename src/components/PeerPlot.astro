@@ -1,0 +1,50 @@
+---
+import { copy } from "../lib/site-copy.mjs";
+import data from '../data/peer-influence.json';
+import brain from '../data/peer-brain.json';
+import { peerLayout, peerSVG } from '../lib/paper-plots.mjs';
+import BrainRegion from './BrainRegion.astro';
+import '../styles/paper-plots.css';
+---
+<peer-plot class="paper-plot" data-story-plot data-view="safe" data-deep-view="brain-safe">
+  <div class="peer-game" data-peer-game hidden>
+    <h4 tabindex="-1" data-peer-game-prompt>{copy("ui.peer-game.prompt-solo")}</h4>
+    <div class="peer-players" data-peer-players hidden></div>
+    <div class="value-options gamble-options" role="group" aria-label={copy("ui.peer-game.options")}>
+      {[0,1].map(i=><button type="button" class={`value-option value-option-${i} gamble-option`} data-gamble-choice={i}>
+        <span class="option-label">{copy("ui.value-map.option")} {copy(i===0?"ui.paper-plots.a":"ui.paper-plots.b")}</span>
+        <span class="gamble-flip"><span data-gamble-low></span><span data-gamble-high></span></span>
+        <span class="option-zero">{copy("ui.peer-game.coin")}</span>
+        <span class="gamble-peers" data-gamble-peers></span>
+        <span class="option-action">{copy("ui.value-map.choose-this")}</span>
+      </button>)}
+    </div>
+    <p class="game-response" data-peer-game-response role="status"></p>
+    <button type="button" class="quiet-button" data-peer-game-reset hidden>{copy("ui.peer-game.play-again")}</button>
+    <p class="chart-small">{copy("ui.peer-game.note")}</p>
+  </div>
+  <figure>
+    <h3 data-peer-heading>{copy("ui.peer-plot.title-safe")}</h3>
+    <div class="chart-controls" role="group" aria-label={copy("ui.peer-plot.behavior-or-brain-data")} hidden data-plot-enhanced>
+      <button type="button" data-peer-measure="behavior" aria-pressed="true">{copy("ui.peer-plot.in-their-choices")}</button>
+      <button type="button" data-peer-measure="brain" aria-pressed="false">{copy("ui.peer-plot.in-the-brain")}</button>
+    </div>
+    <div class="peer-brain-key" data-peer-brain-key hidden>
+      <BrainRegion region="vmpfc" label={copy("ui.peer-plot.anatomical-image-from-figure-2a-yellow")} />
+      <p><strong class="preserve-case">{copy("ui.peer-plot.vmpfc")}</strong><br />{copy("ui.peer-plot.helps-represent-how-much-an-option")}</p>
+    </div>
+    <div class="chart-controls" role="group" aria-label={copy("ui.peer-plot.type-of-peer-influence")} hidden data-plot-enhanced>
+      <button type="button" data-peer-context="safe" aria-pressed="true">{copy("ui.peer-plot.peers-choose-safely")}</button>
+      <button type="button" data-peer-context="risky" aria-pressed="false">{copy("ui.peer-plot.peers-take-a-risk")}</button>
+    </div>
+    <div class="peer-finding" aria-live="polite"><p data-peer-interpretation>{copy("ui.peer-plot.safer-peers-a-stronger-response-in")}</p><span data-peer-statistic>{copy("ui.peer-plot.published-association-p-0-021")}</span></div>
+    <div class="chart-legend"><span><i class="legend-naive"></i>{copy("ui.peer-plot.no-reported-substance-use")}</span><span><i class="legend-exposed"></i>{copy("ui.peer-plot.reported-substance-use")}</span></div>
+    <p class="chart-label" data-peer-y>{copy("ui.peer-plot.social-value-index")}</p>
+    <div class="chart-canvas" set:html={peerSVG(peerLayout(data))} />
+    <p class="chart-readout" data-peer-readout aria-live="polite"></p>
+    <figcaption><span data-peer-caption>{copy("ui.peer-plot.colored-dots-individuals-grey-circles-means")}</span><br />{copy("ui.peer-plot.source")} <a class="text-link preserve-case" href="https://doi.org/10.1073/pnas.1919111117">{copy("ui.peer-plot.chung-orloff-et-al-2020")}</a> {copy("ui.peer-plot.figures-1b-2a")}</figcaption>
+  </figure>
+  <details class="chart-values"><summary>{copy("ui.peer-plot.see-the-plotted-values")}</summary><p>{copy("ui.peer-plot.rescaled-model-estimates-these-are-not")}</p><div class="table-scroll"><table><caption class="sr-only">{copy("ui.peer-plot.social-value-estimates-for-78-anonymous")}</caption><thead><tr><th scope="col">{copy("ui.peer-plot.display-label")}</th><th scope="col">{copy("ui.peer-plot.safer-peers")}</th><th scope="col">{copy("ui.peer-plot.riskier-peers")}</th></tr></thead><tbody>{data.participants.map(p=><tr><th scope="row">{p.id}</th><td>{p.safe.toFixed(3)}</td><td>{p.risky.toFixed(3)}</td></tr>)}</tbody></table></div></details>
+  <details class="chart-values"><summary>{copy("ui.peer-plot.see-the-brain-estimates")}</summary><p>{copy("ui.peer-plot.31-of-the-same-participants-value")}</p><div class="table-scroll"><table><caption class="sr-only">{copy("ui.peer-plot.vmpfc-estimates-from-figure-2a")}</caption><thead><tr><th scope="col">{copy("ui.peer-plot.display-label")}</th><th scope="col">{copy("ui.peer-plot.safer-peers")}</th><th scope="col">{copy("ui.peer-plot.riskier-peers")}</th></tr></thead><tbody>{brain.participants.map(p=><tr><th scope="row">{p.id}</th><td>{p.safe.toFixed(3)}</td><td>{p.risky.toFixed(3)}</td></tr>)}</tbody></table></div></details>
+</peer-plot>
+<script>import '../scripts/paper-plots';</script>
