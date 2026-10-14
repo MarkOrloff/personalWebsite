@@ -40,7 +40,7 @@ export class ValueSession {
   get reviews() { return this.answers.length ? this.answers : [{ question: { options: valuePairs[0] }, choice: null }]; }
   get review() { return this.reviews[Math.min(this.reviewIndex, this.reviews.length - 1)]; }
   get pair() {
-    if (this.scene === 'game') return this.question?.options || this.answers.at(-1).question.options;
+    if (this.scene === 'game') return this.question?.options || this.answers[this.answers.length - 1].question.options;
     if (this.scene === 'review') return this.review.question.options;
     if (['place-a', 'place-b'].includes(this.scene)) return this.reviews[0].question.options;
     return unseenPair;

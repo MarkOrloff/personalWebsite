@@ -20,7 +20,7 @@ export function parseCopyDocument(source) {
 export function formatCopy(text, values) {
   if (values === undefined) return text;
   return text.replace(/\{\{([a-zA-Z0-9._-]+)\}\}/g, (_, key) => {
-    if (!Object.hasOwn(values, key)) throw new Error(`Missing copy value: ${key}`);
+    if (!Object.prototype.hasOwnProperty.call(values, key)) throw new Error(`Missing copy value: ${key}`);
     return String(values[key]);
   });
 }

@@ -313,7 +313,7 @@ class RestMap extends PaperPlot {
   readingState() { return { route:this.mode, replay:this.policy }; }
   restoreReadingState(params:URLSearchParams) {
     this.stopReplay();
-    this.policy=(Object.hasOwn(replayPolicies,params.get('replay')||'')?params.get('replay'):'broad') as ReplayPolicy;
+    this.policy=(Object.prototype.hasOwnProperty.call(replayPolicies,params.get('replay')||'')?params.get('replay'):'broad') as ReplayPolicy;
     this.activity.reset();this.mode=params.get('route')==='memory'?'memory':'map';
     this.draw();
   }

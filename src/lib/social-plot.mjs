@@ -4,7 +4,7 @@ import { jitter } from './plot-jitter.mjs';
 export const groupOrder = ['control', 'insula', 'acc'];
 export const groupNames = { control: copy("ui.social-plot.controls"), insula: copy("ui.social-plot.insula"), acc: copy("ui.social-plot.dacc") };
 
-export const participantLabel = point => copy(`participant.label.${point.group}`, {number:point.id.split('-').at(-1)});
+export const participantLabel = point => copy(`participant.label.${point.group}`, {number:point.id.split('-').pop()});
 export const participantGroupLabel = group => copy(`participant.group.${group.id}`);
 
 export function summary(values) {

@@ -7,7 +7,7 @@ export const exampleValueTokens = {
 };
 export function fillValueCopy(text, tokens = exampleValueTokens) {
   return text.replace(/\{\{([^}]+)\}\}/g, (_, key) => {
-    if (!Object.hasOwn(tokens, key)) throw new Error(`Unknown value-story token: ${key}`);
+    if (!Object.prototype.hasOwnProperty.call(tokens, key)) throw new Error(`Unknown value-story token: ${key}`);
     return tokens[key];
   });
 }
