@@ -2792,7 +2792,7 @@ home
 ### ui.navigation.brain-regions
 
 <!-- copy: ui.navigation.brain-regions -->
-brain
+brain!
 <!-- /copy -->
 
 ### ui.navigation.research
