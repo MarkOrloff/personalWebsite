@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>__PAGE_TITLE__</title>
+<script>
+(function () {
+  var KEY = 'share-theme', root = document.documentElement;
+  function apply(t) { if (t === 'dark') root.setAttribute('data-theme', 'dark'); else root.removeAttribute('data-theme'); }
+  function sync() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    Array.prototype.forEach.call(document.querySelectorAll('.share-theme'), function (b) {
+      b.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      b.setAttribute('aria-label', dark ? 'light mode' : 'dark mode'); b.title = dark ? 'light mode' : 'dark mode';
+    });
+  }
+  try { apply(localStorage.getItem(KEY)); } catch (e) { /* storage blocked: light */ }
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('.share-theme') : null;
+    if (!b) return;
+    var t = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    apply(t); sync();
+    try { localStorage.setItem(KEY, t); } catch (err) { /* not remembered */ }
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sync); else sync();
+})();
+</script>
+<style>:root{color-scheme:light;--bg:#fbfaf8;--fg:#1b2430;--muted:#586271;--accent:#2a63c9;--accent2:#c94343;--line:#dcdfe4;--surface:#f0f1f3}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1e2631;--fg:#f3f4f6;--muted:#acb4bf;--accent:#6ea8fe;--accent2:#ff6b6b;--line:#3c4653;--surface:#252f3c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;text-transform:lowercase}
+main{max-width:560px;margin:0 auto;padding:18vh 16px 64px}
+h1{margin:0 0 12px;font:400 clamp(32px,6vw,48px)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.035em;color:var(--accent2)}
+p{margin:0 0 18px;color:var(--muted)}
+label{display:block;margin-bottom:6px;font-size:13px;color:var(--muted)}
+.row{display:flex;gap:10px}
+input{flex:1;min-width:0;min-height:44px;padding:8px 12px;font:inherit;text-transform:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px}
+input:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{min-height:44px;padding:8px 18px;font:inherit;color:var(--bg);background:var(--fg);border:0;border-radius:6px;cursor:pointer}
+button:disabled{opacity:.6;cursor:default}
+#msg{min-height:1.6em;margin-top:12px;color:var(--accent2)}
+.keep{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-size:13px;color:var(--muted)}
+.keep input{flex:none;min-height:0;width:16px;height:16px;margin:0;accent-color:var(--fg)}
+body.checking form{visibility:hidden}
+.share-theme{position:fixed;top:16px;right:16px;width:30px;height:30px;min-height:0;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.share-theme:hover{color:var(--fg);border-color:var(--muted)}
+.share-theme svg{width:15px;height:15px}</style>
+</head>
+<body class="checking">
+<button type="button" class="share-theme" aria-label="dark mode" aria-pressed="false" title="dark mode"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg></button>
+<main>
+<form id="unlock">
+<h1>__PAGE_TITLE__</h1>
+<p>this page is password protected.</p>
+<label for="pw">password</label>
+<div class="row"><input id="pw" type="password" autocomplete="current-password" spellcheck="false" autofocus required><button id="go" type="submit">open</button></div>
+<label class="keep"><input id="remember" type="checkbox" checked>remember on this device</label>
+<p id="msg" role="alert"></p>
+<noscript><p>this page needs javascript.</p></noscript>
+</form>
+</main>
+<script type="application/octet-stream" id="payload">__PAYLOAD__</script>
+<script>
+/* unlock.js -- password prompt of an encrypted share page (make_share_page.py --encrypt).
+ *
+ * The page holds only ciphertext: base64(salt[16] | iv[12] | AES-256-GCM(gzip(page html)) + tag).
+ * The key is PBKDF2-HMAC-SHA256(password, salt, ITERATIONS) via Web Crypto; nothing leaves the
+ * browser. A wrong password fails GCM authentication. On success the decrypted page replaces this
+ * one (document.write), as StatiCrypt does. make_share_page.py fills in the iteration count and AAD.
+ *
+ * "Remember on this device" (PI 2026-10-26): after a successful unlock the DERIVED key -- a
+ * non-extractable CryptoKey, whose bytes page scripts cannot read -- is stored in IndexedDB
+ * (database share-keys, store keys, key = this page's path), with the salt it belongs to. On load the
+ * cached key is tried first; a missing, stale (other salt or failing GCM check) or unreadable entry is
+ * deleted silently and the normal prompt appears. The builder keeps the salt per page across rebuilds
+ * (fresh IV every build), so the cached key keeps working until the password or salt changes.
+ */
+(function () {
+  'use strict';
+  var ITERATIONS = 600000, AAD = 'collab_share v1';
+  var DB = 'share-keys', STORE = 'keys', SLOT = location.pathname.replace(/index\.html?$/, '');
+  var form = document.getElementById('unlock'), pw = document.getElementById('pw');
+  var btn = document.getElementById('go'), msg = document.getElementById('msg');
+  var remember = document.getElementById('remember');
+  var subtle = window.crypto && window.crypto.subtle;
+  var enc = new TextEncoder();
+
+  function b64ToBytes(b64) {
+    var bin = atob(b64), n = bin.length, out = new Uint8Array(n);
+    for (var i = 0; i < n; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  function hex(bytes) {
+    var s = '';
+    for (var i = 0; i < bytes.length; i++) s += (bytes[i] < 16 ? '0' : '') + bytes[i].toString(16);
+    return s;
+  }
+  function parts() {
+    var raw = b64ToBytes(document.getElementById('payload').textContent.replace(/\s+/g, ''));
+    return { salt: raw.subarray(0, 16), iv: raw.subarray(16, 28), body: raw.subarray(28) };
+  }
+
+  // ---- IndexedDB, every call guarded: private windows and some Safari versions throw or never answer
+  function idb(mode, fn) {
+    var work = new Promise(function (resolve, reject) {
+      try {
+        var open = indexedDB.open(DB, 1);
+        open.onupgradeneeded = function () { open.result.createObjectStore(STORE); };
+        open.onerror = function () { reject(open.error); };
+        open.onblocked = function () { reject(new Error('blocked')); };
+        open.onsuccess = function () {
+          try {
+            var db = open.result, tx = db.transaction(STORE, mode), req = fn(tx.objectStore(STORE));
+            tx.oncomplete = function () { db.close(); resolve(req ? req.result : undefined); };
+            tx.onerror = tx.onabort = function () { db.close(); reject(tx.error); };
+          } catch (e) { reject(e); }
+        };
+      } catch (e) { reject(e); }
+    });
+    var timeout = new Promise(function (resolve, reject) { setTimeout(function () { reject(new Error('timeout')); }, 2000); });
+    return Promise.race([work, timeout]);
+  }
+  function cacheGet() { return idb('readonly', function (s) { return s.get(SLOT); }).catch(function () { return null; }); }
+  function cachePut(v) { return idb('readwrite', function (s) { return s.put(v, SLOT); }).catch(function () {}); }
+  function cacheDel() { return idb('readwrite', function (s) { return s.delete(SLOT); }).catch(function () {}); }
+
+  function deriveKey(password, salt) {
+    return subtle.importKey('raw', enc.encode(password.normalize('NFC')), 'PBKDF2', false, ['deriveKey'])
+      .then(function (base) {
+        return subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: ITERATIONS, hash: 'SHA-256' }, base,
+          { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      });
+  }
+  function decryptWith(key, p) {
+    return subtle.decrypt({ name: 'AES-GCM', iv: p.iv, additionalData: enc.encode(AAD), tagLength: 128 }, key, p.body)
+      .then(function (buf) {
+        var stream = new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'));
+        return new Response(stream).text();
+      });
+  }
+  function show(html) { document.open(); document.write(html); document.close(); }
+
+  function ready() {
+    document.body.classList.remove('checking');
+    document.body.setAttribute('data-unlock', 'prompt');
+    try { pw.focus(); } catch (e) { /* ignore */ }
+  }
+  function fail(text) {
+    msg.textContent = text;
+    document.body.setAttribute('data-unlock', 'failed');
+    btn.disabled = false; btn.textContent = 'open';
+    pw.focus(); pw.select();
+  }
+
+  // a remembered key opens the page without the prompt; anything else falls back to the prompt
+  function tryRemembered() {
+    var p = parts();
+    return cacheGet().then(function (entry) {
+      if (!entry || !entry.key) return null;
+      if (entry.salt !== hex(p.salt)) return cacheDel().then(function () { return null; });
+      return decryptWith(entry.key, p).catch(function () { return cacheDel().then(function () { return null; }); });
+    }).catch(function () { return null; });
+  }
+
+  function unlock() {
+    var password = pw.value.trim();
+    if (!password) { fail('enter the password you were sent.'); return; }
+    btn.disabled = true; btn.textContent = 'opening…'; msg.textContent = '';
+    var p = parts(), key;
+    deriveKey(password, p.salt).then(function (k) { key = k; return decryptWith(k, p); }).then(function (html) {
+      var keep = remember && remember.checked;
+      return (keep ? cachePut({ key: key, salt: hex(p.salt), saved: Date.now() }) : cacheDel()).then(function () { show(html); });
+    }, function (err) {
+      fail(err && err.name === 'OperationError' ? 'that password did not work.' : 'could not open the page: ' + (err && err.message || err));
+    });
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); unlock(); });
+  if (!subtle) { ready(); fail('this browser blocks decryption here (it needs https or a local file)'); return; }
+  if (typeof DecompressionStream === 'undefined') { ready(); fail('this browser is too old to open the page; please use a current Chrome, Firefox or Safari'); return; }
+  tryRemembered().then(function (html) { if (html) show(html); else ready(); }, ready);
+})();
+
+</script>
+</body>
+</html>
